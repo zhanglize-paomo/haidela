@@ -6,64 +6,25 @@
   </welcome-file-list>
   <servlet>
     <servlet-name>unifyPay</servlet-name>
-    <servlet-class>com.hfb.merchant.pay.demo.servlet.UnifyPayServlet</servlet-class>
+    <servlet-class>com.haidela.payment.UnifyNotifyServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>unifyPay</servlet-name>
     <url-pattern>/unifyPay.do</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>barCodePay</servlet-name>
-    <servlet-class>com.hfb.merchant.pay.demo.servlet.BarcodePayServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>barCodePay</servlet-name>
-    <url-pattern>/barcodepay.do</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>refundPay</servlet-name>
-    <servlet-class>com.hfb.merchant.code.demo.servlet.RefundPayServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>refundPay</servlet-name>
-    <url-pattern>/refundpay.do</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>unifyQuery</servlet-name>
-    <servlet-class>com.hfb.merchant.pay.demo.servlet.UnifyQueryServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>unifyQuery</servlet-name>
-    <url-pattern>/unifyQuery.do</url-pattern>
-  </servlet-mapping>
-  <servlet>
-    <servlet-name>getInfoServlet</servlet-name>
-    <servlet-class>com.hfb.merchant.code.demo.servlet.GetInfoServlet</servlet-class>
-  </servlet>
+
+
   <servlet>
     <description>
 		</description>
     <display-name>NotifyServlet</display-name>
     <servlet-name>NotifyServlet</servlet-name>
-    <servlet-class>com.hfb.merchant.pay.demo.servlet.UnifyNotifyServlet</servlet-class>
+    <servlet-class>com.haidela.payment.UnifyNotifyServlet</servlet-class>
   </servlet>
-  <servlet>
-    <description>
-		</description>
-    <display-name>DemoServlet</display-name>
-    <servlet-name>DemoServlet</servlet-name>
-    <servlet-class>com.hfb.merchant.code.demo.servlet.DemoServlet</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>getInfoServlet</servlet-name>
-    <url-pattern>/getInfoServlet.do</url-pattern>
-  </servlet-mapping>
+
   <servlet-mapping>
     <servlet-name>NotifyServlet</servlet-name>
     <url-pattern>/notify.do</url-pattern>
   </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>DemoServlet</servlet-name>
-    <url-pattern>/DemoServlet</url-pattern>
-  </servlet-mapping>
+
 </web-app>
