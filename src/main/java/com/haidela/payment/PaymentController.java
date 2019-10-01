@@ -17,7 +17,7 @@ import java.util.Map;
  * @author zhanglize
  * @create 2019/9/29
  */
-@RestController
+@RestController("paymentController")
 public class PaymentController {
 
     private PaymentService paymentService;

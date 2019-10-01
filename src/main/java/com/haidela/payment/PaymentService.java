@@ -7,7 +7,6 @@ import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.DateUtil;
 import com.hfb.merchant.pay.util.ParamUtil;
 import com.hfb.merchant.pay.util.http.Httpz;
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
@@ -31,7 +30,7 @@ import java.util.Random;
 public class PaymentService extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    private static final Logger logger = Logger.getLogger(PaymentService.class);
+//    private static final Logger logger = Logger.getLogger(PaymentService.class);
 
     private static final String TAG = "【统一支付商户系统demo】-{统一支付}-";
 
@@ -145,12 +144,12 @@ public class PaymentService extends HttpServlet {
             transMap.put("sign", sign);
 
             // 发送扫码请求报文
-            logger.info(TAG + "请求报文：" + transMap);
+//            logger.info(TAG + "请求报文：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
-            logger.info(TAG + "返回报文：" + asynMsg);
+//            logger.info(TAG + "返回报文：" + asynMsg);
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
-            logger.info("请求结果返回解析数据：" + resultMap);
+//            logger.info("请求结果返回解析数据：" + resultMap);
 
             // 当支付类型payType为24或者25时，返回qrCodeURL的地址使用POST请求
             payUrl = resultMap.get("qrCodeURL");
