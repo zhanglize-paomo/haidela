@@ -1,10 +1,10 @@
 package com.haidela.DfPay;
 
 import com.haidela.payment.PayCustomer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
@@ -22,7 +22,7 @@ public class DfPayController {
 
     private DfPayService dfPayService;
 
-    @Autowired
+    @Resource
     public void setDfPayService(DfPayService dfPayService) {
         this.dfPayService = dfPayService;
     }

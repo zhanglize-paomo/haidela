@@ -28,8 +28,6 @@ import java.util.TreeMap;
 @Service
 public class DfPayService {
 
-    private static final long serialVersionUID = 1L;
-
     private static final Logger logger = Logger.getLogger(UnifyNotifyServlet.class);
 
     private static final String TAG = "【统一支付商户系统demo】-{统一交易异步通知}-";
