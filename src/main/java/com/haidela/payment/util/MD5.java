@@ -6,7 +6,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-
+/**
+ * 算法
+ *
+ */
 public class MD5 {
 	public static String md5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         try {
