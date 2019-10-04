@@ -1,6 +1,5 @@
-package com.haidela.DfPay;
+package com.haidela.payment;
 
-import com.haidela.payment.PayCustomer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,15 +15,15 @@ import java.util.Map;
  * @author zhanglize
  * @create 2019/9/30
  */
-@RestController
-public class DfPayController {
+@RestController("dfPayController")
+public class PayController {
 
 
-    private DfPayService dfPayService;
+    private PayService payService;
 
     @Resource
-    public void setDfPayService(DfPayService dfPayService) {
-        this.dfPayService = dfPayService;
+    public void setPayService(PayService payService) {
+        this.payService = payService;
     }
 
     /**
@@ -32,7 +31,7 @@ public class DfPayController {
      *
      * @return
      */
-    @RequestMapping(path = "/dfpay")
+    @RequestMapping(path = "/pay")
     public Map<String, String> DfPay(HttpServletRequest request, HttpServletResponse response) {
         /**
          * 1.第三方支付调用我们的接口,告诉我们第三方支付的货款已经到账
@@ -54,7 +53,7 @@ public class DfPayController {
         payCustomer.setMerchantNo(merchantNo);
         String string = null;
         try {
-            string = dfPayService.dfPay(request, response, payCustomer);
+            string = payService.dfPay(request, response, payCustomer);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,5 +66,13 @@ public class DfPayController {
         }
         return result;
     }
+
+    @RequestMapping(path = "/hello")
+    public String DfPay() {
+        return "hello";
+    }
+
+
+
 
 }

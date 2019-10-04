@@ -1,14 +1,14 @@
-package com.haidela.DfPay;
+package com.haidela.payment;
 
 
-import com.haidela.payment.PayCustomer;
-import com.haidela.payment.UnifyNotifyServlet;
 import com.hfb.merchant.df.model.DfPay;
 import com.hfb.merchant.df.sercret.CertUtil;
 import com.hfb.merchant.df.util.ModelPayUtil;
 import com.hfb.merchant.pay.util.DateUtil;
 import com.hfb.merchant.pay.util.ParamUtil;
-import org.apache.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
@@ -25,11 +25,11 @@ import java.util.TreeMap;
  * @author zhanglize
  * @create 2019/9/30
  */
+
 @Service
-public class DfPayService {
+public class PayService {
 
-    private static final Logger logger = Logger.getLogger(UnifyNotifyServlet.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(PayService.class);
     private static final String TAG = "【统一支付商户系统demo】-{统一交易异步通知}-";
 
     /**
@@ -48,9 +48,9 @@ public class DfPayService {
         //测试商户的公钥私钥这两个文件在本项目的src目录下certs中
 
         // 私钥文件路径
-        String privateKey = DfPayService.class.getResource("/").getPath() + "CS20190927084578_20190927201246553.pfx";
+        String privateKey = PayService.class.getResource("/").getPath() + "CS20190927084578_20190927201246553.pfx";
         // 公钥文件路径
-        String publicKey = DfPayService.class.getResource("").getPath() + "SS20190927084578_20190927201246553.cer";
+        String publicKey = PayService.class.getResource("").getPath() + "SS20190927084578_20190927201246553.cer";
 
         // 密钥密码
         String KeyPass = "666666";
@@ -108,7 +108,7 @@ public class DfPayService {
         //如果后台通知地址为null
         if (NOTICEURL != null) {
             //调用异步消息通知
-            service(request,response);
+            service(request, response);
         }
         return map.toString();
     }

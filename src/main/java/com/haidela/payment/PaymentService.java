@@ -16,13 +16,11 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zhanglize
@@ -149,6 +147,62 @@ public class PaymentService extends HttpServlet {
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
             logger.info(TAG + "返回报文：" + asynMsg);
             // 解析返回
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             resultMap = ResponseUtil.parseResponse(asynMsg);
             logger.info("请求结果返回解析数据：" + resultMap);
             // 当支付类型payType为24或者25时，返回qrCodeURL的地址使用POST请求
@@ -190,47 +244,48 @@ public class PaymentService extends HttpServlet {
         //往集合中添加数据
         Merchant merchant = new Merchant();
         //商户编号
-        merchant.setMerchantNo("22323");
+        merchant.setMerchantNo("S20190927084578");
         //额度
         merchant.setQuota(50000);
         //时间
         merchant.setTime("5");
         //时间段
-        merchant.setTimeSlot(LocalDateTime.now().toString());
+        merchant.setTimeSlot(String.valueOf(System.currentTimeMillis()));
         list.add(merchant);
         //如果商户的额度全部置为0,则没有商户可用,返回空回去
         if (list.size() == 0) {
             return null;
         }
+        try {
+            //程序暂停10秒钟
+            TimeUnit.SECONDS.sleep(10);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         //随机从数组中选取对应的商户
         Random rand = new Random();
         Merchant chant = list.get(rand.nextInt(list.size()));
         //判断该商户是否在指定时间段内存在多次调用
-        //获取当前对应的时间信息
-        String time = LocalDateTime.now().toString();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-        long timeDifference = 0;
-        try {
-            long timeLong = sdf.parse(time).getTime();
-            long merchatTimeLong = sdf.parse(merchant.getTime()).getTime();
-            timeDifference = timeLong - merchatTimeLong;
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        //获取当前时间的毫秒数
+        long time = System.currentTimeMillis();
+        long merchatTimeLong = Long.parseLong(merchant.getTimeSlot());
+        long timeDifference = time - merchatTimeLong;
         //判断商户的额度是否为0
         if (chant.getQuota() == 0) {
             //将该商户的数据移出
             list.remove(chant);
         } else {
             //时间差大于相隔时间的时候以及商户的额度大于输入的金额
-            if (timeDifference > Long.parseLong(chant.getTimeSlot()) && chant.getQuota() > Integer.parseInt(amount)) {
-                //将该数据进行更新并删除原数据
-                list.remove(chant);
-                chant.setQuota(merchant.getQuota() - Integer.parseInt(amount));
-                list.add(chant);
-                return chant.getMerchantNo();
+            if (timeDifference > Long.parseLong(chant.getTime())) {
+                if(chant.getQuota() > Integer.parseInt(amount)){
+                    //将该数据进行更新并删除原数据
+                    list.remove(chant);
+                    chant.setQuota(merchant.getQuota() - Integer.parseInt(amount));
+                    list.add(chant);
+                    return chant.getMerchantNo();
+                }
             } else {
-                //否则重新选取相应的商户
+                //否则重新选取相应的商
                 getMerchantNo(amount);
             }
         }

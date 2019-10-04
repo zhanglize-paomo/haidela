@@ -17,12 +17,12 @@ public class Merchant {
     private int quota;
 
     /**
-     * 时间段  单位秒
+     * 时间段
      */
     private String timeSlot;
 
     /**
-     * 时间
+     * 时间  单位秒
      */
     private String time;
 
