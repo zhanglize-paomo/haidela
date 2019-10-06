@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan("com.haidela.payment")
+@ComponentScan(value = "com.haidela")
 @SpringBootApplication
 public class HaidelaApplication {
 
