@@ -1,6 +1,8 @@
-package com.haidela.payment;
+package com.haidela.payment.pay.payment;
 
 
+import com.haidela.payment.pay.Merchant;
+import com.haidela.payment.pay.pay.PayCustomer;
 import com.haidela.payment.common.Config;
 import com.haidela.payment.util.ResponseUtil;
 import com.hfb.mer.sdk.secret.CertUtil;
@@ -147,62 +149,6 @@ public class PaymentService extends HttpServlet {
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
             logger.info(TAG + "返回报文：" + asynMsg);
             // 解析返回
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             resultMap = ResponseUtil.parseResponse(asynMsg);
             logger.info("请求结果返回解析数据：" + resultMap);
             // 当支付类型payType为24或者25时，返回qrCodeURL的地址使用POST请求

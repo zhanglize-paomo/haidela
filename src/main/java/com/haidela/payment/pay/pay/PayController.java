@@ -1,4 +1,4 @@
-package com.haidela.payment;
+package com.haidela.payment.pay.pay;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

@@ -1,4 +1,4 @@
-package com.haidela.payment;
+package com.haidela.payment.pay.pay;
 
 
 import com.hfb.merchant.df.model.DfPay;

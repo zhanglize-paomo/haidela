@@ -1,4 +1,4 @@
-package com.haidela.payment;
+package com.haidela.payment.pay;
 
 /**
  * @author zhanglize

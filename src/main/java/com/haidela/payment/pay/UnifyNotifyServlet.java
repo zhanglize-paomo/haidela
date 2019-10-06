@@ -1,4 +1,4 @@
-package com.haidela.payment;
+package com.haidela.payment.pay;
 
 import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.ParamUtil;

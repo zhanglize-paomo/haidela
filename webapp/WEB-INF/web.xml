@@ -6,7 +6,7 @@
   </welcome-file-list>
   <servlet>
     <servlet-name>unifyPay</servlet-name>
-    <servlet-class>com.haidela.payment.UnifyNotifyServlet</servlet-class>
+    <servlet-class>com.haidela.payment.pay.UnifyNotifyServlet</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>unifyPay</servlet-name>
@@ -19,7 +19,7 @@
 		</description>
     <display-name>NotifyServlet</display-name>
     <servlet-name>NotifyServlet</servlet-name>
-    <servlet-class>com.haidela.payment.UnifyNotifyServlet</servlet-class>
+    <servlet-class>com.haidela.payment.pay.UnifyNotifyServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>

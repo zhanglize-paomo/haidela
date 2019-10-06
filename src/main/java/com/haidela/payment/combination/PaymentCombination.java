@@ -1,8 +1,7 @@
 package com.haidela.payment.combination;
 
-import com.haidela.payment.PayCustomer;
-import com.haidela.payment.Payment;
-import com.haidela.payment.PayCustomer;
+import com.haidela.payment.pay.pay.PayCustomer;
+import com.haidela.payment.pay.payment.Payment;
 
 /**
  * @author zhanglize
