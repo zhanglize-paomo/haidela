@@ -15,7 +15,7 @@ import java.util.Map;
  * @author zhanglize
  * @create 2019/9/30
  */
-@RestController("dfPayController")
+@RestController("payController")
 public class PayController {
 
 
