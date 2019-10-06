@@ -1,13 +1,13 @@
 package com.haidela.payment.pay.payment;
 
 
+import com.haidela.payment.common.Config;
 import com.haidela.payment.pay.Merchant;
 import com.haidela.payment.pay.pay.PayCustomer;
-import com.haidela.payment.common.Config;
+import com.haidela.payment.util.MD5;
 import com.haidela.payment.util.ResponseUtil;
 import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.DateUtil;
-import com.hfb.merchant.pay.util.ParamUtil;
 import com.hfb.merchant.pay.util.http.Httpz;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +47,7 @@ public class PaymentService extends HttpServlet {
         String msg = "处理成功";
         String redirectPath = "result.jsp";
         Map<String, String> resultMap = null;
-        String payUrl = null;
+        String payUrl = "";
         try {
             // 利用treeMap对参数按key值进行排序
             Map<String, String> transMap = ResponseUtil.getParamMap(request);
@@ -137,10 +137,11 @@ public class PaymentService extends HttpServlet {
              * 数字签名根据算法进行加密
              *
              */
-            // 组织签名字符串
-            String signMsg = ParamUtil.getSignMsg(transMap);
-            // 签名
-            String sign = CertUtil.getInstance().sign(signMsg);
+//            // 组织签名字符串
+//            String signMsg = ParamUtil.getSignMsg(transMap);
+//            // 签名
+//            String sign = CertUtil.getInstance().sign(signMsg);
+            String sign = MD5.md5(transMap.toString());
             // 将签名放入交易map中
             transMap.put("sign", sign);
 
@@ -223,7 +224,7 @@ public class PaymentService extends HttpServlet {
         } else {
             //时间差大于相隔时间的时候以及商户的额度大于输入的金额
             if (timeDifference > Long.parseLong(chant.getTime())) {
-                if(chant.getQuota() > Integer.parseInt(amount)){
+                if (chant.getQuota() > Integer.parseInt(amount)) {
                     //将该数据进行更新并删除原数据
                     list.remove(chant);
                     chant.setQuota(merchant.getQuota() - Integer.parseInt(amount));
