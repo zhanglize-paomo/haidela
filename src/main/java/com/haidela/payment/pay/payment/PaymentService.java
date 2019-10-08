@@ -93,7 +93,8 @@ public class PaymentService extends HttpServlet {
             String buyerId = "324242424";
 
             String merchantNo = "S20190927084578"; //商户编号
-            String version = Config.getInstance().getVersion();
+//            String version = Config.getInstance().getVersion();
+            String version = "v1";
             String bindId = "YSM201908081719455501620025977";    //入驻ID
             String channelNo = Config.getInstance().getChannelNo();
             String notifyUrl = Config.getInstance().getNotifyUrl();
@@ -164,7 +165,7 @@ public class PaymentService extends HttpServlet {
             payUrl = resultMap.get("qrCodeURL");
             if ("24".equals(payType) || "25".equals(payType)) {
                 if ("".equals(payUrl) || payUrl == null || "null".equals(payUrl)) {
-                    if(resultMap.get("rtnMsg") != null){
+                    if (resultMap.get("rtnMsg") != null) {
                         msg = resultMap.get("rtnMsg").toString();
                     }
                     request.setAttribute("resultMap", resultMap);
@@ -173,7 +174,7 @@ public class PaymentService extends HttpServlet {
 //                    redirectPath = "webPayUrl.jsp";
                 }
             } else {
-                if(resultMap.get("rtnMsg") != null){
+                if (resultMap.get("rtnMsg") != null) {
                     msg = resultMap.get("rtnMsg").toString();
                 }
                 request.setAttribute("resultMap", resultMap);
@@ -264,8 +265,8 @@ public class PaymentService extends HttpServlet {
      * 商户ID：873190924119746279
      * 提供信息例如：
      * 商户号：401500011562   第三方支付公司的编号
-     *
-     *
+     * <p>
+     * <p>
      * md5的key(商户进件使用的密钥)：adc2fbfb4654ed95b28dfe0a0cb03da6
      * 加密的公钥信息publicKey(publicKey是商户进件使用的密钥)：MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFf6krDWQUDUzKj+K+WvML2EyZLagKaJ5YTeCoBNhx/WpD1Vh2j/
      * wQ9G3RC/tpUcmE7szr/vgdEVHkOfk6mGpeHapS6QE4enJ/CVaTPM573uI8VGWBek9v/E6HaVxRV0Hs8ZsvHAKopqYNDZRKhIrlLUrrkFD2KXJgIiRPQALeMQIDAQAB
@@ -388,7 +389,7 @@ public class PaymentService extends HttpServlet {
             payUrl = resultMap.get("qrCodeURL");
             if ("24".equals(payType) || "25".equals(payType)) {
                 if ("".equals(payUrl) || payUrl == null || "null".equals(payUrl)) {
-                    if( resultMap.get("rtnMsg") != null){
+                    if (resultMap.get("rtnMsg") != null) {
                         msg = resultMap.get("rtnMsg").toString();
                     }
 
