@@ -47,7 +47,7 @@ public class PaymentService extends HttpServlet {
     public String payment(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         String msg = "处理成功";
-        String redirectPath = "result.jsp";
+//        String redirectPath = "result.jsp";
         Map<String, String> resultMap = null;
         String payUrl = "";
         try {
@@ -81,6 +81,10 @@ public class PaymentService extends HttpServlet {
              * 商品名称  char(100)
              */
             String goodsName = "商品名称";
+            /**
+             * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
+             * 个体工商户id(我们自己的)
+             */
             String goodsInfo = "商品";
             String goodsNum = "1";
             /**
@@ -88,10 +92,6 @@ public class PaymentService extends HttpServlet {
              */
             String buyerId = "324242424";
 
-            /**
-             * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
-             *
-             */
             String merchantNo = "S20190927084578"; //商户编号
             String version = Config.getInstance().getVersion();
             String bindId = "YSM201908081719455501620025977";    //入驻ID
@@ -170,7 +170,7 @@ public class PaymentService extends HttpServlet {
                     request.setAttribute("resultMap", resultMap);
                 } else {
                     request.setAttribute("action", payUrl);
-                    redirectPath = "webPayUrl.jsp";
+//                    redirectPath = "webPayUrl.jsp";
                 }
             } else {
                 if(resultMap.get("rtnMsg") != null){
@@ -180,10 +180,10 @@ public class PaymentService extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            redirectPath = "error.jsp";
+//            redirectPath = "error.jsp";
         } finally {
             request.setAttribute("errorMsg", msg);
-            request.getRequestDispatcher(redirectPath).forward(request, response);
+//            request.getRequestDispatcher(redirectPath).forward(request, response);
         }
 
         return payUrl;
