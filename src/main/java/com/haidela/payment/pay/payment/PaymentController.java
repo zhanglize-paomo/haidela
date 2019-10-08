@@ -1,10 +1,10 @@
 package com.haidela.payment.pay.payment;
 
 
-import com.alibaba.fastjson.JSONObject;
 import com.haidela.payment.pay.pay.PayCustomer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,8 @@ import java.util.Map;
  * @author zhanglize
  * @create 2019/9/29
  */
-@RestController("paymentController")
+@RestController
+@ResponseBody
 public class PaymentController {
 
     private PaymentService paymentService;
@@ -30,12 +31,12 @@ public class PaymentController {
     }
 
     /**
-     * 客户支付交易请求报文
+     * 客户支付交易请求报文(落雨轩)
      *
      * @return
      */
     @RequestMapping(path = "/payment")
-    public  Map<String,String> payment(HttpServletRequest request, HttpServletResponse response ){
+    public Map<String,String> payment(HttpServletRequest request, HttpServletResponse response ){
         Map<String,String> result = new HashMap<String, String>();
         result.put("code","0");//成功
         //支付图片的url
@@ -88,7 +89,8 @@ public class PaymentController {
      * @return
      */
     @RequestMapping(path = "/other-payment")
-    public Object otherPayment(HttpServletRequest request, HttpServletResponse response ){
+    @ResponseBody
+    public Map<String,String> otherPayment(HttpServletRequest request, HttpServletResponse response ){
         Map<String,String> result = new HashMap<String, String>();
         result.put("code","0");//成功
         //支付图片的url
@@ -119,7 +121,7 @@ public class PaymentController {
             result.put("msg","支付失败，请重试");
         }
         result.put("msg","success");
-        return JSONObject.parse(result.toString());
+        return result;
     }
 
 

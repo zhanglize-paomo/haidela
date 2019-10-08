@@ -92,7 +92,7 @@ public class PaymentService extends HttpServlet {
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              *
              */
-            String merchantNo = "401500011562"; //商户编号
+            String merchantNo = "S20190927084578"; //商户编号
             String version = Config.getInstance().getVersion();
             String bindId = "YSM201908081719455501620025977";    //入驻ID
             String channelNo = Config.getInstance().getChannelNo();
@@ -173,7 +173,9 @@ public class PaymentService extends HttpServlet {
                     redirectPath = "webPayUrl.jsp";
                 }
             } else {
-                msg = resultMap.get("rtnMsg").toString();
+                if(resultMap.get("rtnMsg") != null){
+                    msg = resultMap.get("rtnMsg").toString();
+                }
                 request.setAttribute("resultMap", resultMap);
             }
         } catch (Exception e) {
@@ -261,9 +263,11 @@ public class PaymentService extends HttpServlet {
      * 入驻ID:YSM201908081719455501620025977
      * 商户ID：873190924119746279
      * 提供信息例如：
-     * 商户号：401500011562
-     * md5的key：adc2fbfb4654ed95b28dfe0a0cb03da6
-     * 加密的公钥信息publicKey：MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFf6krDWQUDUzKj+K+WvML2EyZLagKaJ5YTeCoBNhx/WpD1Vh2j/
+     * 商户号：401500011562   第三方支付公司的编号
+     *
+     *
+     * md5的key(商户进件使用的密钥)：adc2fbfb4654ed95b28dfe0a0cb03da6
+     * 加密的公钥信息publicKey(publicKey是商户进件使用的密钥)：MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFf6krDWQUDUzKj+K+WvML2EyZLagKaJ5YTeCoBNhx/WpD1Vh2j/
      * wQ9G3RC/tpUcmE7szr/vgdEVHkOfk6mGpeHapS6QE4enJ/CVaTPM573uI8VGWBek9v/E6HaVxRV0Hs8ZsvHAKopqYNDZRKhIrlLUrrkFD2KXJgIiRPQALeMQIDAQAB
      *
      * @param request
@@ -276,9 +280,6 @@ public class PaymentService extends HttpServlet {
         String msg = "处理成功";
         String redirectPath = "result.jsp";
         Map<String, String> resultMap = null;
-        String md5Key = "adc2fbfb4654ed95b28dfe0a0cb03da6";
-        String publicKey = "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFf6krDWQUDUzKj+K+WvML2EyZLagKaJ5YTeCoBNhx/WpD1Vh2j/" +
-                "wQ9G3RC/tpUcmE7szr/vgdEVHkOfk6mGpeHapS6QE4enJ/CVaTPM573uI8VGWBek9v/E6HaVxRV0Hs8ZsvHAKopqYNDZRKhIrlLUrrkFD2KXJgIiRPQALeMQIDAQAB";
         String payType = customer.getPayType();
         String payUrl = "";
         try {
@@ -322,7 +323,7 @@ public class PaymentService extends HttpServlet {
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              *
              */
-            String merchantNo = "401500011562"; //商户编号
+            String merchantNo = "873190924119746279"; //商户编号
             String version = Config.getInstance().getVersion();
             String bindId = "YSM201908081719455501620025977";    //入驻ID
             String channelNo = Config.getInstance().getChannelNo();
@@ -370,7 +371,7 @@ public class PaymentService extends HttpServlet {
              * 数字签名根据算法进行加密
              *
              */
-            String sign = MD5.md5(transMap.toString());
+            String sign = MD5.putPairsSequenceAndTogether(transMap);
             // 将签名放入交易map中
             transMap.put("sign", sign);
             // 发送扫码请求报文
