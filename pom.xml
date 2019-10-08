@@ -45,7 +45,20 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
 
+                <configuration>
+                    <mainClass>com.haidela.HaidelaApplication</mainClass>
+                </configuration>
+
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
             </plugin>
+
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -72,10 +85,27 @@
                     <include>**/*</include>
                 </includes>
             </resource>
+
+            <!-- 打包所有jar包 -->
+            <resource>
+                <directory>lib</directory>
+                <targetPath>BOOT-INF/lib/</targetPath>
+                <includes>
+                    <include>**/*.jar</include>
+                </includes>
+            </resource>
+
+            <!-- 某些情况下，打包后运行不起来需要打开注释 -->
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>BOOT-INF/classes/</targetPath>
+            </resource>
+
             <resource>
                 <directory>src/main/resources</directory>
             </resource>
         </resources>
+
 
     </build>
 
