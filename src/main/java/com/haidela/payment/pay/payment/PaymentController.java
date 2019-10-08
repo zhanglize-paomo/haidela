@@ -3,6 +3,7 @@ package com.haidela.payment.pay.payment;
 
 import com.haidela.payment.pay.pay.PayCustomer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,6 @@ import java.util.Map;
  * @create 2019/9/29
  */
 @RestController
-@ResponseBody
 public class PaymentController {
 
     private PaymentService paymentService;
@@ -35,7 +35,9 @@ public class PaymentController {
      *
      * @return
      */
+    @GetMapping
     @RequestMapping(path = "/payment")
+    @ResponseBody
     public Map<String,String> payment(HttpServletRequest request, HttpServletResponse response ){
         Map<String,String> result = new HashMap<String, String>();
         result.put("code","0");//成功

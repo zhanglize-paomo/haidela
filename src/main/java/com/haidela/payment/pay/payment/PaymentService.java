@@ -388,7 +388,10 @@ public class PaymentService extends HttpServlet {
             payUrl = resultMap.get("qrCodeURL");
             if ("24".equals(payType) || "25".equals(payType)) {
                 if ("".equals(payUrl) || payUrl == null || "null".equals(payUrl)) {
-                    msg = resultMap.get("rtnMsg").toString();
+                    if( resultMap.get("rtnMsg") != null){
+                        msg = resultMap.get("rtnMsg").toString();
+                    }
+
                     request.setAttribute("resultMap", resultMap);
                 } else {
                     request.setAttribute("action", payUrl);
