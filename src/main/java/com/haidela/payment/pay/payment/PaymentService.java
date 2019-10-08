@@ -96,8 +96,10 @@ public class PaymentService extends HttpServlet {
 //            String version = Config.getInstance().getVersion();
             String version = "v1";
             String bindId = "YSM201908081719455501620025977";    //入驻ID
-            String channelNo = Config.getInstance().getChannelNo();
-            String notifyUrl = Config.getInstance().getNotifyUrl();
+//            String channelNo = Config.getInstance().getChannelNo();
+            String channelNo = "05";
+//            String notifyUrl = Config.getInstance().getNotifyUrl();
+            String notifyUrl = "https://cashier.hefupal.com/paygate/v1/smpay";
             String tranCode = "YS1003";
             String tranDate = DateUtil.getDate();
             String tranTime = DateUtil.getTime();
