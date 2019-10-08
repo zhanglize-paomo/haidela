@@ -1,6 +1,7 @@
 package com.haidela.payment.pay.payment;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.haidela.payment.pay.pay.PayCustomer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,7 +88,7 @@ public class PaymentController {
      * @return
      */
     @RequestMapping(path = "/other-payment")
-    public  Map<String,String> otherPayment(HttpServletRequest request, HttpServletResponse response ){
+    public Object otherPayment(HttpServletRequest request, HttpServletResponse response ){
         Map<String,String> result = new HashMap<String, String>();
         result.put("code","0");//成功
         //支付图片的url
@@ -118,11 +119,8 @@ public class PaymentController {
             result.put("msg","支付失败，请重试");
         }
         result.put("msg","success");
-        return result;
+        return JSONObject.parse(result.toString());
     }
-
-
-
 
 
 }

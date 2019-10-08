@@ -68,8 +68,11 @@ public class PayController {
     }
 
     @RequestMapping(path = "/hello")
-    public String DfPay() {
-        return "hello";
+    public Map<String,String> DfPay() {
+        Map<String,String> map = new HashMap<>();
+        map.put("1","1");
+        map.put("2","2");
+        return map;
     }
 
 

@@ -4,12 +4,11 @@ package com.haidela.payment.pay.payment;
 import com.haidela.payment.common.Config;
 import com.haidela.payment.pay.Merchant;
 import com.haidela.payment.pay.pay.PayCustomer;
-import com.haidela.payment.util.Base64;
 import com.haidela.payment.util.MD5;
-import com.haidela.payment.util.RSAUtils;
 import com.haidela.payment.util.ResponseUtil;
 import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.DateUtil;
+import com.hfb.merchant.pay.util.ParamUtil;
 import com.hfb.merchant.pay.util.http.Httpz;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +54,6 @@ public class PaymentService extends HttpServlet {
             // 利用treeMap对参数按key值进行排序
             Map<String, String> transMap = ResponseUtil.getParamMap(request);
             String payType = transMap.get("payType");
-
             /**
              * 备注  Char（100）
              */
@@ -83,6 +81,8 @@ public class PaymentService extends HttpServlet {
              * 商品名称  char(100)
              */
             String goodsName = "商品名称";
+            String goodsInfo = "商品";
+            String goodsNum = "1";
             /**
              * 买家ID  char(100)  买家在商城的唯一编号
              */
@@ -92,23 +92,30 @@ public class PaymentService extends HttpServlet {
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              *
              */
-            String merchantNo = getMerchantNo(customer.getAmount());
-            // String merchantNo = transMap.get("merchantNo");
-//            String merchantNo = "S20190927084578";
+            String merchantNo = "401500011562"; //商户编号
             String version = Config.getInstance().getVersion();
-            String bindId = Config.getInstance().getBindId();
+            String bindId = "YSM201908081719455501620025977";    //入驻ID
             String channelNo = Config.getInstance().getChannelNo();
             String notifyUrl = Config.getInstance().getNotifyUrl();
             String tranCode = "YS1003";
-//            String tranFlow = DateUtil.getTimeMillis();
             String tranDate = DateUtil.getDate();
             String tranTime = DateUtil.getTime();
-//            String buyerName = request.getParameter("buyerName");                //买家姓名
-//            String contact = request.getParameter("contact");                    //买家联系方式
             String buyerName = "213213";
             String contact = "213131233";
+            String cardType = "01";
+            String ext1 = "324242424";
+            String ext2 = "873190924119746279";
+            String YUL1 = "1241242424";
+            String YUL2 = "ANDROID";
             // 组织交易报文
             transMap.put("merchantNo", merchantNo);
+            transMap.put("YUL1", YUL1);
+            transMap.put("YUL2", YUL2);
+            transMap.put("ext1", ext1);
+            transMap.put("ext2", ext2);
+            transMap.put("goodsNum", goodsNum);
+            transMap.put("goodsInfo", goodsInfo);
+            transMap.put("cardType", cardType);
             transMap.put("notifyUrl", notifyUrl);
             transMap.put("goodsName", goodsName);
             transMap.put("buyerId", buyerId);
@@ -125,12 +132,10 @@ public class PaymentService extends HttpServlet {
             transMap.put("tranDate", tranDate);
             transMap.put("tranTime", tranTime);
             transMap.put("payType", customer.getPayType());
-
+            transMap.put("amount", customer.getAmount());
             // 敏感信息加密
             transMap.put("buyerName", CertUtil.getInstance().encrypt(buyerName));
             transMap.put("contact", CertUtil.getInstance().encrypt(contact));
-//            transMap.put("buyerName",buyerName);
-//            transMap.put("contact",contact);
 
 //            /**
 //             * 签名sign  char(512)
@@ -140,11 +145,11 @@ public class PaymentService extends HttpServlet {
              * 数字签名根据算法进行加密
              *
              */
-//            // 组织签名字符串
-//            String signMsg = ParamUtil.getSignMsg(transMap);
-//            // 签名
-//            String sign = CertUtil.getInstance().sign(signMsg);
-            String sign = MD5.md5(transMap.toString());
+            // 组织签名字符串
+            String signMsg = ParamUtil.getSignMsg(transMap);
+            // 签名
+            String sign = CertUtil.getInstance().sign(signMsg);
+//            String sign = MD5.md5(transMap.toString());
             // 将签名放入交易map中
             transMap.put("sign", sign);
 
@@ -159,7 +164,9 @@ public class PaymentService extends HttpServlet {
             payUrl = resultMap.get("qrCodeURL");
             if ("24".equals(payType) || "25".equals(payType)) {
                 if ("".equals(payUrl) || payUrl == null || "null".equals(payUrl)) {
-                    msg = resultMap.get("rtnMsg").toString();
+                    if(resultMap.get("rtnMsg") != null){
+                        msg = resultMap.get("rtnMsg").toString();
+                    }
                     request.setAttribute("resultMap", resultMap);
                 } else {
                     request.setAttribute("action", payUrl);
@@ -250,7 +257,7 @@ public class PaymentService extends HttpServlet {
 
     /**
      * 其他客户支付交易请求报文
-     *
+     * <p>
      * 入驻ID:YSM201908081719455501620025977
      * 商户ID：873190924119746279
      * 提供信息例如：
@@ -258,6 +265,7 @@ public class PaymentService extends HttpServlet {
      * md5的key：adc2fbfb4654ed95b28dfe0a0cb03da6
      * 加密的公钥信息publicKey：MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFf6krDWQUDUzKj+K+WvML2EyZLagKaJ5YTeCoBNhx/WpD1Vh2j/
      * wQ9G3RC/tpUcmE7szr/vgdEVHkOfk6mGpeHapS6QE4enJ/CVaTPM573uI8VGWBek9v/E6HaVxRV0Hs8ZsvHAKopqYNDZRKhIrlLUrrkFD2KXJgIiRPQALeMQIDAQAB
+     *
      * @param request
      * @param response
      * @param customer
@@ -331,13 +339,13 @@ public class PaymentService extends HttpServlet {
             String YUL2 = "ANDROID";
             // 组织交易报文
             transMap.put("merchantNo", merchantNo);
-            transMap.put("YUL1",YUL1);
-            transMap.put("YUL2",YUL2);
-            transMap.put("ext1",ext1);
-            transMap.put("ext2",ext2);
-            transMap.put("goodsNum",goodsNum);
-            transMap.put("goodsInfo",goodsInfo);
-            transMap.put("cardType",cardType);
+            transMap.put("YUL1", YUL1);
+            transMap.put("YUL2", YUL2);
+            transMap.put("ext1", ext1);
+            transMap.put("ext2", ext2);
+            transMap.put("goodsNum", goodsNum);
+            transMap.put("goodsInfo", goodsInfo);
+            transMap.put("cardType", cardType);
             transMap.put("notifyUrl", notifyUrl);
             transMap.put("goodsName", goodsName);
             transMap.put("buyerId", buyerId);
@@ -354,7 +362,7 @@ public class PaymentService extends HttpServlet {
             transMap.put("tranDate", tranDate);
             transMap.put("tranTime", tranTime);
             transMap.put("payType", customer.getPayType());
-            transMap.put("amount",customer.getAmount());
+            transMap.put("amount", customer.getAmount());
             // 敏感信息加密
             transMap.put("buyerName", CertUtil.getInstance().encrypt(buyerName));
             transMap.put("contact", CertUtil.getInstance().encrypt(contact));
@@ -370,7 +378,7 @@ public class PaymentService extends HttpServlet {
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
             logger.info(TAG + "返回报文：" + asynMsg);
             //公钥解密
-            byte[] bytes = RSAUtils.decryptByPublicKey(Base64.decode(publicKey),publicKey);
+//            byte[] bytes = RSAUtils.decryptByPublicKey(Base64.decode(publicKey),publicKey);
 
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
