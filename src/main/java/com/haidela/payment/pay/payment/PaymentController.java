@@ -35,8 +35,8 @@ public class PaymentController {
      *
      * @return
      */
-    @RequestMapping(path = "/order-status")
-    public Map<String, String> orderStatus(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/order-payment")
+    public Map<String, String> orderPayment(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> result = new HashMap<String, String>();
         String merchantNo = request.getParameter("merchantNo");//商户编号
         if (null == merchantNo || merchantNo.equals("")) {
@@ -75,6 +75,12 @@ public class PaymentController {
             return result;
         }
 
+        String sign = request.getParameter("sign");//签名
+        if (null == sign || sign.equals("")) {
+            result.put("code", "3007");
+            result.put("msg", "签名不可为空");
+            return result;
+        }
 
 //        String tranFlow = request.getParameter("tranFlow");//交易流水号
 //        if (null == tranFlow || tranFlow.equals("")) {
@@ -86,29 +92,21 @@ public class PaymentController {
 //        String tranSerialNum = request.getParameter("tranSerialNum");//交易流水号
 //        if (null == tranSerialNum || tranSerialNum.equals("")) {
 //            result.put("code", "3006");
-//            result.put("msg", "交易流水号不可为空");
+//            result.put("msg", "交易流水号不可为;
 //            return result;
 //        }
-
-
-//        String amount = request.getParameter("amount");//交易金额
-//        String merchantNo = request.getParameter("merchantNo");//商户号
-//        PayCustomer payCustomer = new PayCustomer();
-//        payCustomer.setAmount(amount);
-//        payCustomer.setTranFlow(tranFlow);
-//        payCustomer.setMerchantNo(merchantNo);
         String string = null;
         try {
-//            string = payService.dfPay(request, response, payCustomer);
+            string = paymentService.orderPayment(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
         if (string != null) {
             result.put("code", "200");
-            result.put("msg", "代付成功");
+            result.put("msg", "异步消息发送成功");
         } else {
             result.put("code", "9999");
-            result.put("msg", "代付失败，请重试");
+            result.put("msg", "异步消息发送成功");
         }
         return result;
     }

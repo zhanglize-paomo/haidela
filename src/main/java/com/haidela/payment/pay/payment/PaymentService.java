@@ -17,10 +17,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -415,5 +412,53 @@ public class PaymentService extends HttpServlet {
         }
 
         return payUrl;
+    }
+
+
+    /**
+     *
+     * 异步消息通知接口
+     * 通知我们订单处理的结果是成功还是失败,其他的状态均视为交易进行中
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    public String orderPayment(HttpServletRequest request, HttpServletResponse response) {
+        response.setCharacterEncoding("utf-8");
+        try {
+            TreeMap<String, String> transMap = new TreeMap<String, String>();
+            Enumeration<String> enu = request.getParameterNames();
+            String t = null;
+            while (enu.hasMoreElements()) {
+                t = enu.nextElement();
+                transMap.put(t, request.getParameter(t));
+            }
+//            logger.info(TAG + "返回数据：" + transMap);
+            String merchantNo = (String) transMap.get("merchantNo");
+            // 获取签名
+            String sign = (String) transMap.get("sign");
+            sign = sign.replaceAll(" ", "+");
+            transMap.remove("sign");
+            // 验签
+            String transData = ParamUtil.getSignMsg(transMap);
+            boolean result = false;
+            try {
+                CertUtil.getInstance().verify(transData, sign);
+                result = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (!result) {
+                System.out.println( "商户编号为:" + merchantNo + "验签失败");
+//                logger.info(TAG + "商户编号为:" + merchantNo + "验签失败");
+                throw new Exception("商户编号为:" + merchantNo + "验签失败");
+            }
+//            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
+        } catch (Exception e) {
+            System.out.println("处理异常:"+e);
+//            logger.info(TAG + "处理异常", e);
+        }
+        return null;
     }
 }
