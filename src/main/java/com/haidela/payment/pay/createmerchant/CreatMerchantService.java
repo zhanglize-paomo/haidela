@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
@@ -62,17 +64,22 @@ public class CreatMerchantService {
         String str= MD5.getSignMsg(trnMap, key);
         String sign = "";
         try {
-             sign = MD5.md5(str);
+             sign = MD5.md5(str).toUpperCase();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        map.put("email", RSAUtils.encrypt(request.getParameter("email"), publicKey));  //邮箱   加密
-        map.put("customerPhone",RSAUtils.encrypt(request.getParameter("customerPhone"), publicKey));  //法人手机号  加密
-        map.put("principalMobile",RSAUtils.encrypt(request.getParameter("principalMobile"), publicKey));  //负责人手机号  加密
-        map.put("idCode",RSAUtils.encrypt(request.getParameter("idCode"), publicKey));  //负责人证件号   加密
-        map.put("accountCode",RSAUtils.encrypt(request.getParameter("accountCode"), publicKey));      //银行卡号  加密
-        map.put("idCard",RSAUtils.encrypt(request.getParameter("idCard"), publicKey));    //持卡人身份证号  加密
-        map.put("bankTel",RSAUtils.encrypt(request.getParameter("bankTel"), publicKey));    //持卡人手机号  加密
+        // 请求前对加密数据处理替换
+        try {
+            map.put("email", URLEncoder.encode(trnMap.get("email"), "utf-8"));       //邮箱   加密
+            map.put("customerPhone", URLEncoder.encode(trnMap.get("customerPhone"), "utf-8"));  //法人手机号  加密
+            map.put("principalMobile", URLEncoder.encode(trnMap.get("principalMobile"), "utf-8"));   //负责人手机号  加密
+            map.put("idCode", URLEncoder.encode(trnMap.get("idCode"), "utf-8"));        //负责人证件号   加密
+            map.put("accountCode", URLEncoder.encode(trnMap.get("accountCode"), "utf-8"));  //银行卡号  加密
+            map.put("idCard", URLEncoder.encode(trnMap.get("idCard"), "utf-8"));         //持卡人身份证号  加密
+            map.put("bankTel", URLEncoder.encode(trnMap.get("bankTel"), "utf-8"));       //持卡人手机号  加密
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         map.put("sign",sign);
         return map;
     }
