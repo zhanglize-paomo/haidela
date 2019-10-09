@@ -189,9 +189,43 @@ public class CreatMerchantService {
         return map;
     }
 
+    public static void main(String[] args) {
+        openWithDraw();
+    }
 
 
+    /**
+     * 商户D0开通接口获取签名信息
+     *
+     * @return
+     */
+    public static Map<String,String> openWithDraw() {
+        String key = "adc2fbfb4654ed95b28dfe0a0cb03da6";
+        String imgUrl = "https://sd.96299.com.cn/api/upload/uploadFile";                // 商户进件图片上传请求地址
+        String merUrl = "https://sd.96299.com.cn/api/payment/openWithDraw";          // 商户DO开通请求接口
+        String channelId = "401530011651";
+        Map<String, String> map = new HashMap<>();
+        // 1、处理图片
+        Map<String, String> trnMap = new TreeMap<String, String>();
+        // 2、商户D0开通接口
+        trnMap.put("DCbillRate", "0");  //储蓄卡费率 例：千3 直接传 3
+        trnMap.put("CCbillRate", "0");  //信用卡费率 例：万 1 直接传0.1
+        trnMap.put("singleRate", "0");  //	固定金额 单位（分）
+        trnMap.put("mch_id", "873191009170812523");  //商户ID
+        String str= MD5.getSignMsg(trnMap, key);
+        String sign = "";
+        try {
+            sign = MD5.md5(str);
+            sign = sign.toUpperCase();
+            trnMap.put("sign", sign);
+            System.out.println("请求上游的参数：" + trnMap);
 
-
-
+            String rtnStr = HTTPRequestUtil.formUpload(merUrl, trnMap, channelId);
+            System.out.println("上游返回结果：" + rtnStr);
+        } catch (Exception e) {
+            System.out.println("请求上游异常" + e);
+        }
+        trnMap.put("sign",sign);
+        return trnMap;
+    }
 }

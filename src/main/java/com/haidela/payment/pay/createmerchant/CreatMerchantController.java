@@ -49,6 +49,17 @@ public class CreatMerchantController {
         return service.otherGetSign(request,response);
     }
 
-    
+
+
+    /**
+     * 商户D0开通接口获取签名信息
+     *
+     * @return
+     */
+    @RequestMapping(path = "open-withdraw")
+    public Map<String,String> openWithDraw() {
+        return service.openWithDraw();
+    }
+
 
 }
