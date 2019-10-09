@@ -39,6 +39,11 @@ public class PayCustomer {
     private String createTime;
 
     /**
+     * 买家id
+     */
+    private String buyerId;
+
+    /**
      * 状态
      */
     private String status;
@@ -107,5 +112,13 @@ public class PayCustomer {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public void setBuyerId(String buyerId) {
+        this.buyerId = buyerId;
+    }
+
+    public String getBuyerId() {
+        return buyerId;
     }
 }

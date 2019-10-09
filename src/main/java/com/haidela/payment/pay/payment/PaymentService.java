@@ -5,6 +5,7 @@ import com.haidela.payment.common.Config;
 import com.haidela.payment.pay.Merchant;
 import com.haidela.payment.pay.pay.PayCustomer;
 import com.haidela.payment.pay.pay.PayService;
+import com.haidela.payment.util.IpUtil;
 import com.haidela.payment.util.ResponseUtil;
 import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.DateUtil;
@@ -72,8 +73,9 @@ public class PaymentService extends HttpServlet {
             /**
              * 用户IP  char(100)
              * 支持匹配用户的IP规则
+             *
              */
-            String YUL3 = "4234242424";
+            String YUL3 = IpUtil.getRandomIp();
             /**
              * 订单有效时间
              */
@@ -95,14 +97,17 @@ public class PaymentService extends HttpServlet {
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              * 个体工商户id(我们自己的)
              */
-            String goodsInfo = "873190924119746279";
+            String goodsInfo = "873191009170812523";
             //String goodsNum = "1";
             String merchantNo = "S20190927084578"; //商户编号
             String version = Config.getInstance().getVersion();
             String bindId = "YSM201909271637141884536731670";    //入驻ID
             String channelNo = Config.getInstance().getChannelNo();
 //            String notifyUrl = Config.getInstance().getNotifyUrl();
-            String notifyUrl = "https://cashier.hefupal.com/paygate/v1/smpay";
+            /**
+             * 异步消息通知的请求地址信息
+             */
+            String notifyUrl = "http://182.92.192.208:8080/order-payment";
             String tranCode = "YS1003";
             String tranDate = DateUtil.getDate();
             String tranTime = DateUtil.getTime();
@@ -124,7 +129,7 @@ public class PaymentService extends HttpServlet {
             //transMap.put("cardType", cardType);
             transMap.put("notifyUrl", notifyUrl);
             transMap.put("goodsName", goodsName);
-            //transMap.put("buyerId", buyerId);
+            transMap.put("buyerId", customer.getBuyerId());
             transMap.put("bindId", bindId);
             transMap.put("bizType", bizType);
             transMap.put("currency", currency);

@@ -142,6 +142,7 @@ public class PaymentController {
         String payType = request.getParameter("payType");//支付类型
         PayCustomer payCustomer = new PayCustomer();
         payCustomer.setTranFlow(tranFlow);
+        payCustomer.setBuyerId(request.getParameter("buyerId"));//买家id
         payCustomer.setAmount(amount);
         payCustomer.setPayType(payType);
         try {
