@@ -106,7 +106,7 @@ public class PaymentController {
             result.put("msg", "异步消息发送成功");
         } else {
             result.put("code", "9999");
-            result.put("msg", "异步消息发送成功");
+            result.put("msg", "异步消息发送失败");
         }
         return result;
     }

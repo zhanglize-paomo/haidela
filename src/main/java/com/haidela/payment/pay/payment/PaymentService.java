@@ -4,11 +4,13 @@ package com.haidela.payment.pay.payment;
 import com.haidela.payment.common.Config;
 import com.haidela.payment.pay.Merchant;
 import com.haidela.payment.pay.pay.PayCustomer;
+import com.haidela.payment.pay.pay.PayService;
 import com.haidela.payment.util.ResponseUtil;
 import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.DateUtil;
 import com.hfb.merchant.pay.util.ParamUtil;
 import com.hfb.merchant.pay.util.http.Httpz;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -28,8 +31,15 @@ import java.util.concurrent.TimeUnit;
 public class PaymentService extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-//    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    //    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
     private static final String TAG = "【统一支付商户系统demo】-{统一支付}-";
+
+    private PayService payService;
+
+    @Autowired
+    public void setPayService(PayService payService) {
+        this.payService = payService;
+    }
 
     /**
      * 客户支付交易请求报文(落雨轩)
@@ -50,7 +60,7 @@ public class PaymentService extends HttpServlet {
 
             //交易流水号	tranFlow	char(32)	必输	客服提供	交易流水号
             //交易金额	amount	char(16)	必输	客服提供	单位：分
-           // 支付类型	payType	char(5)	必输	客服提供	1：微信，2：支付宝，3：银联
+            // 支付类型	payType	char(5)	必输	客服提供	1：微信，2：支付宝，3：银联
             //买家 ID	buyerId	char(100)	必输	客户提供	买家在商城的唯一编号
 
             String payType = transMap.get("payType");
@@ -398,7 +408,7 @@ public class PaymentService extends HttpServlet {
 //                    redirectPath = "webPayUrl.jsp";
                 }
             } else {
-                if(resultMap.get("rtnMsg") != null){
+                if (resultMap.get("rtnMsg") != null) {
                     msg = resultMap.get("rtnMsg").toString();
                 }
                 request.setAttribute("resultMap", resultMap);
@@ -416,7 +426,6 @@ public class PaymentService extends HttpServlet {
 
 
     /**
-     *
      * 异步消息通知接口
      * 通知我们订单处理的结果是成功还是失败,其他的状态均视为交易进行中
      *
@@ -450,13 +459,41 @@ public class PaymentService extends HttpServlet {
                 e.printStackTrace();
             }
             if (!result) {
-                System.out.println( "商户编号为:" + merchantNo + "验签失败");
+                System.out.println("商户编号为:" + merchantNo + "验签失败");
 //                logger.info(TAG + "商户编号为:" + merchantNo + "验签失败");
                 throw new Exception("商户编号为:" + merchantNo + "验签失败");
+            } else {
+                //判断返回的码是否是成功的信息
+                String rtnCode = request.getParameter("rtnCode");
+                /**
+                 * 判断商户是否存在
+                 *
+                 */
+                if (rtnCode.equals("S")) { //成功
+                    /**
+                     * 调用代付的接口,向第三方发起请求
+                     */
+                    PayCustomer payCustomer = new PayCustomer();
+                    payCustomer.setAmount(request.getParameter("amount"));
+                    payCustomer.setTranFlow(request.getParameter("tranFlow"));
+                    payCustomer.setPayType(request.getParameter("payType"));
+                    payCustomer.setMerchantNo(request.getParameter("merchantNo"));
+                    payCustomer.setCreateTime(LocalDateTime.now().toString());
+                    payCustomer.setId(UUID.randomUUID().toString());
+                    payCustomer.setStatus("交易成功");
+                    payService.dfPay(request, response, payCustomer);
+                }else{
+                    /**
+                     * 1.判断该商户在数据库中是否存在
+                     * 2.如果存在将数据进行修改
+                     * 3.如果不存在将该数据添加到数据库中,将数据状态修改为失败或者交易中
+                     */
+
+                }
             }
 //            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
         } catch (Exception e) {
-            System.out.println("处理异常:"+e);
+            System.out.println("处理异常:" + e);
 //            logger.info(TAG + "处理异常", e);
         }
         return null;
