@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -27,7 +28,8 @@ public class CreatMerchantService {
      * @param response
      * @return
      */
-    public String getSign(HttpServletRequest request, HttpServletResponse response) {
+    public  Map<String,String>  getSign(HttpServletRequest request, HttpServletResponse response) {
+        Map<String,String> map = new HashMap<>();
         Map<String, String> trnMap = new TreeMap<String, String>();
         trnMap.put("merchantName",request.getParameter("merchantName"));  //商户名称
         trnMap.put("merchantShortName",request.getParameter("merchantShortName"));    //商户简称
@@ -60,10 +62,18 @@ public class CreatMerchantService {
         String str= MD5.getSignMsg(trnMap, key);
         String sign = "";
         try {
-            sign = MD5.md5(str);
+             sign = MD5.md5(str);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return sign;
+        map.put("email", RSAUtils.encrypt(request.getParameter("email"), publicKey));  //邮箱   加密
+        map.put("customerPhone",RSAUtils.encrypt(request.getParameter("customerPhone"), publicKey));  //法人手机号  加密
+        map.put("principalMobile",RSAUtils.encrypt(request.getParameter("principalMobile"), publicKey));  //负责人手机号  加密
+        map.put("idCode",RSAUtils.encrypt(request.getParameter("idCode"), publicKey));  //负责人证件号   加密
+        map.put("accountCode",RSAUtils.encrypt(request.getParameter("accountCode"), publicKey));      //银行卡号  加密
+        map.put("idCard",RSAUtils.encrypt(request.getParameter("idCard"), publicKey));    //持卡人身份证号  加密
+        map.put("bankTel",RSAUtils.encrypt(request.getParameter("bankTel"), publicKey));    //持卡人手机号  加密
+        map.put("sign",sign);
+        return map;
     }
 }

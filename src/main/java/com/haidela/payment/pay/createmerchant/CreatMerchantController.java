@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 /**
  * 商户进件控制器
@@ -32,7 +33,7 @@ public class CreatMerchantController {
      * @return
      */
     @RequestMapping(path = "/sign")
-    public String getSign(HttpServletRequest request, HttpServletResponse response ) {
+    public Map<String,String> getSign(HttpServletRequest request, HttpServletResponse response ) {
         return service.getSign(request,response);
     }
 }
