@@ -4,7 +4,6 @@ package com.haidela.payment.pay.payment;
 import com.haidela.payment.common.Config;
 import com.haidela.payment.pay.Merchant;
 import com.haidela.payment.pay.pay.PayCustomer;
-import com.haidela.payment.util.MD5;
 import com.haidela.payment.util.ResponseUtil;
 import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.DateUtil;
@@ -36,7 +35,7 @@ public class PaymentService extends HttpServlet {
     private static final String TAG = "【统一支付商户系统demo】-{统一支付}-";
 
     /**
-     * 客户支付交易请求报文
+     * 客户支付交易请求报文(落雨轩)
      *
      * @param request
      * @param response
@@ -74,7 +73,7 @@ public class PaymentService extends HttpServlet {
             /**
              * 业务代码 char(5)
              */
-            String bizType = "12";
+            String bizType = "16";
             /**
              * 商品名称  char(100)
              */
@@ -83,7 +82,7 @@ public class PaymentService extends HttpServlet {
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              * 个体工商户id(我们自己的)
              */
-            String goodsInfo = "商品";
+            String goodsInfo = "873190924119746279";
             String goodsNum = "1";
             /**
              * 买家ID  char(100)  买家在商城的唯一编号
@@ -93,7 +92,7 @@ public class PaymentService extends HttpServlet {
             String merchantNo = "S20190927084578"; //商户编号
 //            String version = Config.getInstance().getVersion();
             String version = "v1";
-            String bindId = "YSM201908081719455501620025977";    //入驻ID
+            String bindId = "YSM201909271637141884536731670";    //入驻ID
 //            String channelNo = Config.getInstance().getChannelNo();
             String channelNo = "05";
 //            String notifyUrl = Config.getInstance().getNotifyUrl();
@@ -279,7 +278,7 @@ public class PaymentService extends HttpServlet {
     public String getOtherImgurl(HttpServletRequest request, HttpServletResponse response, PayCustomer customer) throws IOException, ServletException {
         request.setCharacterEncoding("utf-8");
         String msg = "处理成功";
-        String redirectPath = "result.jsp";
+//        String redirectPath = "result.jsp";
         Map<String, String> resultMap = null;
         String payType = customer.getPayType();
         String payUrl = "";
@@ -313,7 +312,7 @@ public class PaymentService extends HttpServlet {
              * 商品名称  char(100)
              */
             String goodsName = "商品名称";
-            String goodsInfo = "商品";
+            String goodsInfo = "873190924119746279";
             String goodsNum = "1";
             /**
              * 买家ID  char(100)  买家在商城的唯一编号
@@ -324,7 +323,7 @@ public class PaymentService extends HttpServlet {
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              *
              */
-            String merchantNo = "873190924119746279"; //商户编号
+            String merchantNo = "S20190927084578"; //商户编号
             String version = Config.getInstance().getVersion();
             String bindId = "YSM201908081719455501620025977";    //入驻ID
             String channelNo = Config.getInstance().getChannelNo();
@@ -372,7 +371,11 @@ public class PaymentService extends HttpServlet {
              * 数字签名根据算法进行加密
              *
              */
-            String sign = MD5.putPairsSequenceAndTogether(transMap);
+            // 组织签名字符串
+            String signMsg = ParamUtil.getSignMsg(transMap);
+            // 签名
+            String sign = CertUtil.getInstance().sign(signMsg);
+//            String sign = MD5.putPairsSequenceAndTogether(transMap);
             // 将签名放入交易map中
             transMap.put("sign", sign);
             // 发送扫码请求报文
@@ -396,18 +399,20 @@ public class PaymentService extends HttpServlet {
                     request.setAttribute("resultMap", resultMap);
                 } else {
                     request.setAttribute("action", payUrl);
-                    redirectPath = "webPayUrl.jsp";
+//                    redirectPath = "webPayUrl.jsp";
                 }
             } else {
-                msg = resultMap.get("rtnMsg").toString();
+                if(resultMap.get("rtnMsg") != null){
+                    msg = resultMap.get("rtnMsg").toString();
+                }
                 request.setAttribute("resultMap", resultMap);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            redirectPath = "error.jsp";
+//            redirectPath = "error.jsp";
         } finally {
             request.setAttribute("errorMsg", msg);
-            request.getRequestDispatcher(redirectPath).forward(request, response);
+//            request.getRequestDispatcher(redirectPath).forward(request, response);
         }
 
         return payUrl;
