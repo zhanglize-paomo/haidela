@@ -36,4 +36,19 @@ public class CreatMerchantController {
     public Map<String,String> getSign(HttpServletRequest request, HttpServletResponse response ) {
         return service.getSign(request,response);
     }
+
+    /**
+     * 根据请求参数获取到签名信息
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(path = "/other-sign")
+    public Map<String,String> otherGetSign(HttpServletRequest request, HttpServletResponse response ) {
+        return service.otherGetSign(request,response);
+    }
+
+    
+
 }
