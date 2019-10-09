@@ -50,6 +50,12 @@ public class PaymentService extends HttpServlet {
         try {
             // 利用treeMap对参数按key值进行排序
             Map<String, String> transMap = ResponseUtil.getParamMap(request);
+
+            //交易流水号	tranFlow	char(32)	必输	客服提供	交易流水号
+            //交易金额	amount	char(16)	必输	客服提供	单位：分
+           // 支付类型	payType	char(5)	必输	客服提供	1：微信，2：支付宝，3：银联
+            //买家 ID	buyerId	char(100)	必输	客户提供	买家在商城的唯一编号
+
             String payType = transMap.get("payType");
             /**
              * 备注  Char（100）
@@ -83,18 +89,11 @@ public class PaymentService extends HttpServlet {
              * 个体工商户id(我们自己的)
              */
             String goodsInfo = "873190924119746279";
-            String goodsNum = "1";
-            /**
-             * 买家ID  char(100)  买家在商城的唯一编号
-             */
-            String buyerId = "324242424";
-
+            //String goodsNum = "1";
             String merchantNo = "S20190927084578"; //商户编号
-//            String version = Config.getInstance().getVersion();
-            String version = "v1";
+            String version = Config.getInstance().getVersion();
             String bindId = "YSM201909271637141884536731670";    //入驻ID
-//            String channelNo = Config.getInstance().getChannelNo();
-            String channelNo = "05";
+            String channelNo = Config.getInstance().getChannelNo();
 //            String notifyUrl = Config.getInstance().getNotifyUrl();
             String notifyUrl = "https://cashier.hefupal.com/paygate/v1/smpay";
             String tranCode = "YS1003";
@@ -102,7 +101,7 @@ public class PaymentService extends HttpServlet {
             String tranTime = DateUtil.getTime();
             String buyerName = "213213";
             String contact = "213131233";
-            String cardType = "01";
+            //String cardType = "01";
             String ext1 = "324242424";
             String ext2 = "873190924119746279";
             String YUL1 = "1241242424";
@@ -113,12 +112,12 @@ public class PaymentService extends HttpServlet {
             transMap.put("YUL2", YUL2);
             transMap.put("ext1", ext1);
             transMap.put("ext2", ext2);
-            transMap.put("goodsNum", goodsNum);
+            //transMap.put("goodsNum", goodsNum);
             transMap.put("goodsInfo", goodsInfo);
-            transMap.put("cardType", cardType);
+            //transMap.put("cardType", cardType);
             transMap.put("notifyUrl", notifyUrl);
             transMap.put("goodsName", goodsName);
-            transMap.put("buyerId", buyerId);
+            //transMap.put("buyerId", buyerId);
             transMap.put("bindId", bindId);
             transMap.put("bizType", bizType);
             transMap.put("currency", currency);
