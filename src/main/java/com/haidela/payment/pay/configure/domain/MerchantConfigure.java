@@ -1,74 +1,54 @@
 package com.haidela.payment.pay.configure.domain;
 
-/**
- * 个体商户配置对象
- *
- *
- * @author zhanglize
- * @create 2019/10/10
- */
 public class MerchantConfigure {
+    private Integer id;
 
-    /**
-     * 主键
-     */
-    private int id;
-
-    /**
-     * 交易金额,单位分
-     */
     private String amount;
 
-    /**
-     * 交易金额上限
-     */
     private String amountLimit;
 
-    /**
-     * 支付类型
-     */
     private String payType;
 
-    /**
-     * 商户id
-     */
     private String merchantId;
 
-    /**
-     * 开始时间
-     */
     private String startTime;
 
-    /**
-     * 结束时间
-     */
     private String endTime;
 
-    /**
-     * 创建时间
-     */
     private String createTime;
 
-    /**
-     * 时差(同一商户在规定时间内不能被多次调用)
-     */
-    private String time_difference;
+    private String timeDifference;
 
-    /**
-     * 修改时间
-     */
-    private String modify_time;
+    private String modifyTime;
 
-    /**
-     * 状态
-     */
     private String status;
 
-    public int getId() {
+    private String totalOneAmount;
+
+    public MerchantConfigure(Integer id, String amount, String amountLimit, String payType, String merchantId, String startTime, String endTime, String createTime, String timeDifference, String modifyTime, String status, String totalOneAmount) {
+        this.id = id;
+        this.amount = amount;
+        this.amountLimit = amountLimit;
+        this.payType = payType;
+        this.merchantId = merchantId;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.createTime = createTime;
+        this.timeDifference = timeDifference;
+        this.modifyTime = modifyTime;
+        this.status = status;
+        this.totalOneAmount = totalOneAmount;
+    }
+
+    public MerchantConfigure() {
+        super();
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -77,7 +57,7 @@ public class MerchantConfigure {
     }
 
     public void setAmount(String amount) {
-        this.amount = amount;
+        this.amount = amount == null ? null : amount.trim();
     }
 
     public String getAmountLimit() {
@@ -85,7 +65,7 @@ public class MerchantConfigure {
     }
 
     public void setAmountLimit(String amountLimit) {
-        this.amountLimit = amountLimit;
+        this.amountLimit = amountLimit == null ? null : amountLimit.trim();
     }
 
     public String getPayType() {
@@ -93,7 +73,7 @@ public class MerchantConfigure {
     }
 
     public void setPayType(String payType) {
-        this.payType = payType;
+        this.payType = payType == null ? null : payType.trim();
     }
 
     public String getMerchantId() {
@@ -101,7 +81,7 @@ public class MerchantConfigure {
     }
 
     public void setMerchantId(String merchantId) {
-        this.merchantId = merchantId;
+        this.merchantId = merchantId == null ? null : merchantId.trim();
     }
 
     public String getStartTime() {
@@ -109,7 +89,7 @@ public class MerchantConfigure {
     }
 
     public void setStartTime(String startTime) {
-        this.startTime = startTime;
+        this.startTime = startTime == null ? null : startTime.trim();
     }
 
     public String getEndTime() {
@@ -117,7 +97,7 @@ public class MerchantConfigure {
     }
 
     public void setEndTime(String endTime) {
-        this.endTime = endTime;
+        this.endTime = endTime == null ? null : endTime.trim();
     }
 
     public String getCreateTime() {
@@ -125,23 +105,23 @@ public class MerchantConfigure {
     }
 
     public void setCreateTime(String createTime) {
-        this.createTime = createTime;
+        this.createTime = createTime == null ? null : createTime.trim();
     }
 
-    public String getTime_difference() {
-        return time_difference;
+    public String getTimeDifference() {
+        return timeDifference;
     }
 
-    public void setTime_difference(String time_difference) {
-        this.time_difference = time_difference;
+    public void setTimeDifference(String timeDifference) {
+        this.timeDifference = timeDifference == null ? null : timeDifference.trim();
     }
 
-    public String getModify_time() {
-        return modify_time;
+    public String getModifyTime() {
+        return modifyTime;
     }
 
-    public void setModify_time(String modify_time) {
-        this.modify_time = modify_time;
+    public void setModifyTime(String modifyTime) {
+        this.modifyTime = modifyTime == null ? null : modifyTime.trim();
     }
 
     public String getStatus() {
@@ -149,6 +129,14 @@ public class MerchantConfigure {
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.status = status == null ? null : status.trim();
+    }
+
+    public String getTotalOneAmount() {
+        return totalOneAmount;
+    }
+
+    public void setTotalOneAmount(String totalOneAmount) {
+        this.totalOneAmount = totalOneAmount == null ? null : totalOneAmount.trim();
     }
 }

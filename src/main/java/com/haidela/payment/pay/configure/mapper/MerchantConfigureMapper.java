@@ -1,8 +1,7 @@
 package com.haidela.payment.pay.configure.mapper;
 
+import com.haidela.payment.pay.configure.domain.MerchantConfigure;
 import org.springframework.stereotype.Repository;
-
-import javax.naming.NamingException;
 
 /**
  * 个体商户配置mapper
@@ -13,6 +12,6 @@ import javax.naming.NamingException;
 @Repository
 public interface MerchantConfigureMapper {
 
-    NamingException Sel(int id);
+    MerchantConfigure Sel(int id);
 
 }

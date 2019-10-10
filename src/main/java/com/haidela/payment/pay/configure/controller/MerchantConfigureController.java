@@ -1,5 +1,6 @@
 package com.haidela.payment.pay.configure.controller;
 
+import com.haidela.payment.pay.configure.domain.MerchantConfigure;
 import com.haidela.payment.pay.configure.service.MerchantConfigureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @create 2019/10/10
  */
 @RestController
-@RequestMapping("/merchantConfigureController")
+@RequestMapping("/merchant-configure")
 public class MerchantConfigureController {
 
 
@@ -24,8 +25,8 @@ public class MerchantConfigureController {
     }
 
     @RequestMapping("getUser/{id}")
-    public String GetUser(@PathVariable int id){
-        return service.Sel(id).toString();
+    public MerchantConfigure GetUser(@PathVariable int id){
+        return service.Sel(id);
     }
 
 }
