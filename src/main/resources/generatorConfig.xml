@@ -51,18 +51,18 @@
             <property name="immutable" value="false"/>
         </javaModelGenerator>
 
-        <!-- targetPackage 和 targetProject：生成的 mapper 文件的包和位置 -->
-        <sqlMapGenerator targetPackage="com.haidela.payment.pay.configure.domain"
+        <!-- targetPackage 和 targetProject：生成的 mapper 映射文件的生成 -->
+        <sqlMapGenerator targetPackage="com.haidela.payment.pay.configure"
                          targetProject=".\src\main\resource">
             <!-- 针对数据库的一个配置，是否把 schema 作为字包名 -->
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
 
-        <!-- targetPackage 和 targetProject：生成的 interface 文件的包和位置 -->
+        <!-- targetPackage 和 targetProject：生成的 mapper接口 文件的包和位置 -->
         <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.mall.dao" targetProject=".\src\main\java">
+                             targetPackage="com.haidela.payment.pay" targetProject=".\src\main\java">
             <!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
-            <property name="enableSubPackages" value="false"/>
+            <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
         <table tableName="lyx_merchant_configure" domainObjectName="MerchantConfigure"
                enableCountByExample="false" enableUpdateByExample="false"
