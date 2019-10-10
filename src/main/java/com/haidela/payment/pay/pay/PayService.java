@@ -40,47 +40,72 @@ public class PayService {
     public String dfPay(HttpServletRequest request, HttpServletResponse response, PayCustomer payCustomer) throws Exception {
 
         //商户号
-        String merchantNo = payCustomer.getMerchantNo();
+        String merchantNo = "S20190927084578";
 
         //测试商户的公钥私钥这两个文件在本项目的src目录下certs中
 
         // 私钥文件路径
-        String privateKey = PayService.class.getResource("/").getPath() + "CS20190927084578_20190927201246553.pfx";
+//        String privateKey = "D:/haidela/src/main/resources/cert/CS20190927084578_20190927201246553.pfx";
+        String privateKey = PayService.class.getResource("/").getPath() + "cert/CS20190927084578_20190927201246553.pfx";
         // 公钥文件路径
-        String publicKey = PayService.class.getResource("").getPath() + "SS20190927084578_20190927201246553.cer";
-
+        String publicKey = PayService.class.getResource("/").getPath() + "cert/SS20190927084578_20190927201246553.cer";
+//        String publicKey = " D:/haidela/src/main/resources/cert/SS20190927084578_20190927201246553.cer";
         // 密钥密码
         String KeyPass = "666666";
 
+        /**
+         * 接口版本号
+         */
+        String version = "v1";
+        /**
+         * 渠道编号
+         */
+        String channelNo = "04";
+
+        /**
+         * 加密
+         */
+        //收款账号(银行账号)
+        String accNo = "6228410784520592175";
+        //收款账户名
+        String accName = "m";
+        /**
+         * 交易码
+         */
+        String tranCode  = "1001";
+        /**
+         * 交易币种
+         */
+        String currency  = "RMB";
         //交易流水号
         String tranFlow = payCustomer.getTranFlow();
         //交易日期
         String tranDate = DateUtil.getDate();
         //交易时间
         String tranTime = DateUtil.getTime();
-        //收款账号
-        String accNo = "6237000110682018594";
-        //收款账户名
-        String accName = "m";
         //账户联行号
-        String bankAgentId = "102100099996";
+        String bankAgentId = "103537530208";
         //收款行名称
-        String bankName = "中国工商银行";
+        String bankName = "中国农业银行";
         //交易金额
-        String amount = "2";
+        String amount = payCustomer.getAmount();
         //摘要
         String remark = "测试代付";
-        //扩展字段
-        String ext1 = "1";
-        //扩展字段
-        String ext2 = "2";
-        //预留字段
-        String yUL1 = "1";
-        //预留字段
-        String yUL2 = "2";
-        //预留字段
-        String yUL3 = "3";
+//        //扩展字段
+//        String ext1 = "1";
+//        //扩展字段
+//        String ext2 = "2";
+//        //预留字段
+//        String yUL1 = "1";
+//        //预留字段
+//        String yUL2 = "2";
+//        //预留字段
+//        String yUL3 = "3";
         //后台通知地址
+        /**
+         * 我们的地址
+         */
+        //TODO
         String NOTICEURL = "http://c04647d4.ngrok.io/dfpay/notify.do";
 
         /**
@@ -97,7 +122,7 @@ public class PayService {
         CertUtil certUtil = new CertUtil(publicKey, privateKey, KeyPass, true);
 
         //对数据进行封装
-        DfPay dfPay = new DfPay(merchantNo, tranFlow, tranDate, tranTime, accNo, accName, bankAgentId, bankName, amount, remark, ext1, ext2, yUL1, yUL2, yUL3, NOTICEURL);
+        DfPay dfPay = new DfPay(merchantNo, tranFlow, tranDate, tranTime, accNo, accName, bankAgentId, bankName, amount, remark, null, null, null, null, null, NOTICEURL);
 
         // 对发送的信息，进行加密，加签，发送至合付宝平台，并对返回的信息内容进行解析，验签操作
         Map<String, String> map = ModelPayUtil.sendModelPay(certUtil, dfPay, "https://cashier.hefupal.com/paygate/v1/dfpay");
