@@ -66,13 +66,6 @@ public class CreatMerchantService {
         try {
             sign = MD5.md5(str).toUpperCase();
             // 请求前对加密数据处理替换
-//            map.put("email", URLEncoder.encode(trnMap.get("email"), "utf-8"));       //邮箱   加密
-//            map.put("customerPhone", URLEncoder.encode(trnMap.get("customerPhone"), "utf-8"));  //法人手机号  加密
-//            map.put("principalMobile", URLEncoder.encode(trnMap.get("principalMobile"), "utf-8"));   //负责人手机号  加密
-//            map.put("idCode", URLEncoder.encode(trnMap.get("idCode"), "utf-8"));        //负责人证件号   加密
-//            map.put("accountCode", URLEncoder.encode(trnMap.get("accountCode"), "utf-8"));  //银行卡号  加密
-//            map.put("idCard", URLEncoder.encode(trnMap.get("idCard"), "utf-8"));         //持卡人身份证号  加密
-//            map.put("bankTel", URLEncoder.encode(trnMap.get("bankTel"), "utf-8"));       //持卡人手机号  加密
             trnMap.put("sign",sign);
             map.put("email", trnMap.get("email"));       //邮箱   加密
             map.put("customerPhone",trnMap.get("customerPhone"));  //法人手机号  加密
@@ -153,27 +146,8 @@ public class CreatMerchantService {
             sign = sign.toUpperCase();
             trnMap.put("sign", sign);
             System.out.println("请求上游的参数：" + trnMap);
-            // 请求前对加密数据处理替换
-//            trnMap.put("email", URLEncoder.encode(trnMap.get("email"), "utf-8"));
-//            trnMap.put("customerPhone", URLEncoder.encode(trnMap.get("customerPhone"), "utf-8"));
-//            trnMap.put("principalMobile", URLEncoder.encode(trnMap.get("principalMobile"), "utf-8"));
-//            trnMap.put("idCode", URLEncoder.encode(trnMap.get("idCode"), "utf-8"));
-//            trnMap.put("accountCode", URLEncoder.encode(trnMap.get("accountCode"), "utf-8"));
-//            trnMap.put("idCard", URLEncoder.encode(trnMap.get("idCard"), "utf-8"));
-//            trnMap.put("bankTel", URLEncoder.encode(trnMap.get("bankTel"), "utf-8"));
             String rtnStr = HTTPRequestUtil.formUpload(merUrl, trnMap, channelId);
             System.out.println("上游返回结果：" + rtnStr);
-//            JSONObject rtnStrObject = JSONObject.fromObject(rtnStr);
-//            System.out.println("上游返回结果解析：" + rtnStrObject);
-//            String bankCode = rtnStrObject.get("code") + "";
-//            if("1".equals(bankCode)){
-//                String data = rtnStrObject.get("data") + "";
-//                JSONObject obj = JSONObject.fromObject(data);
-//                String merchantId = obj.get("merchantId") + "";         // 商户ID 注意：该返回数据需要保存，支付和代付时需要上送
-//                String unionStdQrUrl = obj.get("unionStdQrUrl") + "";   // merchantQrUrl：第四方商户收款URL，上传该参数后系统将生成对应的银联标准二维码URL并返回，否则为空
-//            } else {
-//                System.out.println("请求上游失败");
-//            }
         } catch (Exception e) {
             System.out.println("请求上游异常" + e);
         }

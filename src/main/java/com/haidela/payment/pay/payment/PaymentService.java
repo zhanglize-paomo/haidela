@@ -21,8 +21,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * @author zhanglize
@@ -61,49 +62,22 @@ public class PaymentService extends HttpServlet {
 //        String redirectPath = "result.jsp";
         Map<String, String> resultMap = null;
         String payUrl = "";
+        // 利用treeMap对参数按key值进行排序
+        Map<String, String> transMap = ResponseUtil.getParamMap(request);
         try {
-            // 利用treeMap对参数按key值进行排序
-            Map<String, String> transMap = ResponseUtil.getParamMap(request);
-
-            //交易流水号	tranFlow	char(32)	必输	客服提供	交易流水号
-            //交易金额	amount	char(16)	必输	客服提供	单位：分
-            // 支付类型	payType	char(5)	必输	客服提供	1：微信，2：支付宝，3：银联
-            //买家 ID	buyerId	char(100)	必输	客户提供	买家在商城的唯一编号
-
             String payType = transMap.get("payType");
-            /**
-             * 备注  Char（100）
-             */
-            String remark = "客户支付交易";
-
-            /**
-             * 用户IP  char(100)
-             * 支持匹配用户的IP规则
-             *
-             */
-            String YUL3 = IpUtil.getRandomIp();
-            /**
-             * 订单有效时间
-             */
-            Long valid = 3600L;
-
-            /**
-             * 交易币种 char(3)
-             */
-            String currency = "CNY";
-            /**
-             * 业务代码 char(5)
-             */
-            String bizType = "16";
-            /**
-             * 商品名称  char(100)
-             */
-            String goodsName = "商品名称";
+            String remark = "客户支付交易"; //备注  Char（100）
+            String YUL3 = IpUtil.getRandomIp(); //用户IP  char(100) 支持匹配用户的IP规则
+            Long valid = 3600L; //订单有效时间
+            String currency = "CNY"; //交易币种 char(3)
+            String bizType = "16"; //业务代码 char(5)
+            String goodsName = "商品名称";  //商品名称  char(100)
             /**
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              * 个体工商户id(我们自己的)
              */
-            String goodsInfo = getMerchantNo(request.getParameter("amount"));
+            String goodsInfo = "873191009170812523";
+//            String goodsInfo = getMerchantNo(request.getParameter("amount"));
             //String goodsNum = "1";
             String merchantNo = "S20190927084578"; //商户编号
             String version = Config.getInstance().getVersion();
@@ -153,11 +127,6 @@ public class PaymentService extends HttpServlet {
             // 敏感信息加密
             transMap.put("buyerName", CertUtil.getInstance().encrypt(buyerName));
             transMap.put("contact", CertUtil.getInstance().encrypt(contact));
-
-//            /**
-//             * 签名sign  char(512)
-//             */
-//             String sign;
             /**
              * 数字签名根据算法进行加密
              *
@@ -166,7 +135,6 @@ public class PaymentService extends HttpServlet {
             String signMsg = ParamUtil.getSignMsg(transMap);
             // 签名
             String sign = CertUtil.getInstance().sign(signMsg);
-//            String sign = MD5.md5(transMap.toString());
             // 将签名放入交易map中
             transMap.put("sign", sign);
 
@@ -202,8 +170,25 @@ public class PaymentService extends HttpServlet {
             request.setAttribute("errorMsg", msg);
 //            request.getRequestDispatcher(redirectPath).forward(request, response);
         }
-
+        //发送异步消息通知
+        asynchronousMessage(request,response,transMap,payUrl);
         return payUrl;
+    }
+
+    /**
+     * 发送异步消息通知
+     * @param request
+     * @param response
+     * @param transMap
+     * @param payUrl
+     */
+    private void asynchronousMessage(HttpServletRequest request, ServletResponse response, Map<String, String> transMap, String payUrl) {
+        if(!payUrl.equals("") || !payUrl.equals("null")){
+            if(transMap.get("notifyUrl") != null || !transMap.get("notifyUrl").equals("")){
+                //发送异步消息通知
+                orderPayment(request,response,transMap,payUrl);
+            }
+        }
     }
 
     /**
@@ -394,9 +379,6 @@ public class PaymentService extends HttpServlet {
 //            logger.info(TAG + "请求报文：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
 //            logger.info(TAG + "返回报文：" + asynMsg);
-            //公钥解密
-//            byte[] bytes = RSAUtils.decryptByPublicKey(Base64.decode(publicKey),publicKey);
-
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
 //            logger.info("请求结果返回解析数据：" + resultMap);
@@ -435,24 +417,48 @@ public class PaymentService extends HttpServlet {
      * 异步消息通知接口
      * 通知我们订单处理的结果是成功还是失败,其他的状态均视为交易进行中
      *
-     * @param request
-     * @param response
      * @return
      */
-    public String orderPayment(HttpServletRequest request, HttpServletResponse response) {
-        response.setCharacterEncoding("utf-8");
+    public String orderPayment(HttpServletRequest request, ServletResponse response, Map<String, String> transMap, String payUrl) {
         try {
-            TreeMap<String, String> transMap = new TreeMap<String, String>();
-            Enumeration<String> enu = request.getParameterNames();
-            String t = null;
-            while (enu.hasMoreElements()) {
-                t = enu.nextElement();
-                transMap.put(t, request.getParameter(t));
+            String merchantNo = transMap.get("merchantNo");//商户编号
+            if (null == merchantNo || merchantNo.equals("")) {
+                throw new Exception("商户编号为:" + merchantNo + "商户编号不可为空");
             }
-//            logger.info(TAG + "返回数据：" + transMap);
-            String merchantNo = (String) transMap.get("merchantNo");
-            // 获取签名
-            String sign = (String) transMap.get("sign");
+            String version = transMap.get("version");//接口版本号
+            if (null == version || version.equals("")) {
+                throw new Exception("接口版本号:" + version + "接口版本号不可为空");
+            }
+            String channelNo = transMap.get("channelNo");//渠道编号
+            if (null == channelNo || channelNo.equals("")) {
+                throw new Exception("渠道编号:" + channelNo + "渠道编号不可为空");
+            }
+            String tranCode = transMap.get("tranCode");//交易码
+            if (null == tranCode || tranCode.equals("")) {
+                throw new Exception("交易码:" + tranCode + "交易码不可为空");
+            }
+            String amount = transMap.get("amount");//交易金额
+            if (null == amount || amount.equals("")) {
+                throw new Exception("交易金额:" + version + "交易金额不可为空");
+            }
+
+            String sign = transMap.get("sign");//签名
+            if (null == sign || sign.equals("")) {
+                throw new Exception("签名:" + version + "签名不可为空");
+            }
+//        String tranFlow = request.getParameter("tranFlow");//交易流水号
+//        if (null == tranFlow || tranFlow.equals("")) {
+//            result.put("code", "3005");
+//            result.put("msg", "交易流水号不可为空");
+//            return result;
+//        }
+//
+//        String tranSerialNum = request.getParameter("tranSerialNum");//交易流水号
+//        if (null == tranSerialNum || tranSerialNum.equals("")) {
+//            result.put("code", "3006");
+//            result.put("msg", "交易流水号不可为;
+//            return result;
+//        }
             sign = sign.replaceAll(" ", "+");
             transMap.remove("sign");
             // 验签
@@ -469,33 +475,32 @@ public class PaymentService extends HttpServlet {
 //                logger.info(TAG + "商户编号为:" + merchantNo + "验签失败");
                 throw new Exception("商户编号为:" + merchantNo + "验签失败");
             } else {
-                //判断返回的码是否是成功的信息
-                String rtnCode = request.getParameter("rtnCode");
-                /**
-                 * 判断商户是否存在
-                 *
-                 */
-                if (rtnCode.equals("S")) { //成功
-                    /**
-                     * 调用代付的接口,向第三方发起请求
-                     */
-                    PayCustomer payCustomer = new PayCustomer();
-                    payCustomer.setAmount(request.getParameter("amount"));
-                    payCustomer.setTranFlow(request.getParameter("tranFlow"));
-                    payCustomer.setPayType(request.getParameter("payType"));
-                    payCustomer.setMerchantNo(request.getParameter("merchantNo"));
-                    payCustomer.setCreateTime(LocalDateTime.now().toString());
-                    payCustomer.setId(UUID.randomUUID().toString());
-                    payCustomer.setStatus("交易成功");
-                    payService.dfPay(request, response, payCustomer);
-                } else {
-                    /**
-                     * 1.判断该商户在数据库中是否存在
-                     * 2.如果存在将数据进行修改
-                     * 3.如果不存在将该数据添加到数据库中,将数据状态修改为失败或者交易中
-                     */
-
-                }
+                //TODO
+//                /**
+//                 * 判断商户是否存在
+//                 *
+//                 */
+//                if (!payUrl.equals("null") || !payUrl.equals("")) { //成功
+//                    /**
+//                     * 调用代付的接口,向第三方发起请求
+//                     */
+//                    PayCustomer payCustomer = new PayCustomer();
+//                    payCustomer.setAmount(request.getParameter("amount"));
+//                    payCustomer.setTranFlow(request.getParameter("tranFlow"));
+//                    payCustomer.setPayType(request.getParameter("payType"));
+//                    payCustomer.setMerchantNo(request.getParameter("merchantNo"));
+//                    payCustomer.setCreateTime(LocalDateTime.now().toString());
+//                    payCustomer.setId(UUID.randomUUID().toString());
+//                    payCustomer.setStatus("交易成功");
+//                    payService.dfPay(request, (HttpServletResponse) response, payCustomer);
+//                } else {
+//                    /**
+//                     * 1.判断该商户在数据库中是否存在
+//                     * 2.如果存在将数据进行修改
+//                     * 3.如果不存在将该数据添加到数据库中,将数据状态修改为失败或者交易中
+//                     */
+//
+//                }
             }
 //            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
         } catch (Exception e) {
