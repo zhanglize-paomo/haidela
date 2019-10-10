@@ -31,7 +31,7 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- 日志信息 -->
+        <!--&lt;!&ndash; 日志信息 &ndash;&gt;-->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-api</artifactId>

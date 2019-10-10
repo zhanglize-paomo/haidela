@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haidela.payment.pay.paycustomer.mapper.PayCustomerMapper">
+
+    <resultMap id="resultMap" type="com.haidela.payment.pay.paycustomer.domain.PayCustomer">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="tran_flow" jdbcType="VARCHAR" property="tranFlow"/>
+        <result column="amount" jdbcType="VARCHAR" property="amount"/>
+        <result column="pay_type" jdbcType="VARCHAR" property="payType"/>
+        <result column="merchant_id" jdbcType="VARCHAR" property="merchantId"/>
+        <result column="buyer_d" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="modify_time" jdbcType="VARCHAR" property="modifyTime"/>
+        <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+        <result column="company_d" jdbcType="VARCHAR" property="companyId"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+    </resultMap>
+
+    <!--<select id="Sel" resultMap="resultMap">-->
+        <!--select * from lyx_merchant_configure where id = #{id}-->
+    <!--</select>-->
+
+    <!--<select id="findByStatus" resultMap="resultMap">-->
+        <!--select * from lyx_merchant_configure where status = 1-->
+    <!--</select>-->
+
+    <!--<select id="updateMerchantId" resultMap="java.lang.Integer">-->
+        <!--UPDATE lyx_merchant_configure SET call_time=now() WHERE merchant_id = #{merchant_id};-->
+    <!--</select>-->
+
+</mapper>
