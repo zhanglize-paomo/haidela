@@ -3,22 +3,31 @@
 <mapper namespace="com.haidela.payment.pay.configure.mapper.MerchantConfigureMapper">
 
     <resultMap id="resultMap" type="com.haidela.payment.pay.configure.domain.MerchantConfigure">
-        <result column="id" jdbcType="INTEGER" property="id" />
-        <result column="amount" jdbcType="VARCHAR" property="amount" />
-        <result column="amount_limit" jdbcType="VARCHAR" property="amountLimit" />
-        <result column="pay_type" jdbcType="VARCHAR" property="payType" />
-        <result column="merchant_id" jdbcType="VARCHAR" property="merchantId" />
-        <result column="start_time" jdbcType="VARCHAR" property="startTime" />
-        <result column="end_time" jdbcType="VARCHAR" property="endTime" />
-        <result column="create_time" jdbcType="VARCHAR" property="createTime" />
-        <result column="time_difference" jdbcType="VARCHAR" property="timeDifference" />
-        <result column="modify_time" jdbcType="VARCHAR" property="modifyTime" />
-        <result column="status" jdbcType="VARCHAR" property="status" />
-        <result column="total_one_amount" jdbcType="VARCHAR" property="totalOneAmount" />
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="amount" jdbcType="VARCHAR" property="amount"/>
+        <result column="amount_limit" jdbcType="VARCHAR" property="amountLimit"/>
+        <result column="pay_type" jdbcType="VARCHAR" property="payType"/>
+        <result column="merchant_id" jdbcType="VARCHAR" property="merchantId"/>
+        <result column="start_time" jdbcType="VARCHAR" property="startTime"/>
+        <result column="end_time" jdbcType="VARCHAR" property="endTime"/>
+        <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+        <result column="time_difference" jdbcType="VARCHAR" property="timeDifference"/>
+        <result column="modify_time" jdbcType="VARCHAR" property="modifyTime"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="total_one_amount" jdbcType="VARCHAR" property="totalOneAmount"/>
+        <result column="call_time" jdbcType="VARCHAR" property="callTime"/>
     </resultMap>
 
-    <select id="Sel" resultType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
+    <select id="Sel" resultMap="resultMap">
         select * from lyx_merchant_configure where id = #{id}
+    </select>
+
+    <select id="findByStatus" resultMap="resultMap">
+        select * from lyx_merchant_configure where status = 1
+    </select>
+
+    <select id="updateMerchantId" resultMap="java.lang.Integer">
+        UPDATE lyx_merchant_configure SET call_time=now() WHERE merchant_id = #{merchant_id};
     </select>
 
 </mapper>

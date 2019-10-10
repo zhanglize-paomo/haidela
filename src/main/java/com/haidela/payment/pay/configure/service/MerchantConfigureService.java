@@ -5,6 +5,8 @@ import com.haidela.payment.pay.configure.mapper.MerchantConfigureMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * @author zhanglize
  * @create 2019/10/10
@@ -20,4 +22,22 @@ public class MerchantConfigureService {
     }
 
 
+    /**
+     * 查询所有状态为1的个体商户信息
+     *
+     * @return
+     */
+    public List<MerchantConfigure> findByStstus() {
+        return mapper.findByStstus();
+    }
+
+    /**
+     * 根据商户id修改该条商户的调用时间
+     *
+     * @param merchantId
+     * @return
+     */
+    public int updateMerchantId(String merchantId) {
+        return mapper.updateMerchantId(merchantId);
+    }
 }

@@ -2,7 +2,8 @@ package com.haidela.payment.pay.payment;
 
 
 import com.haidela.payment.common.Config;
-import com.haidela.payment.pay.Merchant;
+import com.haidela.payment.pay.configure.domain.MerchantConfigure;
+import com.haidela.payment.pay.configure.service.MerchantConfigureService;
 import com.haidela.payment.pay.pay.PayCustomer;
 import com.haidela.payment.pay.pay.PayService;
 import com.haidela.payment.util.IpUtil;
@@ -22,7 +23,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author zhanglize
@@ -36,10 +36,16 @@ public class PaymentService extends HttpServlet {
     private static final String TAG = "【统一支付商户系统demo】-{统一支付}-";
 
     private PayService payService;
+    private MerchantConfigureService configureService;
 
     @Autowired
     public void setPayService(PayService payService) {
         this.payService = payService;
+    }
+
+    @Autowired
+    public void setConfigureService(MerchantConfigureService configureService) {
+        this.configureService = configureService;
     }
 
     /**
@@ -97,7 +103,7 @@ public class PaymentService extends HttpServlet {
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              * 个体工商户id(我们自己的)
              */
-            String goodsInfo = "873191009170812523";
+            String goodsInfo = getMerchantNo(request.getParameter("amount"));
             //String goodsNum = "1";
             String merchantNo = "S20190927084578"; //商户编号
             String version = Config.getInstance().getVersion();
@@ -210,57 +216,52 @@ public class PaymentService extends HttpServlet {
      * @return
      */
     private String getMerchantNo(String amount) {
-        List<Merchant> list = new ArrayList<>();
-
-        //往集合中添加数据
-        Merchant merchant = new Merchant();
-        //商户编号
-        merchant.setMerchantNo("401500011562");
-        //额度
-        merchant.setQuota(50000);
-        //时间
-        merchant.setTime("5");
-        //时间段
-        merchant.setTimeSlot(String.valueOf(System.currentTimeMillis()));
-        list.add(merchant);
-        //如果商户的额度全部置为0,则没有商户可用,返回空回去
-        if (list.size() == 0) {
-            return null;
-        }
-        try {
-            //程序暂停10秒钟
-            TimeUnit.SECONDS.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        //随机从数组中选取对应的商户
-        Random rand = new Random();
-        Merchant chant = list.get(rand.nextInt(list.size()));
-        //判断该商户是否在指定时间段内存在多次调用
+        //获取到所有状态为1的个体商户配置信息
+        List<MerchantConfigure> configureList = configureService.findByStstus();
+        //随机选取一个商户号的信息
+        MerchantConfigure configure = getRandom(configureList);
+        /**
+         * 判断该商户在某段时间内是否被重复调用
+         */
+        //获取商户的调用时间
         //获取当前时间的毫秒数
-        long time = System.currentTimeMillis();
-        long merchatTimeLong = Long.parseLong(merchant.getTimeSlot());
-        long timeDifference = time - merchatTimeLong;
-        //判断商户的额度是否为0
-        if (chant.getQuota() == 0) {
-            //将该商户的数据移出
-            list.remove(chant);
-        } else {
-            //时间差大于相隔时间的时候以及商户的额度大于输入的金额
-            if (timeDifference > Long.parseLong(chant.getTime())) {
-                if (chant.getQuota() > Integer.parseInt(amount)) {
-                    //将该数据进行更新并删除原数据
-                    list.remove(chant);
-                    chant.setQuota(merchant.getQuota() - Integer.parseInt(amount));
-                    list.add(chant);
-                    return chant.getMerchantNo();
-                }
-            } else {
-                //否则重新选取相应的商
+        long nowTime = System.currentTimeMillis();
+        //获取调用时间
+        long callTime = Long.parseLong(configure.getCallTime());
+        long timeDifference = nowTime - callTime;
+        //判断时间差是否大于相隔的时间以及商户的额度是否大于输入的金额
+        if (timeDifference > Long.parseLong(configure.getTimeDifference())) {
+            //获取商户的的总金额以及商户的单日总额
+            if(Integer.parseInt(configure.getAmountLimit()) - Integer.parseInt(configure.getTotalOneAmount()) > Integer.parseInt(amount)){
+                //根据商户id修改该条商户的调用时间
+                configureService.updateMerchantId(configure.getMerchantId());
+                return configure.getMerchantId();
+            }else{
+                //否则重新选取相应的商户
                 getMerchantNo(amount);
             }
+            configure.getAmountLimit();
+            configure.getTotalOneAmount();
+        } else {
+            //否则重新选取相应的商户
+            getMerchantNo(amount);
         }
         return null;
+    }
+
+    /**
+     * 随机选取一个商户号
+     *
+     * @param configureList
+     * @return
+     */
+    private MerchantConfigure getRandom(List<MerchantConfigure> configureList) {
+        if (configureList.size() == 0) {
+            return null;
+        }
+        Random rand = new Random();
+        MerchantConfigure configure = configureList.get(rand.nextInt(configureList.size()));
+        return configure;
     }
 
 
@@ -487,7 +488,7 @@ public class PaymentService extends HttpServlet {
                     payCustomer.setId(UUID.randomUUID().toString());
                     payCustomer.setStatus("交易成功");
                     payService.dfPay(request, response, payCustomer);
-                }else{
+                } else {
                     /**
                      * 1.判断该商户在数据库中是否存在
                      * 2.如果存在将数据进行修改
