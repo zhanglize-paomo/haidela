@@ -1,6 +1,5 @@
 package com.haidela.payment.pay.configure.service;
 
-import com.haidela.payment.pay.configure.domain.MerchantConfigure;
 import com.haidela.payment.pay.configure.mapper.MerchantConfigureMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
