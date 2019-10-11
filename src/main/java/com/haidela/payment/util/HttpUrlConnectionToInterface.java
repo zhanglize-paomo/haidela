@@ -81,4 +81,14 @@ public class HttpUrlConnectionToInterface {
             }
         }
     }
+
+
+//    public static void main(String[] args) {
+//        Map<String,String> map = new HashMap<>();
+//        map.put("rtnCode","0000");
+//        map.put("tranFlow","2424242424");
+//        map.put("rtnMsg","424242424");
+//        doPostOrGet("http://localhost:8080/order-payment", map.toString());
+//    }
+
 }
