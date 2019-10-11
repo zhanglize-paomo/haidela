@@ -194,6 +194,7 @@ public class PaymentService extends HttpServlet {
     private int addPayCustomer(Map<String, String> transMap) {
         PayCustomer payCustomer = new PayCustomer();
         payCustomer.setMerchantId(transMap.get("merchantNo"));
+        payCustomer.setMerchantNo(transMap.get("goodsInfo"));
         payCustomer.setAmount(transMap.get("amount"));
         payCustomer.setBuyerId(transMap.get("buyerId"));
         payCustomer.setCompID(transMap.get("compID"));
@@ -204,8 +205,8 @@ public class PaymentService extends HttpServlet {
         payCustomer.setStatus("交易中");
         payCustomer.setPayType(transMap.get("payType"));
         payCustomer.setModifyTime(DateUtils.stringToDate());
-        payCustomer.setCreateTime(transMap.get("tranDate"));
-        payCustomer.setCreateDate(transMap.get("tranTime"));
+        payCustomer.setCreateTime(transMap.get("tranTime"));
+        payCustomer.setCreateDate(transMap.get("tranDate"));
         return customerService.add(payCustomer);
     }
 

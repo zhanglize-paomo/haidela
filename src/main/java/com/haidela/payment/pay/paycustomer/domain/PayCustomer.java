@@ -34,6 +34,11 @@ public class PayCustomer {
     private String merchantId;
 
     /**
+     * 商户编号
+     */
+    private String merchantNo;
+
+    /**
      * 买家id
      */
     private String buyerId;
@@ -68,12 +73,13 @@ public class PayCustomer {
      */
     private String companyName;
 
-    public PayCustomer(Long id, String tranFlow, String amount, String payType, String merchantId, String buyerId, String modifyTime, String createDate, String createTime, String status, String compID, String companyName) {
+    public PayCustomer(Long id, String tranFlow, String amount, String payType, String merchantId, String merchantNo, String buyerId, String modifyTime, String createDate, String createTime, String status, String compID, String companyName) {
         this.id = id;
         this.tranFlow = tranFlow;
         this.amount = amount;
         this.payType = payType;
         this.merchantId = merchantId;
+        this.merchantNo = merchantNo;
         this.buyerId = buyerId;
         this.modifyTime = modifyTime;
         this.createDate = createDate;
@@ -81,6 +87,14 @@ public class PayCustomer {
         this.status = status;
         this.compID = compID;
         this.companyName = companyName;
+    }
+
+    public String getMerchantNo() {
+        return merchantNo;
+    }
+
+    public void setMerchantNo(String merchantNo) {
+        this.merchantNo = merchantNo;
     }
 
     public Long getId() {
