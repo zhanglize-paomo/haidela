@@ -2,6 +2,7 @@ package com.haidela.payment.pay.paycustomer.service;
 
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.mapper.PayCustomerMapper;
+import com.haidela.payment.util.SnowflakeIdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,7 @@ public class PayCustomerService {
      * @return
      */
     public int add(PayCustomer payCustomer) {
+        payCustomer.setId(new SnowflakeIdUtils().nextId());
         return mapper.add(payCustomer);
     }
 

@@ -11,7 +11,7 @@ public class PayCustomer {
     /**
      * 主键
      */
-    private String id;
+    private Long id;
 
     /**
      * 交易流水号
@@ -68,7 +68,7 @@ public class PayCustomer {
      */
     private String companyName;
 
-    public PayCustomer(String id, String tranFlow, String amount, String payType, String merchantId, String buyerId, String modifyTime, String createDate, String createTime, String status, String compID, String companyName) {
+    public PayCustomer(Long id, String tranFlow, String amount, String payType, String merchantId, String buyerId, String modifyTime, String createDate, String createTime, String status, String compID, String companyName) {
         this.id = id;
         this.tranFlow = tranFlow;
         this.amount = amount;
@@ -83,15 +83,15 @@ public class PayCustomer {
         this.companyName = companyName;
     }
 
-    public PayCustomer() {
-    }
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public PayCustomer() {
     }
 
     public String getTranFlow() {

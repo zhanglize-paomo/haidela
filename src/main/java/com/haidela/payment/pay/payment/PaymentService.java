@@ -7,10 +7,7 @@ import com.haidela.payment.pay.configure.service.MerchantConfigureService;
 import com.haidela.payment.pay.paycustomer.PayService;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
-import com.haidela.payment.util.DateUtils;
-import com.haidela.payment.util.HttpUrlConnectionToInterface;
-import com.haidela.payment.util.IpUtil;
-import com.haidela.payment.util.ResponseUtil;
+import com.haidela.payment.util.*;
 import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.DateUtil;
 import com.hfb.merchant.pay.util.ParamUtil;
@@ -77,7 +74,7 @@ public class PaymentService extends HttpServlet {
         try {
             //根据订单流水号判断该流水号是否存在
             if (customerService.findByTranFlow(customer.getTranFlow()) != null) {
-                throw new Exception("订单流水号已经存在");
+                return "订单流水号已经存在";
             }
             String payType = transMap.get("payType");
             String remark = "客户支付交易"; //备注  Char（100）
@@ -199,7 +196,7 @@ public class PaymentService extends HttpServlet {
         payCustomer.setMerchantId(transMap.get("merchantNo"));
         payCustomer.setAmount(transMap.get("amount"));
         payCustomer.setBuyerId(transMap.get("buyerId"));
-        payCustomer.setCompID(transMap.get("CompID"));
+        payCustomer.setCompID(transMap.get("compID"));
         if (transMap.get("companyName") != null) {
             payCustomer.setCompanyName(transMap.get("companyName"));
         }
@@ -207,9 +204,8 @@ public class PaymentService extends HttpServlet {
         payCustomer.setStatus("交易中");
         payCustomer.setPayType(transMap.get("payType"));
         payCustomer.setModifyTime(DateUtils.stringToDate());
-        payCustomer.setId(UUID.randomUUID().toString());
-        payCustomer.setCreateTime(transMap.get("createTime"));
-        payCustomer.setCreateDate(transMap.get("createDate"));
+        payCustomer.setCreateTime(transMap.get("tranDate"));
+        payCustomer.setCreateDate(transMap.get("tranTime"));
         return customerService.add(payCustomer);
     }
 
@@ -497,7 +493,7 @@ public class PaymentService extends HttpServlet {
                     payCustomer.setPayType(request.getParameter("payType"));
                     payCustomer.setMerchantId(request.getParameter("merchantNo"));
                     payCustomer.setCreateTime(LocalDateTime.now().toString());
-                    payCustomer.setId(UUID.randomUUID().toString());
+//                    payCustomer.setId(Integer.parseInt(IdUtils.getIncreaseIdByCurrentTimeMillis()));
                     payCustomer.setStatus("交易成功");
                     payService.dfPay(request, response, payCustomer);
                 } else {

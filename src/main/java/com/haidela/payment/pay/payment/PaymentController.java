@@ -148,7 +148,12 @@ public class PaymentController {
         payCustomer.setCompID(compID);
         try {
             imgUrl = paymentService.getImgurl(request, response, payCustomer);
-            result.put("imgUrl", imgUrl);
+            if(("订单流水号已经存在").equals(imgUrl)){
+                result.put("code", "9999");
+                result.put("imgUrl", imgUrl);
+            }else{
+                result.put("imgUrl", imgUrl);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             result.put("code", "9999");
