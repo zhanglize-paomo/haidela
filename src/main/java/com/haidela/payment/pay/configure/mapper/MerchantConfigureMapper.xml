@@ -18,12 +18,13 @@
         <result column="call_time" jdbcType="VARCHAR" property="callTime"/>
     </resultMap>
 
+    <update id="updateMerchantId" parameterType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
+         UPDATE lyx_merchant_configure SET call_time=now() WHERE merchant_id = #{merchant_id};
+    </update>
+
     <select id="findByStstus" resultMap="resultMap">
         select * from lyx_merchant_configure where status = 1
     </select>
 
-    <update id="updateMerchantId" parameterType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
-         UPDATE lyx_merchant_configure SET call_time=now() WHERE merchant_id = #{merchant_id};
-    </update>
 
 </mapper>

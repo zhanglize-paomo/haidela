@@ -40,4 +40,14 @@ public class PayCustomerService {
     public int updateStatus(String tranFlow, String status) {
         return mapper.updateStatus(tranFlow,status);
     }
+
+    /**
+     * 根据交易流水号查询该交易流水号是否存在
+     *
+     * @param tranFlow
+     * @return
+     */
+    public PayCustomer findByTranFlow(String tranFlow) {
+        return mapper.findByTranFlow(tranFlow);
+    }
 }

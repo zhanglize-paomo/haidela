@@ -55,6 +55,16 @@ public class PayCustomerController {
         return service.updateStatus(tranFlow,status);
     }
 
-
+    /**
+     * 根据交易流水号查询该交易流水号是否存在
+     *
+     * @param tranFlow  交易流水号
+     * @return
+     */
+    @RequestMapping("findbytranflow/{tranFlow}")
+    @PostMapping
+    public PayCustomer findByTranFlow(@PathVariable String tranFlow){
+        return service.findByTranFlow(tranFlow);
+    }
 
 }

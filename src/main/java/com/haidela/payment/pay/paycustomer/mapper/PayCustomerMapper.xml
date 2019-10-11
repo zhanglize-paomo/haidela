@@ -30,5 +30,8 @@
         update lyx_pay_customer set status = #{status,jdbcType=CHAR} where tran_flow = #{tranFlow}
     </update>
 
+    <select id="findByTranFlow" resultMap="resultMap">
+        select * from lyx_pay_customer where tran_flow = #{tranFlow}
+    </select>
 
 </mapper>

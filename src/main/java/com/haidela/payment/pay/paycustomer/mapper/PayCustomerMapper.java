@@ -27,4 +27,12 @@ public interface PayCustomerMapper {
      * @return
      */
     int updateStatus(@Param(value = "tranFlow") String tranFlow,@Param(value = "status") String status);
+
+    /**
+     * 根据交易流水号查询该交易流水号是否存在
+     *
+     * @param tranFlow
+     * @return
+     */
+    PayCustomer findByTranFlow(String tranFlow);
 }

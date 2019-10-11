@@ -72,6 +72,10 @@ public class PaymentService extends HttpServlet {
         // 利用treeMap对参数按key值进行排序
         Map<String, String> transMap = ResponseUtil.getParamMap(request);
         try {
+            //根据订单流水号判断该流水号是否存在
+            if (customerService.findByTranFlow(customer.getTranFlow()) != null) {
+                throw new Exception("订单流水号已经存在");
+            }
             String payType = transMap.get("payType");
             String remark = "客户支付交易"; //备注  Char（100）
             String YUL3 = IpUtil.getRandomIp(); //用户IP  char(100) 支持匹配用户的IP规则
