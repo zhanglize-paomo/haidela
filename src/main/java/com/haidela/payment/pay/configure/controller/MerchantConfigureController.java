@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 /**
  * 个体商户配置对象控制器层
  *
@@ -25,9 +27,27 @@ public class MerchantConfigureController {
         this.service = service;
     }
 
-    @RequestMapping("getUser/{id}")
-    public MerchantConfigure GetUser(@PathVariable int id){
-        return service.Sel(id);
+
+    /**
+     * 查询所有状态为1的个体商户信息
+     *
+     * @return
+     */
+    @RequestMapping()
+    public List<MerchantConfigure> findByStstus(){
+        return service.findByStstus();
+    }
+
+
+    /**
+     * 根据商户id修改该条商户的调用时间
+     *
+     * @param merchantId
+     * @return
+     */
+    @RequestMapping("merchantId/{merchantId}")
+    public int updateMerchantId(@PathVariable String merchantId){
+        return service.updateMerchantId(merchantId);
     }
 
 }

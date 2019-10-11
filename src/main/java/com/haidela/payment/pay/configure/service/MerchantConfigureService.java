@@ -17,10 +17,6 @@ public class MerchantConfigureService {
     @Autowired
     private MerchantConfigureMapper mapper;
 
-    public MerchantConfigure Sel(int id) {
-        return mapper.Sel(id);
-    }
-
 
     /**
      * 查询所有状态为1的个体商户信息
