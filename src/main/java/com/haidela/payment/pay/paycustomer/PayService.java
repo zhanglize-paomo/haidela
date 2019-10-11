@@ -7,6 +7,8 @@ import com.hfb.merchant.df.sercret.CertUtil;
 import com.hfb.merchant.df.util.ModelPayUtil;
 import com.hfb.merchant.pay.util.DateUtil;
 import com.hfb.merchant.pay.util.ParamUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
@@ -27,7 +29,7 @@ import java.util.TreeMap;
 @Service
 public class PayService {
 
-//    private static final Logger logger = LoggerFactory.getLogger(PayService.class);
+    private static final Logger logger = LoggerFactory.getLogger(PayService.class);
     private static final String TAG = "【统一支付商户系统demo】-{统一交易异步通知}-";
 
     /**
@@ -164,7 +166,7 @@ public class PayService {
                 t = enu.nextElement();
                 transMap.put(t, request.getParameter(t));
             }
-//            logger.info(TAG + "返回数据：" + transMap);
+            logger.info(TAG + "返回数据：" + transMap);
             String merchantNo = (String) transMap.get("merchantNo");
             // 获取签名
             String sign = (String) transMap.get("sign");
@@ -180,14 +182,13 @@ public class PayService {
                 e.printStackTrace();
             }
             if (!result) {
-//                logger.info(TAG + "商户编号为:" + merchantNo + "验签失败");
+                logger.info(TAG + "商户编号为:" + merchantNo + "验签失败");
                 throw new Exception("商户编号为:" + merchantNo + "验签失败");
             }
-//            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
+            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
 
         } catch (Exception e) {
-
-//            logger.info(TAG + "处理异常", e);
+            logger.info(TAG + "处理异常", e);
         }
     }
 

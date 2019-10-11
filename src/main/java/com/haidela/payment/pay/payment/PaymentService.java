@@ -8,12 +8,15 @@ import com.haidela.payment.pay.paycustomer.PayService;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
 import com.haidela.payment.util.DateUtils;
+import com.haidela.payment.util.HttpUrlConnectionToInterface;
 import com.haidela.payment.util.IpUtil;
 import com.haidela.payment.util.ResponseUtil;
 import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.DateUtil;
 import com.hfb.merchant.pay.util.ParamUtil;
 import com.hfb.merchant.pay.util.http.Httpz;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +37,7 @@ import java.util.*;
 public class PaymentService extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-    //    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
     private static final String TAG = "【统一支付商户系统demo】-{统一支付}-";
 
     private PayService payService;
@@ -152,12 +155,12 @@ public class PaymentService extends HttpServlet {
             //将该订单号的信息存入到我们的数据库中
             addPayCustomer(transMap);
             // 发送扫码请求报文
-//            logger.info(TAG + "请求报文：" + transMap);
+            logger.info(TAG + "请求报文：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
-//            logger.info(TAG + "返回报文：" + asynMsg);
+            logger.info(TAG + "返回报文：" + asynMsg);
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
-//            logger.info("请求结果返回解析数据：" + resultMap);
+            logger.info("请求结果返回解析数据：" + resultMap);
             // 当支付类型payType为24或者25时，返回qrCodeURL的地址使用POST请求
             payUrl = resultMap.get("qrCodeURL");
             if ("24".equals(payType) || "25".equals(payType)) {
@@ -395,12 +398,12 @@ public class PaymentService extends HttpServlet {
             // 将签名放入交易map中
             transMap.put("sign", sign);
             // 发送扫码请求报文
-//            logger.info(TAG + "请求报文：" + transMap);
+            logger.info(TAG + "请求报文：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
-//            logger.info(TAG + "返回报文：" + asynMsg);
+            logger.info(TAG + "返回报文：" + asynMsg);
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
-//            logger.info("请求结果返回解析数据：" + resultMap);
+            logger.info("请求结果返回解析数据：" + resultMap);
             // 当支付类型payType为24或者25时，返回qrCodeURL的地址使用POST请求
             payUrl = resultMap.get("qrCodeURL");
             if ("24".equals(payType) || "25".equals(payType)) {
@@ -440,6 +443,8 @@ public class PaymentService extends HttpServlet {
      * @return
      */
     public String orderPayment(HttpServletRequest request, HttpServletResponse response) {
+        //获取到下游客户的请求地址信息
+        String customerUrl = getCustomerUrl(request);
         response.setCharacterEncoding("utf-8");
         TreeMap<String, String> transMap = new TreeMap<String, String>();
         String transData = null;
@@ -450,7 +455,7 @@ public class PaymentService extends HttpServlet {
                 t = enu.nextElement();
                 transMap.put(t, request.getParameter(t));
             }
-//            logger.info(TAG + "返回数据：" + transMap);
+            logger.info(TAG + "返回数据：" + transMap);
             String merchantNo = (String) transMap.get("merchantNo");
             // 获取签名
             String sign = (String) transMap.get("sign");
@@ -466,15 +471,23 @@ public class PaymentService extends HttpServlet {
                 e.printStackTrace();
             }
             if (!result) {
-//               logger.info(TAG + "商户编号为:" + merchantNo + "验签失败");
+                logger.info(TAG + "商户编号为:" + merchantNo + "验签失败");
                 throw new Exception("商户编号为:" + merchantNo + "验签失败");
             } else {
                 //判断返回的码是否是成功的信息
                 String rtnCode = request.getParameter("rtnCode");
+                Map<String,String> map = new HashMap<>();
+                map.put("rtnCode",rtnCode);
+                map.put("tranFlow",request.getParameter("tranFlow"));
+                map.put("rtnMsg",request.getParameter("rtnMsg"));
                 if (("0000").equals(rtnCode)) { //成功
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易完成";
                     customerService.updateStatus(request.getParameter("tranFlow"), status);
+                    //TODO 根据请求地址向我们的下游客户发送报文请求信息,交易完成的信息
+                    if(customerUrl != null || !customerUrl.equals("")){
+                        HttpUrlConnectionToInterface.doPostOrGet(customerUrl,map.toString());
+                    }
                     /**
                      * 调用代付的接口,向第三方发起请求
                      */
@@ -492,14 +505,36 @@ public class PaymentService extends HttpServlet {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易失败";
                     customerService.updateStatus(request.getParameter("tranFlow"), status);
+                    //TODO 根据请求地址向我们的下游客户发送报文请求信息,交易失败的信息
+                    if(customerUrl != null || !customerUrl.equals("")){
+                        HttpUrlConnectionToInterface.doPostOrGet(customerUrl,map.toString());
+                    }
                 }
             }
-//            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
+            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
         } catch (Exception e) {
             System.out.println("处理异常:" + e);
-//            logger.info(TAG + "处理异常", e);
+            logger.info(TAG + "处理异常", e);
         }
         System.out.println(transData);
         return transData;
+    }
+
+    /**
+     * 获取到下游客户的请求地址信息
+     *
+     * @param request
+     * @return
+     */
+    private String getCustomerUrl(HttpServletRequest request) {
+        String customerUrl = "";
+        //根据交易流水号判断公司的id
+        PayCustomer customer = customerService.findByTranFlow(request.getParameter("tranFlow"));
+        if(customer.getCompID().equals("3123123")){
+            customerUrl = "http://182.92.192.208:8080/order-payment";
+        }else if(customer.getCompID().equals("9696868")){
+            customerUrl = "http://182.92.192.208:8080/order-payment";
+        }
+        return customerUrl;
     }
 }
