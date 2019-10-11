@@ -13,22 +13,21 @@
         <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
-        <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
+        <result column="comp_iD" jdbcType="VARCHAR" property="compID"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
     </resultMap>
 
-
     <insert id="add" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" useGeneratedKeys="true" keyProperty="id">
         insert into
-        lyx_pay_customer (tran_flow,amount,pay_type,merchant_id,buyer_id,modify_time,create_time,status,create_date,company_id,company_name)
-        values (
-        #{tran_flow,jdbcType=CHAR}, #{amount,jdbcType=CHAR}, #{pay_type,jdbcType=CHAR}, #{merchant_id,jdbcType=CHAR},
-        #{buyer_id,jdbcType=CHAR},#{modify_time,jdbcType=CHAR}, #{create_time,jdbcType=CHAR},#{company_id,jdbcType=CHAR},
-        #{company_name,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{create_date,jdbcType=CHAR})
+        lyx_pay_customer (id,tran_flow,amount,pay_type,merchant_id,buyer_id,modify_time,create_time,status,create_date,comp_iD,company_name)
+        values ( #{id,jdbcType=BIGINT},
+        #{tranFlow,jdbcType=CHAR}, #{amount,jdbcType=CHAR}, #{payType,jdbcType=CHAR}, #{merchantId,jdbcType=CHAR},
+        #{buyerId,jdbcType=CHAR},#{modifyTime,jdbcType=CHAR}, #{createTime,jdbcType=CHAR},#{compID,jdbcType=CHAR},
+        #{companyName,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{createDate,jdbcType=CHAR})
     </insert>
 
-    <update id="updateStatus" parameterType="java.lang.Integer" >
-        update lyx_pay_customer set status = #{status,jdbcType=CHAR} where tranFlow = #{tranFlow,jdbcType=CHAR}
+    <update id="updateStatus" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" >
+        update lyx_pay_customer set status = #{status,jdbcType=CHAR} where tran_flow = #{tranFlow}
     </update>
 
 

@@ -1,6 +1,7 @@
 package com.haidela.payment.pay.paycustomer.mapper;
 
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -16,7 +17,7 @@ public interface PayCustomerMapper {
      * @param payCustomer
      * @return
      */
-    PayCustomer add(PayCustomer payCustomer);
+    int add(PayCustomer payCustomer);
 
     /**
      * 根据交易流水号修改该条交易的交易状态
@@ -25,5 +26,5 @@ public interface PayCustomerMapper {
      * @param status   交易状态
      * @return
      */
-    int updateStatus(String tranFlow, String status);
+    int updateStatus(@Param(value = "tranFlow") String tranFlow,@Param(value = "status") String status);
 }

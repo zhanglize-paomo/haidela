@@ -61,14 +61,14 @@ public class PayCustomer {
     /**
      * 公司id
      */
-    private String companyId;
+    private String compID;
 
     /**
      * 公司名称
      */
     private String companyName;
 
-    public PayCustomer(String id, String tranFlow, String amount, String payType, String merchantId, String buyerId, String modifyTime, String createDate, String createTime, String status, String companyId, String companyName) {
+    public PayCustomer(String id, String tranFlow, String amount, String payType, String merchantId, String buyerId, String modifyTime, String createDate, String createTime, String status, String compID, String companyName) {
         this.id = id;
         this.tranFlow = tranFlow;
         this.amount = amount;
@@ -79,7 +79,7 @@ public class PayCustomer {
         this.createDate = createDate;
         this.createTime = createTime;
         this.status = status;
-        this.companyId = companyId;
+        this.compID = compID;
         this.companyName = companyName;
     }
 
@@ -166,12 +166,12 @@ public class PayCustomer {
         this.status = status;
     }
 
-    public String getCompanyId() {
-        return companyId;
+    public String getCompID() {
+        return compID;
     }
 
-    public void setCompanyId(String companyId) {
-        this.companyId = companyId;
+    public void setCompID(String compID) {
+        this.compID = compID;
     }
 
     public String getCompanyName() {

@@ -185,13 +185,13 @@ public class PaymentService extends HttpServlet {
      *
      * @param transMap
      */
-    private PayCustomer addPayCustomer(Map<String, String> transMap) {
+    private int addPayCustomer(Map<String, String> transMap) {
         PayCustomer payCustomer = new PayCustomer();
         payCustomer.setMerchantId(transMap.get("merchantNo"));
         payCustomer.setAmount(transMap.get("amount"));
         payCustomer.setBuyerId(transMap.get("buyerId"));
-        if(transMap.get("companyId") != null){
-            payCustomer.setCompanyId(transMap.get("companyId"));
+        if(transMap.get("CompID") != null){
+            payCustomer.setCompID(transMap.get("CompID"));
         }
         if(transMap.get("companyName") != null){
             payCustomer.setCompanyName(transMap.get("companyName"));

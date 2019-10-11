@@ -26,7 +26,7 @@ public class PayCustomerService {
      * @param payCustomer
      * @return
      */
-    public PayCustomer add(PayCustomer payCustomer) {
+    public int add(PayCustomer payCustomer) {
         return mapper.add(payCustomer);
     }
 
