@@ -1,5 +1,6 @@
-package com.haidela.payment.pay.pay;
+package com.haidela.payment.pay.paycustomer;
 
+import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -51,7 +52,7 @@ public class PayController {
         PayCustomer payCustomer = new PayCustomer();
         payCustomer.setAmount(amount);
         payCustomer.setTranFlow(tranFlow);
-        payCustomer.setMerchantNo(merchantNo);
+        payCustomer.setMerchantId(merchantNo);
         String string = null;
         try {
             string = payService.dfPay(request, response, payCustomer);

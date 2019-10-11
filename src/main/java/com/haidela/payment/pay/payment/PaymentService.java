@@ -4,9 +4,10 @@ package com.haidela.payment.pay.payment;
 import com.haidela.payment.common.Config;
 import com.haidela.payment.pay.configure.domain.MerchantConfigure;
 import com.haidela.payment.pay.configure.service.MerchantConfigureService;
-import com.haidela.payment.pay.pay.PayCustomer;
-import com.haidela.payment.pay.pay.PayService;
+import com.haidela.payment.pay.paycustomer.PayService;
+import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
+import com.haidela.payment.util.DateUtils;
 import com.haidela.payment.util.IpUtil;
 import com.haidela.payment.util.ResponseUtil;
 import com.hfb.mer.sdk.secret.CertUtil;
@@ -142,9 +143,8 @@ public class PaymentService extends HttpServlet {
             String sign = CertUtil.getInstance().sign(signMsg);
             // 将签名放入交易map中
             transMap.put("sign", sign);
-
-            //TODO 将该订单号的信息存入到我们的数据库中  PayCustomer
-
+            //将该订单号的信息存入到我们的数据库中
+            addPayCustomer(transMap);
             // 发送扫码请求报文
 //            logger.info(TAG + "请求报文：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
@@ -178,6 +178,32 @@ public class PaymentService extends HttpServlet {
 //            request.getRequestDispatcher(redirectPath).forward(request, response);
         }
         return payUrl;
+    }
+
+    /**
+     * 将该订单号的信息存入到我们的数据库中
+     *
+     * @param transMap
+     */
+    private PayCustomer addPayCustomer(Map<String, String> transMap) {
+        PayCustomer payCustomer = new PayCustomer();
+        payCustomer.setMerchantId(transMap.get("merchantNo"));
+        payCustomer.setAmount(transMap.get("amount"));
+        payCustomer.setBuyerId(transMap.get("buyerId"));
+        if(transMap.get("companyId") != null){
+            payCustomer.setCompanyId(transMap.get("companyId"));
+        }
+        if(transMap.get("companyName") != null){
+            payCustomer.setCompanyName(transMap.get("companyName"));
+        }
+        payCustomer.setTranFlow(transMap.get("tranFlow"));
+        payCustomer.setStatus("交易中");
+        payCustomer.setPayType(transMap.get("payType"));
+        payCustomer.setModifyTime(DateUtils.stringToDate());
+        payCustomer.setId(UUID.randomUUID().toString());
+        payCustomer.setCreateTime(transMap.get("createTime"));
+        payCustomer.setCreateDate(transMap.get("createDate"));
+        return customerService.add(payCustomer);
     }
 
     /**
@@ -451,7 +477,7 @@ public class PaymentService extends HttpServlet {
                     payCustomer.setAmount(request.getParameter("amount"));
                     payCustomer.setTranFlow(request.getParameter("tranFlow"));
                     payCustomer.setPayType(request.getParameter("payType"));
-                    payCustomer.setMerchantNo(request.getParameter("merchantNo"));
+                    payCustomer.setMerchantId(request.getParameter("merchantNo"));
                     payCustomer.setCreateTime(LocalDateTime.now().toString());
                     payCustomer.setId(UUID.randomUUID().toString());
                     payCustomer.setStatus("交易成功");

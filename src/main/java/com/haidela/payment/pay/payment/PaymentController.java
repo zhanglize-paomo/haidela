@@ -1,7 +1,7 @@
 package com.haidela.payment.pay.payment;
 
 
-import com.haidela.payment.pay.pay.PayCustomer;
+import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;

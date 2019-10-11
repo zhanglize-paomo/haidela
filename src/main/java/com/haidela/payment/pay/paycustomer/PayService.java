@@ -1,6 +1,7 @@
-package com.haidela.payment.pay.pay;
+package com.haidela.payment.pay.paycustomer;
 
 
+import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.hfb.merchant.df.model.DfPay;
 import com.hfb.merchant.df.sercret.CertUtil;
 import com.hfb.merchant.df.util.ModelPayUtil;

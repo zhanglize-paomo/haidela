@@ -1,6 +1,6 @@
 package com.haidela.payment.combination;
 
-import com.haidela.payment.pay.pay.PayCustomer;
+import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.payment.Payment;
 
 /**

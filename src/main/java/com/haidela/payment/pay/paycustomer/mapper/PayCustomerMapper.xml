@@ -8,25 +8,33 @@
         <result column="amount" jdbcType="VARCHAR" property="amount"/>
         <result column="pay_type" jdbcType="VARCHAR" property="payType"/>
         <result column="merchant_id" jdbcType="VARCHAR" property="merchantId"/>
-        <result column="buyer_d" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
         <result column="modify_time" jdbcType="VARCHAR" property="modifyTime"/>
         <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
-        <result column="company_d" jdbcType="VARCHAR" property="companyId"/>
+        <result column="company_id" jdbcType="VARCHAR" property="companyId"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
     </resultMap>
 
-    <!--<select id="Sel" resultMap="resultMap">-->
-        <!--select * from lyx_merchant_configure where id = #{id}-->
-    <!--</select>-->
+
+    <insert id="add" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into
+        lyx_pay_customer (tran_flow,amount,pay_type,merchant_id,buyer_id,modify_time,create_time,status,create_date,company_id,company_name)
+        values (
+        #{tran_flow,jdbcType=CHAR}, #{amount,jdbcType=CHAR}, #{pay_type,jdbcType=CHAR}, #{merchant_id,jdbcType=CHAR},
+        #{buyer_id,jdbcType=CHAR},#{modify_time,jdbcType=CHAR}, #{create_time,jdbcType=CHAR},#{company_id,jdbcType=CHAR},
+        #{company_name,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{create_date,jdbcType=CHAR})
+    </insert>
+
 
     <!--<select id="findByStatus" resultMap="resultMap">-->
-        <!--select * from lyx_merchant_configure where status = 1-->
+    <!--select * from lyx_merchant_configure where status = 1-->
     <!--</select>-->
 
     <!--<select id="updateMerchantId" resultMap="java.lang.Integer">-->
-        <!--UPDATE lyx_merchant_configure SET call_time=now() WHERE merchant_id = #{merchant_id};-->
+    <!--UPDATE lyx_merchant_configure SET call_time=now() WHERE merchant_id = #{merchant_id};-->
     <!--</select>-->
 
 </mapper>
