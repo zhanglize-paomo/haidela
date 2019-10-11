@@ -15,7 +15,6 @@ import java.util.Map;
 /**
  * 客户支付交易请求报文
  *
- *
  * @author zhanglize
  * @create 2019/9/29
  */
@@ -118,11 +117,11 @@ public class PaymentController {
      */
     @RequestMapping(path = "/payment")
     @ResponseBody
-    public Map<String,String> payment(HttpServletRequest request, HttpServletResponse response ){
-        Map<String,String> result = new HashMap<String, String>();
-        result.put("code","0");//成功
+    public Map<String, String> payment(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("code", "0");//成功
         //支付图片的url
-        String imgUrl="";
+        String imgUrl = "";
         /**
          * 1获取客户端的请求参数，校验不可为空
          *
@@ -133,11 +132,12 @@ public class PaymentController {
          *
          */
         String tranFlow = request.getParameter("tranFlow");//流水号
-        if(null == tranFlow || tranFlow.equals("")){
-            result.put("code","2001");
-            result.put("msg","流水号不可为空");
+        if (null == tranFlow || tranFlow.equals("")) {
+            result.put("code", "2001");
+            result.put("msg", "流水号不可为空");
             return result;
         }
+        String compID = request.getParameter("compID"); //公司id
         String amount = request.getParameter("amount");//交易金额
         String payType = request.getParameter("payType");//支付类型
         PayCustomer payCustomer = new PayCustomer();
@@ -145,21 +145,22 @@ public class PaymentController {
         payCustomer.setBuyerId(request.getParameter("buyerId"));//买家id
         payCustomer.setAmount(amount);
         payCustomer.setPayType(payType);
+        payCustomer.setCompID(compID);
         try {
-            imgUrl =  paymentService.getImgurl(request,response,payCustomer);
-            result.put("imgUrl",imgUrl);
+            imgUrl = paymentService.getImgurl(request, response, payCustomer);
+            result.put("imgUrl", imgUrl);
         } catch (Exception e) {
             e.printStackTrace();
-            result.put("code","9999");
-            result.put("msg","支付失败，请重试");
+            result.put("code", "9999");
+            result.put("msg", "支付失败，请重试");
         }
-        result.put("msg","success");
+        result.put("msg", "success");
         return result;
     }
 
     /**
      * 客户支付交易请求报文
-     *
+     * <p>
      * 入驻ID:YSM201908081719455501620025977
      * 商户ID：873190924119746279
      * 提供信息例如：
@@ -168,25 +169,24 @@ public class PaymentController {
      * 加密的公钥信息publicKey：MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFf6krDWQUDUzKj+K+WvML2EyZLagKaJ5YTeCoBNhx/WpD1Vh2j/
      * wQ9G3RC/tpUcmE7szr/vgdEVHkOfk6mGpeHapS6QE4enJ/CVaTPM573uI8VGWBek9v/E6HaVxRV0Hs8ZsvHAKopqYNDZRKhIrlLUrrkFD2KXJgIiRPQALeMQIDAQAB
      *
-     *
      * @return
      */
     @RequestMapping(path = "/other-payment")
     @ResponseBody
-    public Map<String,String> otherPayment(HttpServletRequest request, HttpServletResponse response ){
-        Map<String,String> result = new HashMap<String, String>();
-        result.put("code","0");//成功
+    public Map<String, String> otherPayment(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("code", "0");//成功
         //支付图片的url
-        String imgUrl="";
+        String imgUrl = "";
         /**
          * 1获取客户端的请求参数，校验不可为空
          * 2、调用 获取二维码请求地址
          * 3、返回图片
          */
         String tranFlow = request.getParameter("tranFlow");//流水号
-        if(null == tranFlow || tranFlow.equals("")){
-            result.put("code","2001");
-            result.put("msg","流水号不可为空");
+        if (null == tranFlow || tranFlow.equals("")) {
+            result.put("code", "2001");
+            result.put("msg", "流水号不可为空");
             return result;
         }
         String amount = request.getParameter("amount");//交易金额
@@ -196,14 +196,14 @@ public class PaymentController {
         payCustomer.setAmount(amount);
         payCustomer.setPayType(payType);
         try {
-            imgUrl =  paymentService.getOtherImgurl(request,response,payCustomer);
-            result.put("imgUrl",imgUrl);
+            imgUrl = paymentService.getOtherImgurl(request, response, payCustomer);
+            result.put("imgUrl", imgUrl);
         } catch (Exception e) {
             e.printStackTrace();
-            result.put("code","9999");
-            result.put("msg","支付失败，请重试");
+            result.put("code", "9999");
+            result.put("msg", "支付失败，请重试");
         }
-        result.put("msg","success");
+        result.put("msg", "success");
         return result;
     }
 

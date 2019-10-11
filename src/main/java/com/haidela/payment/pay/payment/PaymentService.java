@@ -34,7 +34,7 @@ import java.util.*;
 public class PaymentService extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
-//    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    //    private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
     private static final String TAG = "【统一支付商户系统demo】-{统一支付}-";
 
     private PayService payService;
@@ -45,6 +45,7 @@ public class PaymentService extends HttpServlet {
     public void setCustomerService(PayCustomerService customerService) {
         this.customerService = customerService;
     }
+
     @Autowired
     public void setPayService(PayService payService) {
         this.payService = payService;
@@ -130,6 +131,7 @@ public class PaymentService extends HttpServlet {
             transMap.put("tranTime", tranTime);
             transMap.put("payType", customer.getPayType());
             transMap.put("amount", customer.getAmount());
+            transMap.put("compID", customer.getCompID());
             // 敏感信息加密
             transMap.put("buyerName", CertUtil.getInstance().encrypt(buyerName));
             transMap.put("contact", CertUtil.getInstance().encrypt(contact));
@@ -190,10 +192,8 @@ public class PaymentService extends HttpServlet {
         payCustomer.setMerchantId(transMap.get("merchantNo"));
         payCustomer.setAmount(transMap.get("amount"));
         payCustomer.setBuyerId(transMap.get("buyerId"));
-        if(transMap.get("CompID") != null){
-            payCustomer.setCompID(transMap.get("CompID"));
-        }
-        if(transMap.get("companyName") != null){
+        payCustomer.setCompID(transMap.get("CompID"));
+        if (transMap.get("companyName") != null) {
             payCustomer.setCompanyName(transMap.get("companyName"));
         }
         payCustomer.setTranFlow(transMap.get("tranFlow"));
@@ -232,11 +232,11 @@ public class PaymentService extends HttpServlet {
         //判断时间差是否大于相隔的时间以及商户的额度是否大于输入的金额
         if (timeDifference > Long.parseLong(configure.getTimeDifference())) {
             //获取商户的的总金额以及商户的单日总额
-            if(Integer.parseInt(configure.getAmountLimit()) - Integer.parseInt(configure.getTotalOneAmount()) > Integer.parseInt(amount)){
+            if (Integer.parseInt(configure.getAmountLimit()) - Integer.parseInt(configure.getTotalOneAmount()) > Integer.parseInt(amount)) {
                 //根据商户id修改该条商户的调用时间
                 configureService.updateMerchantId(configure.getMerchantId());
                 return configure.getMerchantId();
-            }else{
+            } else {
                 //否则重新选取相应的商户
                 getMerchantNo(amount);
             }
@@ -470,7 +470,7 @@ public class PaymentService extends HttpServlet {
                 if (("0000").equals(rtnCode)) { //成功
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易完成";
-                    customerService.updateStatus(request.getParameter("tranFlow"),status);
+                    customerService.updateStatus(request.getParameter("tranFlow"), status);
                     /**
                      * 调用代付的接口,向第三方发起请求
                      */
@@ -487,7 +487,7 @@ public class PaymentService extends HttpServlet {
                     //TODO 修改客户订单流水号信息,将状态改为失败状态
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易失败";
-                    customerService.updateStatus(request.getParameter("tranFlow"),status);
+                    customerService.updateStatus(request.getParameter("tranFlow"), status);
                 }
             }
 //            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
