@@ -29,4 +29,15 @@ public class PayCustomerService {
     public PayCustomer add(PayCustomer payCustomer) {
         return mapper.add(payCustomer);
     }
+
+    /**
+     * 根据交易流水号修改该条交易的交易状态
+     *
+     * @param tranFlow  交易流水号
+     * @param status   交易状态
+     * @return
+     */
+    public int updateStatus(String tranFlow, String status) {
+        return mapper.updateStatus(tranFlow,status);
+    }
 }

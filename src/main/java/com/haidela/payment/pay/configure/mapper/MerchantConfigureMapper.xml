@@ -26,7 +26,7 @@
         select * from lyx_merchant_configure where status = 1
     </select>
 
-    <select id="updateMerchantId" resultMap="java.lang.Integer">
+    <select id="updateMerchantId" parameterType="java.lang.Integer">
         UPDATE lyx_merchant_configure SET call_time=now() WHERE merchant_id = #{merchant_id};
     </select>
 

@@ -467,9 +467,10 @@ public class PaymentService extends HttpServlet {
             } else {
                 //判断返回的码是否是成功的信息
                 String rtnCode = request.getParameter("rtnCode");
-                if (("S").equals(rtnCode)) { //成功
-                    //TODO 修改客户订单流水号信息,将状态改为完成状态
-
+                if (("0000").equals(rtnCode)) { //成功
+                    //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
+                    String status = "交易完成";
+                    customerService.updateStatus(request.getParameter("tranFlow"),status);
                     /**
                      * 调用代付的接口,向第三方发起请求
                      */
@@ -484,7 +485,9 @@ public class PaymentService extends HttpServlet {
                     payService.dfPay(request, response, payCustomer);
                 } else {
                     //TODO 修改客户订单流水号信息,将状态改为失败状态
-
+                    //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
+                    String status = "交易失败";
+                    customerService.updateStatus(request.getParameter("tranFlow"),status);
                 }
             }
 //            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");

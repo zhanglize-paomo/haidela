@@ -17,4 +17,13 @@ public interface PayCustomerMapper {
      * @return
      */
     PayCustomer add(PayCustomer payCustomer);
+
+    /**
+     * 根据交易流水号修改该条交易的交易状态
+     *
+     * @param tranFlow  交易流水号
+     * @param status   交易状态
+     * @return
+     */
+    int updateStatus(String tranFlow, String status);
 }

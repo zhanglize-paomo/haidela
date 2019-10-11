@@ -18,8 +18,7 @@
     </resultMap>
 
 
-    <insert id="add" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" useGeneratedKeys="true"
-            keyProperty="id">
+    <insert id="add" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" useGeneratedKeys="true" keyProperty="id">
         insert into
         lyx_pay_customer (tran_flow,amount,pay_type,merchant_id,buyer_id,modify_time,create_time,status,create_date,company_id,company_name)
         values (
@@ -28,13 +27,9 @@
         #{company_name,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{create_date,jdbcType=CHAR})
     </insert>
 
+    <update id="updateStatus" parameterType="java.lang.Integer" >
+        update lyx_pay_customer set status = #{status,jdbcType=CHAR} where tranFlow = #{tranFlow,jdbcType=CHAR}
+    </update>
 
-    <!--<select id="findByStatus" resultMap="resultMap">-->
-    <!--select * from lyx_merchant_configure where status = 1-->
-    <!--</select>-->
-
-    <!--<select id="updateMerchantId" resultMap="java.lang.Integer">-->
-    <!--UPDATE lyx_merchant_configure SET call_time=now() WHERE merchant_id = #{merchant_id};-->
-    <!--</select>-->
 
 </mapper>
