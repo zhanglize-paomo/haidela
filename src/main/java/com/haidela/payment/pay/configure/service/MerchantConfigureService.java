@@ -66,6 +66,19 @@ public class MerchantConfigureService {
     }
 
     /**
+     * 查询公司下所有可用的商户id信息
+     *
+     *
+     * @param payType 支付类型
+     * @param status  状态
+     * @param compID  公司ID
+     * @return
+     */
+    public List<MerchantConfigure> findByStstusCompId(String status, String compID,String payType) {
+        return mapper.findByStstusCompId(status,compID,payType);
+    }
+
+    /**
      * 根据商户id修改该条商户的调用时间
      *
      * @param merchantId
@@ -73,5 +86,17 @@ public class MerchantConfigureService {
      */
     public int updateMerchantId(String merchantId) {
         return mapper.updateMerchantId(merchantId);
+    }
+
+
+    /**
+     * 根据id修改该条商户信息
+     *
+     * @param id   ID
+     * @param status 状态
+     * @return
+     */
+    public int updateStatus(Long id, String status) {
+        return mapper.updateStatus(id,status);
     }
 }

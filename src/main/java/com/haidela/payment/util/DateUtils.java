@@ -17,6 +17,11 @@ public class DateUtils {
      */
     public static final String DEFAULT_DATETIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
+    /**
+     * 默认时间格式：HH:mm
+     */
+    public static final String DEFAULT_TIME_PATTERN = "HH:mm";
+
 
     /**
      * 获取指定日期yyyy-MM-dd HH:mm:ss 的工具信息
@@ -28,5 +33,18 @@ public class DateUtils {
         SimpleDateFormat df = new SimpleDateFormat(DEFAULT_DATETIME_PATTERN);
         return df.format(new Date());
     }
+
+    /**
+     * 获取指定日期HH:mm 的工具信息
+     *
+     * @param
+     * @return
+     */
+    public static String nowTime() {
+        SimpleDateFormat df = new SimpleDateFormat(DEFAULT_TIME_PATTERN);
+        return df.format(new Date());
+    }
+
+
 
 }

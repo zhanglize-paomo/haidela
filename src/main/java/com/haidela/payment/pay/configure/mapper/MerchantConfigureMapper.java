@@ -39,6 +39,17 @@ public interface MerchantConfigureMapper {
     List<MerchantConfigure> findByStstus(String status);
 
     /**
+     * 查询公司下所有可用的商户id信息
+     *
+     *
+     * @param payType 支付类型
+     * @param status  状态
+     * @param compID  公司ID
+     * @return
+     */
+    List<MerchantConfigure> findByStstusCompId(@Param(value = "status") String status, @Param(value = "compID") String compID, @Param(value = "payType") String payType);
+
+    /**
      * 根据商户id修改该条商户的调用时间
      *
      * @param merchantId
@@ -54,4 +65,13 @@ public interface MerchantConfigureMapper {
      * @return
      */
     int update(@Param(value = "id") Long id,@Param(value = "totalOneAmount") String totalOneAmount, @Param(value = "status") String status);
+
+    /**
+     * 根据id修改该条商户信息
+     *
+     * @param id   ID
+     * @param status 状态
+     * @return
+     */
+    int updateStatus(@Param(value = "id") Long id, @Param(value = "status") String status);
 }

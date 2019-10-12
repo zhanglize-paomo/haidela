@@ -44,6 +44,112 @@ public class PaymentService extends HttpServlet {
     private PayService payService;
     private MerchantConfigureService configureService;
 
+    /**
+     * 判断下游消息是否为空,如果为空,每隔15秒发送一次请求,
+     * 发送40次请求消息,总共估计10分钟
+     *
+     * @param str      下游消息信息
+     * @param pathUrl  请求地址信息
+     * @param data     数据信息
+     * @param num      次数
+     * @param tranFlow 订单号信息
+     */
+    private static void sendMessage(String str, String pathUrl, String data, int num, String tranFlow) {
+        if (("").equals(str) || str == null) {
+            if (20 == num) {
+                //根据订单号信息将该订单的接收消息信息置为已经接收
+                customerService.updateReceiveMessages(tranFlow, "1");
+            } else {
+                num += 1;
+                int finalNum = num;
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        doPostOrGet(pathUrl, data, finalNum, tranFlow);
+                    }
+                }, 0, 15000);
+            }
+        } else {
+            //根据订单号信息将该订单的接收消息信息置为已经接收
+            customerService.updateReceiveMessages(tranFlow, "1");
+        }
+    }
+
+    /**
+     * 以post或get方式调用对方接口方法
+     *
+     * @param pathUrl  请求地址信息
+     * @param data     数据信息
+     * @param num      数量
+     * @param tranFlow 订单号信息
+     */
+    private static void doPostOrGet(String pathUrl, String data, int num, String tranFlow) {
+        OutputStreamWriter out = null;
+        BufferedReader br = null;
+        String result = "";
+        try {
+            URL url = new URL(pathUrl);
+            //打开和url之间的连接
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            //请求方式
+            conn.setRequestMethod("POST");
+            //conn.setRequestMethod("GET");
+
+            //设置通用的请求属性
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
+            conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+
+            //DoOutput设置是否向httpUrlConnection输出，DoInput设置是否从httpUrlConnection读入，此外发送post请求必须设置这两个
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+
+            /**
+             * 下面的三句代码，就是调用第三方http接口
+             */
+            //获取URLConnection对象对应的输出流
+            out = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+            //发送请求参数即数据
+            out.write(data);
+            //flush输出流的缓冲
+            out.flush();
+
+            /**
+             * 下面的代码相当于，获取调用第三方http接口后返回的结果
+             */
+            //获取URLConnection对象对应的输入流
+            InputStream is = conn.getInputStream();
+            //构造一个字符流缓存
+            br = new BufferedReader(new InputStreamReader(is));
+            String str = "";
+            while ((str = br.readLine()) != null) {
+                result += str;
+            }
+            sendMessage(str, pathUrl, data, num, tranFlow);
+            System.out.println(result);
+            //关闭流
+            is.close();
+            //断开连接，disconnect是在底层tcp socket链接空闲时才切断，如果正在被其他线程使用就不切断。
+            conn.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
     @Autowired
     public void setCustomerService(PayCustomerService customerService) {
         this.customerService = customerService;
@@ -90,8 +196,11 @@ public class PaymentService extends HttpServlet {
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              * 个体工商户id(我们自己的)
              */
-            String goodsInfo = "873191009170812523";
-//            String goodsInfo = getMerchantNo(request.getParameter("amount"));
+//            String goodsInfo = "873191009170812523";
+            Map<String,String> goodsInfo = getMerchantNo(request.getParameter("amount"), request.getParameter("compID"), payType);
+            if(goodsInfo.get("merchantId") == null || goodsInfo.get("merchantId").equals("")){
+                return goodsInfo.toString();
+            }
             //String goodsNum = "1";
             String merchantNo = "S20190927084578"; //商户编号
             String version = Config.getInstance().getVersion();
@@ -119,7 +228,7 @@ public class PaymentService extends HttpServlet {
             transMap.put("ext1", ext1);
             transMap.put("ext2", ext2);
             //transMap.put("goodsNum", goodsNum);
-            transMap.put("goodsInfo", goodsInfo);
+            transMap.put("goodsInfo", goodsInfo.get("merchantId"));
             //transMap.put("cardType", cardType);
             transMap.put("notifyUrl", notifyUrl);
             transMap.put("goodsName", goodsName);
@@ -220,14 +329,34 @@ public class PaymentService extends HttpServlet {
      * 2.在某个时间不能同时进行多次的操作
      * 3.如果存在每个商户的额度到达限制后,该商户直接停用,即从集合中将该数据删除
      *
-     * @param amount 交易金额
+     * @param payType 支付类型
+     * @param amount  交易金额
+     * @param compID  公司id
      * @return
      */
-    private String getMerchantNo(String amount) {
+    private Map<String,String> getMerchantNo(String amount, String compID, String payType) {
         //获取到所有状态为0的个体商户配置信息
-        List<MerchantConfigure> configureList = configureService.findByStstus("0");
+        List<MerchantConfigure> configureList = configureService.findByStstusCompId("0", compID, payType);
+        Map<String, String> result = new HashMap<>();
+        if (configureList.size() == 0) {
+            result.put("code", "5001");
+            result.put("msg", "支付失败,请使用其他支付方式");
+            return result;
+        }
         //随机选取一个商户号的信息
         MerchantConfigure configure = getRandom(configureList);
+        //判断现在是否在支付时间
+        if (judgeTime(configure) != true) {
+            result.put("code", "5002");
+            result.put("msg", "支付失败,已过支付时间");
+            return result;
+        }
+        //判断该商户的支付类型今日是否已经达到上限
+        if (judgeLimit(configure) != true) {
+            result.put("code", "5001");
+            result.put("msg", "支付失败,请使用其他支付类型");
+            return result;
+        }
         /**
          * 判断该商户在某段时间内是否被重复调用
          */
@@ -243,18 +372,50 @@ public class PaymentService extends HttpServlet {
             if (Integer.parseInt(configure.getAmountLimit()) - Integer.parseInt(configure.getTotalOneAmount()) > Integer.parseInt(amount)) {
                 //根据商户id修改该条商户的调用时间
                 configureService.updateMerchantId(configure.getMerchantId());
-                return configure.getMerchantId();
+                result.put("code", "5000");
+                result.put("msg", "5000");
+                result.put("merchantId",configure.getMerchantId());
+                return result;
             } else {
                 //否则重新选取相应的商户
-                getMerchantNo(amount);
+                getMerchantNo(amount, compID, payType);
             }
             configure.getAmountLimit();
             configure.getTotalOneAmount();
         } else {
             //否则重新选取相应的商户
-            getMerchantNo(amount);
+            getMerchantNo(amount, compID, payType);
         }
         return null;
+    }
+
+    /**
+     * 判断该商户的支付类型今日是否已经达到上限
+     *
+     * @param configure
+     * @return
+     */
+    private boolean judgeLimit(MerchantConfigure configure) {
+        if (configure.getTotalOneAmount().equals(configure.getAmountLimit())) {
+            //根据id修改该条数据为1,表示今日已完成
+            configureService.updateStatus(configure.getId(),"1");
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 判断现在是否在支付时间
+     *
+     * @param configure
+     */
+    private boolean judgeTime(MerchantConfigure configure) {
+        String time = DateUtils.nowTime();
+        //判断当前时间是否在支付时间范围内
+        if (time.compareTo(configure.getStartTime()) > 0 && time.compareTo(configure.getEndTime()) < 0) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -264,9 +425,6 @@ public class PaymentService extends HttpServlet {
      * @return
      */
     private MerchantConfigure getRandom(List<MerchantConfigure> configureList) {
-        if (configureList.size() == 0) {
-            return null;
-        }
         Random rand = new Random();
         MerchantConfigure configure = configureList.get(rand.nextInt(configureList.size()));
         return configure;
@@ -520,112 +678,6 @@ public class PaymentService extends HttpServlet {
         }
         System.out.println(transData);
         return transData;
-    }
-
-    /**
-     * 判断下游消息是否为空,如果为空,每隔15秒发送一次请求,
-     * 发送40次请求消息,总共估计10分钟
-     *
-     * @param str      下游消息信息
-     * @param pathUrl  请求地址信息
-     * @param data     数据信息
-     * @param num      次数
-     * @param tranFlow 订单号信息
-     */
-    private static void sendMessage(String str, String pathUrl, String data, int num, String tranFlow) {
-        if (("").equals(str) || str == null) {
-            if (20 == num) {
-                //根据订单号信息将该订单的接收消息信息置为已经接收
-                customerService.updateReceiveMessages(tranFlow, "1");
-            } else {
-                num += 1;
-                int finalNum = num;
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        doPostOrGet(pathUrl, data, finalNum, tranFlow);
-                    }
-                }, 0,15000);
-            }
-        } else {
-            //根据订单号信息将该订单的接收消息信息置为已经接收
-            customerService.updateReceiveMessages(tranFlow, "1");
-        }
-    }
-
-    /**
-     * 以post或get方式调用对方接口方法
-     *
-     * @param pathUrl  请求地址信息
-     * @param data     数据信息
-     * @param num      数量
-     * @param tranFlow 订单号信息
-     */
-    private static void doPostOrGet(String pathUrl, String data, int num, String tranFlow) {
-        OutputStreamWriter out = null;
-        BufferedReader br = null;
-        String result = "";
-        try {
-            URL url = new URL(pathUrl);
-            //打开和url之间的连接
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            //请求方式
-            conn.setRequestMethod("POST");
-            //conn.setRequestMethod("GET");
-
-            //设置通用的请求属性
-            conn.setRequestProperty("accept", "*/*");
-            conn.setRequestProperty("connection", "Keep-Alive");
-            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
-            conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
-
-            //DoOutput设置是否向httpUrlConnection输出，DoInput设置是否从httpUrlConnection读入，此外发送post请求必须设置这两个
-            conn.setDoOutput(true);
-            conn.setDoInput(true);
-
-            /**
-             * 下面的三句代码，就是调用第三方http接口
-             */
-            //获取URLConnection对象对应的输出流
-            out = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
-            //发送请求参数即数据
-            out.write(data);
-            //flush输出流的缓冲
-            out.flush();
-
-            /**
-             * 下面的代码相当于，获取调用第三方http接口后返回的结果
-             */
-            //获取URLConnection对象对应的输入流
-            InputStream is = conn.getInputStream();
-            //构造一个字符流缓存
-            br = new BufferedReader(new InputStreamReader(is));
-            String str = "";
-            while ((str = br.readLine()) != null) {
-                result += str;
-            }
-            sendMessage(str, pathUrl, data, num, tranFlow);
-            System.out.println(result);
-            //关闭流
-            is.close();
-            //断开连接，disconnect是在底层tcp socket链接空闲时才切断，如果正在被其他线程使用就不切断。
-            conn.disconnect();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (out != null) {
-                    out.close();
-                }
-                if (br != null) {
-                    br.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
     }
 
     /**

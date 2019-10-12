@@ -30,9 +30,16 @@
          WHERE id = #{id}
     </update>
 
+    <update id="updateStatus" parameterType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
+        UPDATE lyx_merchant_configure SET status = #{status,jdbcType=VARCHAR} WHERE id = #{id}
+    </update>
+
     <select id="findByStstus" resultMap="resultMap">
         select * from lyx_merchant_configure where status = #{status}
     </select>
 
+    <select id="findByStstusCompId" resultMap="resultMap">
+        select * from lyx_merchant_configure where status = #{status} AND comp_iD = #{compID} AND pay_type = #{payType}
+    </select>
 
 </mapper>
