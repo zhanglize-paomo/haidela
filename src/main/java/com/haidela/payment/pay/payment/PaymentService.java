@@ -224,8 +224,8 @@ public class PaymentService extends HttpServlet {
      * @return
      */
     private String getMerchantNo(String amount) {
-        //获取到所有状态为1的个体商户配置信息
-        List<MerchantConfigure> configureList = configureService.findByStstus();
+        //获取到所有状态为0的个体商户配置信息
+        List<MerchantConfigure> configureList = configureService.findByStstus("0");
         //随机选取一个商户号的信息
         MerchantConfigure configure = getRandom(configureList);
         /**

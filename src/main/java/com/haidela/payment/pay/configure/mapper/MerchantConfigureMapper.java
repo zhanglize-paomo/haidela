@@ -2,6 +2,7 @@ package com.haidela.payment.pay.configure.mapper;
 
 
 import com.haidela.payment.pay.configure.domain.MerchantConfigure;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -33,8 +34,9 @@ public interface MerchantConfigureMapper {
      * 查询所有状态为1的个体商户信息
      *
      * @return
+     * @param status
      */
-    List<MerchantConfigure> findByStstus();
+    List<MerchantConfigure> findByStstus(String status);
 
     /**
      * 根据商户id修改该条商户的调用时间
@@ -43,4 +45,13 @@ public interface MerchantConfigureMapper {
      * @return
      */
     int updateMerchantId(String merchantId);
+    /**
+     * 根据id修改个体工商户配置的基本信息
+     *
+     * @param id    主键
+     * @param totalOneAmount 单日总额
+     * @param status  状态
+     * @return
+     */
+    int update(@Param(value = "id") Long id,@Param(value = "totalOneAmount") String totalOneAmount, @Param(value = "status") String status);
 }

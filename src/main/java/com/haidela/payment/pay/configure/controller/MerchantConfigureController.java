@@ -33,9 +33,9 @@ public class MerchantConfigureController {
      *
      * @return
      */
-    @RequestMapping()
-    public List<MerchantConfigure> findByStstus(){
-        return service.findByStstus();
+    @RequestMapping("{status}")
+    public List<MerchantConfigure> findByStstus(@PathVariable String status){
+        return service.findByStstus(status);
     }
 
 

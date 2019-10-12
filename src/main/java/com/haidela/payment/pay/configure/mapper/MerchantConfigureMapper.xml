@@ -16,14 +16,22 @@
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="total_one_amount" jdbcType="VARCHAR" property="totalOneAmount"/>
         <result column="call_time" jdbcType="VARCHAR" property="callTime"/>
+        <result column="omp_iD" jdbcType="VARCHAR" property="ompID"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
     </resultMap>
 
     <update id="updateMerchantId" parameterType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
          UPDATE lyx_merchant_configure SET call_time=now() WHERE merchant_id = #{merchant_id};
     </update>
 
+    <update id="update" parameterType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
+         UPDATE lyx_merchant_configure
+         SET total_one_amount = #{totalOneAmount,jdbcType=VARCHAR},status = #{status,jdbcType=VARCHAR}
+         WHERE id = #{id}
+    </update>
+
     <select id="findByStstus" resultMap="resultMap">
-        select * from lyx_merchant_configure where status = 1
+        select * from lyx_merchant_configure where status = #{status}
     </select>
 
 

@@ -64,10 +64,10 @@ public class MerchantConfigure {
     private String callTime;
 
     /**
-     * 状态,状态分为1，2，3中状态其中
-     * 1为可用的状态
-     * 2为已完成当日交易额度的状态
-     * 3为冻结状态(目前不可进行操作)
+     * 状态,状态分为0，1，2中状态其中
+     * 0为可用的状态
+     * 1为已完成当日交易额度的状态
+     * 2为冻结状态(目前不可进行操作)
      */
     private String status;
 
@@ -76,7 +76,19 @@ public class MerchantConfigure {
      */
     private String totalOneAmount;
 
-    public MerchantConfigure(Long id, String amount, String amountLimit, String payType, String merchantId, String startTime, String endTime, String createTime, String timeDifference, String modifyTime, String callTime, String status, String totalOneAmount) {
+    /**
+     * 公司ID
+     *
+     */
+    private String ompID;
+
+    /**
+     * 公司名称
+     *
+     */
+    private String companyName;
+
+    public MerchantConfigure(Long id, String amount, String amountLimit, String payType, String merchantId, String startTime, String endTime, String createTime, String timeDifference, String modifyTime, String callTime, String status, String totalOneAmount, String ompID, String companyName) {
         this.id = id;
         this.amount = amount;
         this.amountLimit = amountLimit;
@@ -90,6 +102,24 @@ public class MerchantConfigure {
         this.callTime = callTime;
         this.status = status;
         this.totalOneAmount = totalOneAmount;
+        this.ompID = ompID;
+        this.companyName = companyName;
+    }
+
+    public String getOmpID() {
+        return ompID;
+    }
+
+    public void setOmpID(String ompID) {
+        this.ompID = ompID;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
     public Long getId() {
