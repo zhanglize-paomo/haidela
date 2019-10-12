@@ -38,7 +38,7 @@ public class CreatMerchantController {
     }
 
     /**
-     * 根据请求参数获取到签名信息
+     * 根据请求参数获取到签名信息并获取到商户的进件信息
      *
      * @param request
      * @param response

@@ -59,6 +59,9 @@ public class CreatMerchantService {
         trnMap.put("address", request.getParameter("address"));    //法人地址
         trnMap.put("bankAddress", request.getParameter("bankAddress"));  //持卡人地址
         trnMap.put("billRate", request.getParameter("billRate"));     //结算费率（信用卡手续费费率 （微信支付宝小额贷记卡 ） （单笔交易≤1000元）） 例 千分之 3 直接传3
+        trnMap.put("billRate1", request.getParameter("billRate1"));
+        trnMap.put("billRate2", request.getParameter("billRate2"));
+        trnMap.put("billRate3", request.getParameter("billRate3"));
         trnMap.put("licensePhoto", request.getParameter("licensePhoto"));
         trnMap.put("businessLicense", request.getParameter("businessLicense"));
         String str = MD5.getSignMsg(trnMap, key);
@@ -147,7 +150,7 @@ public class CreatMerchantService {
             trnMap.put("sign", sign);
             System.out.println("请求上游的参数：" + trnMap);
             String rtnStr = HTTPRequestUtil.formUpload(merUrl, trnMap, channelId);
-            System.out.println("上游返回结果：" + rtnStr);
+            System.out.println("上游返回结果：" + com.alibaba.fastjson.JSONObject.parse(rtnStr));
         } catch (Exception e) {
             System.out.println("请求上游异常" + e);
         }
