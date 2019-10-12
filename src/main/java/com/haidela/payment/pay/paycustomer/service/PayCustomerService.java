@@ -28,6 +28,7 @@ public class PayCustomerService {
      * @return
      */
     public int add(PayCustomer payCustomer) {
+        payCustomer.setReceiveMessages("0");
         payCustomer.setId(new SnowflakeIdUtils().nextId());
         return mapper.add(payCustomer);
     }
@@ -51,5 +52,16 @@ public class PayCustomerService {
      */
     public PayCustomer findByTranFlow(String tranFlow) {
         return mapper.findByTranFlow(tranFlow);
+    }
+
+    /**
+     * 根据交易流水号修改该笔交易的异步消息接收的情况
+     *
+     * @param tranFlow     交易流水号
+     * @param receiveMessages   消息
+     * @return
+     */
+    public int updateReceiveMessages(String tranFlow, String receiveMessages) {
+        return mapper.updateReceiveMessages(tranFlow,receiveMessages);
     }
 }

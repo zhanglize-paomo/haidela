@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @create 2019/10/10
  */
 @RestController("payCustomerController")
-@RequestMapping("/paycustomer")
+@RequestMapping("/pay-customer")
 public class PayCustomerController {
 
     private PayCustomerService service;
@@ -49,10 +49,23 @@ public class PayCustomerController {
      * @param status   交易状态
      * @return
      */
-    @RequestMapping("updatestatus/{tranFlow}/{status}")
+    @RequestMapping("update-status/{tranFlow}/{status}")
     @PostMapping
     public int updateStatus(@PathVariable String tranFlow, @PathVariable String status){
         return service.updateStatus(tranFlow,status);
+    }
+
+    /**
+     * 根据交易流水号修改该笔交易的异步消息接收的情况
+     *
+     * @param tranFlow     交易流水号
+     * @param receiveMessages   消息
+     * @return
+     */
+    @RequestMapping("update-receive-messages/{tranFlow}/{receiveMessages}")
+    @PostMapping
+    public int updateReceiveMessages(@PathVariable String tranFlow, @PathVariable String receiveMessages){
+        return service.updateReceiveMessages(tranFlow,receiveMessages);
     }
 
     /**
@@ -61,7 +74,7 @@ public class PayCustomerController {
      * @param tranFlow  交易流水号
      * @return
      */
-    @RequestMapping("findbytranflow/{tranFlow}")
+    @RequestMapping("find-tranflow/{tranFlow}")
     @PostMapping
     public PayCustomer findByTranFlow(@PathVariable String tranFlow){
         return service.findByTranFlow(tranFlow);

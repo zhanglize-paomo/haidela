@@ -7,7 +7,9 @@ import com.haidela.payment.pay.configure.service.MerchantConfigureService;
 import com.haidela.payment.pay.paycustomer.PayService;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
-import com.haidela.payment.util.*;
+import com.haidela.payment.util.DateUtils;
+import com.haidela.payment.util.IpUtil;
+import com.haidela.payment.util.ResponseUtil;
 import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.DateUtil;
 import com.hfb.merchant.pay.util.ParamUtil;
@@ -22,7 +24,9 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -36,10 +40,9 @@ public class PaymentService extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
     private static final String TAG = "【统一支付商户系统demo】-{统一支付}-";
-
+    private static PayCustomerService customerService;
     private PayService payService;
     private MerchantConfigureService configureService;
-    private PayCustomerService customerService;
 
     @Autowired
     public void setCustomerService(PayCustomerService customerService) {
@@ -207,6 +210,7 @@ public class PaymentService extends HttpServlet {
         payCustomer.setModifyTime(DateUtils.stringToDate());
         payCustomer.setCreateTime(transMap.get("tranTime"));
         payCustomer.setCreateDate(transMap.get("tranDate"));
+        payCustomer.setReceiveMessages("0");
         return customerService.add(payCustomer);
     }
 
@@ -267,7 +271,6 @@ public class PaymentService extends HttpServlet {
         MerchantConfigure configure = configureList.get(rand.nextInt(configureList.size()));
         return configure;
     }
-
 
     public String getImgurl(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
         return payment(request, response, customer);//保返回给我们的支付图片
@@ -473,17 +476,18 @@ public class PaymentService extends HttpServlet {
             } else {
                 //判断返回的码是否是成功的信息
                 String rtnCode = request.getParameter("rtnCode");
-                Map<String,String> map = new HashMap<>();
-                map.put("rtnCode",rtnCode);
-                map.put("tranFlow",request.getParameter("tranFlow"));
-                map.put("rtnMsg",request.getParameter("rtnMsg"));
+                Map<String, String> map = new HashMap<>();
+                map.put("rtnCode", rtnCode);
+                map.put("tranFlow", request.getParameter("tranFlow"));
+                map.put("rtnMsg", request.getParameter("rtnMsg"));
                 if (("0000").equals(rtnCode)) { //成功
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易完成";
                     customerService.updateStatus(request.getParameter("tranFlow"), status);
                     //TODO 根据请求地址向我们的下游客户发送报文请求信息,交易完成的信息
-                    if(customerUrl != null || !customerUrl.equals("")){
-                        HttpUrlConnectionToInterface.doPostOrGet(customerUrl,map.toString());
+                    if (customerUrl != null || !customerUrl.equals("")) {
+                        int num = 0;
+                        doPostOrGet(customerUrl, map.toString(), num, request.getParameter("tranFlow"));
                     }
                     /**
                      * 调用代付的接口,向第三方发起请求
@@ -503,8 +507,9 @@ public class PaymentService extends HttpServlet {
                     String status = "交易失败";
                     customerService.updateStatus(request.getParameter("tranFlow"), status);
                     //TODO 根据请求地址向我们的下游客户发送报文请求信息,交易失败的信息
-                    if(customerUrl != null || !customerUrl.equals("")){
-                        HttpUrlConnectionToInterface.doPostOrGet(customerUrl,map.toString());
+                    if (customerUrl != null || !customerUrl.equals("")) {
+                        int num = 0;
+                        doPostOrGet(customerUrl, map.toString(), num, request.getParameter("tranFlow"));
                     }
                 }
             }
@@ -518,6 +523,112 @@ public class PaymentService extends HttpServlet {
     }
 
     /**
+     * 判断下游消息是否为空,如果为空,每隔15秒发送一次请求,
+     * 发送40次请求消息,总共估计10分钟
+     *
+     * @param str      下游消息信息
+     * @param pathUrl  请求地址信息
+     * @param data     数据信息
+     * @param num      次数
+     * @param tranFlow 订单号信息
+     */
+    private static void sendMessage(String str, String pathUrl, String data, int num, String tranFlow) {
+        if (("").equals(str) || str == null) {
+            if (20 == num) {
+                //根据订单号信息将该订单的接收消息信息置为已经接收
+                customerService.updateReceiveMessages(tranFlow, "1");
+            } else {
+                num += 1;
+                int finalNum = num;
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        doPostOrGet(pathUrl, data, finalNum, tranFlow);
+                    }
+                }, 0,15000);
+            }
+        } else {
+            //根据订单号信息将该订单的接收消息信息置为已经接收
+            customerService.updateReceiveMessages(tranFlow, "1");
+        }
+    }
+
+    /**
+     * 以post或get方式调用对方接口方法
+     *
+     * @param pathUrl  请求地址信息
+     * @param data     数据信息
+     * @param num      数量
+     * @param tranFlow 订单号信息
+     */
+    private static void doPostOrGet(String pathUrl, String data, int num, String tranFlow) {
+        OutputStreamWriter out = null;
+        BufferedReader br = null;
+        String result = "";
+        try {
+            URL url = new URL(pathUrl);
+            //打开和url之间的连接
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            //请求方式
+            conn.setRequestMethod("POST");
+            //conn.setRequestMethod("GET");
+
+            //设置通用的请求属性
+            conn.setRequestProperty("accept", "*/*");
+            conn.setRequestProperty("connection", "Keep-Alive");
+            conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1; SV1)");
+            conn.setRequestProperty("Content-Type", "application/json;charset=utf-8");
+
+            //DoOutput设置是否向httpUrlConnection输出，DoInput设置是否从httpUrlConnection读入，此外发送post请求必须设置这两个
+            conn.setDoOutput(true);
+            conn.setDoInput(true);
+
+            /**
+             * 下面的三句代码，就是调用第三方http接口
+             */
+            //获取URLConnection对象对应的输出流
+            out = new OutputStreamWriter(conn.getOutputStream(), "UTF-8");
+            //发送请求参数即数据
+            out.write(data);
+            //flush输出流的缓冲
+            out.flush();
+
+            /**
+             * 下面的代码相当于，获取调用第三方http接口后返回的结果
+             */
+            //获取URLConnection对象对应的输入流
+            InputStream is = conn.getInputStream();
+            //构造一个字符流缓存
+            br = new BufferedReader(new InputStreamReader(is));
+            String str = "";
+            while ((str = br.readLine()) != null) {
+                result += str;
+            }
+            sendMessage(str, pathUrl, data, num, tranFlow);
+            System.out.println(result);
+            //关闭流
+            is.close();
+            //断开连接，disconnect是在底层tcp socket链接空闲时才切断，如果正在被其他线程使用就不切断。
+            conn.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+                if (br != null) {
+                    br.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+    }
+
+    /**
      * 获取到下游客户的请求地址信息
      *
      * @param request
@@ -527,9 +638,9 @@ public class PaymentService extends HttpServlet {
         String customerUrl = "";
         //根据交易流水号判断公司的id
         PayCustomer customer = customerService.findByTranFlow(request.getParameter("tranFlow"));
-        if(customer.getCompID().equals("3123123")){
+        if (customer.getCompID().equals("2789")) {
             customerUrl = "http://182.92.192.208:8080/order-payment";
-        }else if(customer.getCompID().equals("9696868")){
+        } else if (customer.getCompID().equals("4189")) {
             customerUrl = "http://182.92.192.208:8080/order-payment";
         }
         return customerUrl;

@@ -16,19 +16,24 @@
         <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
         <result column="comp_iD" jdbcType="VARCHAR" property="compID"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="receive_messages" jdbcType="VARCHAR" property="receiveMessages"/>
     </resultMap>
 
     <insert id="add" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" useGeneratedKeys="true" keyProperty="id">
         insert into
-        lyx_pay_customer (id,tran_flow,amount,pay_type,merchant_id,merchant_no,buyer_id,modify_time,create_time,comp_iD,company_name,status,create_date)
+        lyx_pay_customer (id,tran_flow,amount,pay_type,merchant_id,merchant_no,buyer_id,modify_time,create_time,comp_iD,company_name,status,create_date,receive_messages)
         values ( #{id,jdbcType=BIGINT},
         #{tranFlow,jdbcType=CHAR}, #{amount,jdbcType=CHAR}, #{payType,jdbcType=CHAR}, #{merchantId,jdbcType=CHAR},#{merchantNo,jdbcType=CHAR},
         #{buyerId,jdbcType=CHAR},#{modifyTime,jdbcType=CHAR}, #{createTime,jdbcType=CHAR},#{compID,jdbcType=CHAR},
-        #{companyName,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{createDate,jdbcType=CHAR})
+        #{companyName,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{createDate,jdbcType=CHAR},#{receiveMessages,jdbcType=CHAR})
     </insert>
 
     <update id="updateStatus" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" >
         update lyx_pay_customer set status = #{status,jdbcType=CHAR} where tran_flow = #{tranFlow}
+    </update>
+
+    <update id="updateReceiveMessages" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" >
+        update lyx_pay_customer set receive_messages = #{receiveMessages,jdbcType=CHAR} where tran_flow = #{tranFlow}
     </update>
 
     <select id="findByTranFlow" resultMap="resultMap">
