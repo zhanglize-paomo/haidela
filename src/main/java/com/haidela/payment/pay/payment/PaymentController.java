@@ -213,14 +213,15 @@ public class PaymentController {
                 result.remove("merchantId");
                 result.put("payUrl", "");
                 return result;
-            } else if (result.get("payUrl") != null || result.get("payUrl").equals("")) {
+            } else if (result.get("payUrl").equals("null")|| result.get("payUrl").equals("") || result.get("payUrl") == null) {
                 result.remove("merchantId");
                 result.put("payUrl", "");
                 result.put("code", "9999");
                 result.put("msg", "支付失败，请重试");
                 return result;
             } else {
-                result.put("imgUrl", result.get("payUrl"));
+                result.put("code", "0000");
+                result.remove("merchantId");
             }
         } catch (Exception e) {
             e.printStackTrace();
