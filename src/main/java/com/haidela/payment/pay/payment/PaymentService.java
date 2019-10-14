@@ -172,21 +172,24 @@ public class PaymentService extends HttpServlet {
      * @param response
      * @param customer 客户消息信息
      */
-    public Map<String,String>  payment(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
+    public String payment(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         String msg = "处理成功";
 //        String redirectPath = "result.jsp";
         Map<String, String> resultMap = null;
         String payUrl = "";
         // 利用treeMap对参数按key值进行排序
-        Map<String, String> transMap = ResponseUtil.getParamMap(request);
+        TreeMap<String, String> transMap = ResponseUtil.getParamMap(request);
+//        transMap.remove("sign");
+//        transMap.remove("compID");
         try {
             //根据订单流水号判断该流水号是否存在
             if (customerService.findByTranFlow(customer.getTranFlow()) != null) {
-                resultMap.put("code", "5006");
-                resultMap.put("msg", "订单流水号已经存在");
-                resultMap.put("merchantId","");
-                return resultMap;
+                return "订单流水号已经存在";
+//                resultMap.put("code", "5006");
+//                resultMap.put("msg", "订单流水号已经存在");
+//                resultMap.put("merchantId","");
+//                return resultMap.toString();
             }
             String payType = transMap.get("payType");
             String remark = "客户支付交易"; //备注  Char（100）
@@ -302,7 +305,7 @@ public class PaymentService extends HttpServlet {
         if(payUrl != null ){
             resultMap.put("payUrl",payUrl);
         }
-        return resultMap;
+        return payUrl;
     }
 
     /**
@@ -439,7 +442,7 @@ public class PaymentService extends HttpServlet {
         return configure;
     }
 
-    public Map<String,String> getImgurl(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
+    public String getImgurl(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
         return payment(request, response, customer);//保返回给我们的支付图片
     }
 

@@ -42,7 +42,40 @@ public class MD5 {
             return null;
         }
     }
-	
+
+
+	/***
+	 * 其他参数按照参数排序后的值拼接
+	 *
+	 * @param mapParams
+	 * @param excludeStr:要被排除掉，不組進字串的的name
+	 * @return 按照ascii由小到大排序 参数按照参数排序后的值拼接
+	 */
+	public static String getSignContent(Map<String, ? extends Object> mapParams, String excludeStr,
+										String replaceKeyStr) {
+		StringBuffer content = new StringBuffer();
+		List<String> keys = new ArrayList<String>(mapParams.keySet());
+		Collections.sort(keys);
+
+		int index = 0;
+		for (int i = 0; i < keys.size(); ++i) {
+			String key = (String) keys.get(i);
+
+			if (excludeStr == null || !key.equalsIgnoreCase(replaceKeyStr + excludeStr)) {
+				Object value = mapParams.get(key);
+				if (value != null && org.apache.commons.lang.StringUtils.isNotBlank(value.toString())) {
+					if (replaceKeyStr != null) {
+						key = key.replace(replaceKeyStr, "");
+					}
+					content.append(new StringBuilder().append(value).toString());
+					++index;
+				}
+			}
+
+		}
+		return content.toString();
+	}
+
 	public static String getSignMsg(Map<String, String> map,String keySign) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(putPairsSequenceAndTogether(map));

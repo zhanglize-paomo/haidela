@@ -121,13 +121,16 @@ public class PaymentController {
      */
     @RequestMapping(path = "/md5")
     public String md5(HttpServletRequest request, HttpServletResponse response) {
-        String tranFlow = request.getParameter("tranFlow");//流水号
-        String compID = request.getParameter("compID"); //公司id
-        String amount = request.getParameter("amount");//交易金额
-        String payType = request.getParameter("payType");//支付类型
-        String buyerId = request.getParameter("buyerId");//买家id
+        String tranFlow = request.getParameter("tranFlow");
+        Map<String, String> map = new HashMap<>();
+        map.put("tranFlow", request.getParameter("tranFlow"));
+        map.put("compID", request.getParameter("compID"));
+        map.put("amount", request.getParameter("amount"));
+        map.put("payType", request.getParameter("payType"));
+        map.put("buyerId", request.getParameter("buyerId"));
+        String str = MD5.getSignContent(map, "", "");
         //将数据进行拼接
-        String secret = "9989639630683" + compID + amount + payType + buyerId + tranFlow;
+        String secret = "9989639630683" + str;
         String md5 = "";
         //首先将数据进行sha1算法
         try {
@@ -152,7 +155,7 @@ public class PaymentController {
         Map<String, String> result = new HashMap<String, String>();
         result.put("code", "0");//成功
         //支付图片的url
-        Map<String, String> imgUrl = new HashMap<>();
+        String imgUrl = "";
         /**
          * 1获取客户端的请求参数，校验不可为空
          *
@@ -172,16 +175,23 @@ public class PaymentController {
         String amount = request.getParameter("amount");//交易金额
         String payType = request.getParameter("payType");//支付类型
         String buyerId = request.getParameter("buyerId");//买家id
-        String sign = request.getParameter("sign"); //加密数据信息
+        String digest = request.getParameter("digest"); //加密数据信息
+        Map<String, String> map = new HashMap<>();
+        map.put("tranFlow", request.getParameter("tranFlow"));
+        map.put("compID", request.getParameter("compID"));
+        map.put("amount", request.getParameter("amount"));
+        map.put("payType", request.getParameter("payType"));
+        map.put("buyerId", request.getParameter("buyerId"));
+        String str = MD5.getSignContent(map, "", "");
         try {
             //将数据进行拼接
-            String secret = "9989639630683" + compID + amount + payType + buyerId + tranFlow;
+            String secret = "9989639630683" + str;
             //首先将数据进行sha1算法
             String security = MD5.md5(SecuritySHA1Utils.shaEncode(secret));
             //将流水号进行md5加密处理
             String md5 = MD5.md5(tranFlow);
             //然后将所有的数据进行md5加密
-            if (!sign.equals(MD5.md5(security.trim() + md5.trim()))) {
+            if (!digest.equals(MD5.md5(security.trim() + md5.trim()))) {
                 result.put("code", "2002");
                 result.put("msg", "数据加密异常,请重试");
                 return result;
@@ -197,11 +207,18 @@ public class PaymentController {
         payCustomer.setCompID(compID);
         try {
             imgUrl = paymentService.getImgurl(request, response, payCustomer);
-            if (("订单流水号已经存在").equals(imgUrl.get("msg"))) {
-                return result;
-            } else if (imgUrl.get("merchantId") == null || imgUrl.get("merchantId").equals("")) {
-                return imgUrl;
+            if (("订单流水号已经存在").equals(imgUrl)) {
+                result.put("code", "9999");
+                result.put("imgUrl", imgUrl);
+            } else {
+                result.put("imgUrl", imgUrl);
             }
+//            if (("订单流水号已经存在").equals(imgUrl.get("msg"))) {
+//                return result;
+//            } else if (imgUrl.get("merchantId") == null || imgUrl.get("merchantId").equals("")) {
+//                return imgUrl;
+//            }
+            result.put("imgUrl", imgUrl);
         } catch (Exception e) {
             e.printStackTrace();
             result.put("code", "9999");
