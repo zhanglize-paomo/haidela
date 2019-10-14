@@ -154,8 +154,6 @@ public class PaymentController {
     public Map<String, String> payment(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> result = new HashMap<String, String>();
         result.put("code", "0");//成功
-        //支付图片的url
-        String imgUrl = "";
         /**
          * 1获取客户端的请求参数，校验不可为空
          *
@@ -206,42 +204,30 @@ public class PaymentController {
         payCustomer.setPayType(payType);
         payCustomer.setCompID(compID);
         try {
-            imgUrl = paymentService.getImgurl(request, response, payCustomer);
-            if (("订单流水号已经存在").equals(imgUrl)) {
+            result = paymentService.getImgurl(request, response, payCustomer);
+            if (("订单流水号已经存在").equals(result.get("msg"))) {
+                result.remove("merchantId");
+                result.put("payUrl", "");
+                return result;
+            } else if (result.get("merchantId") == null || result.get("merchantId").equals("")) {
+                result.remove("merchantId");
+                result.put("payUrl", "");
+                return result;
+            } else if (result.get("payUrl") != null || result.get("payUrl").equals("")) {
+                result.remove("merchantId");
+                result.put("payUrl", "");
                 result.put("code", "9999");
-                result.put("imgUrl", imgUrl);
+                result.put("msg", "支付失败，请重试");
+                return result;
             } else {
-                result.put("imgUrl", imgUrl);
+                result.put("imgUrl", result.get("payUrl"));
             }
-//            if (("订单流水号已经存在").equals(imgUrl.get("msg"))) {
-//                return result;
-//            } else if (imgUrl.get("merchantId") == null || imgUrl.get("merchantId").equals("")) {
-//                return imgUrl;
-//            }
-            result.put("imgUrl", imgUrl);
         } catch (Exception e) {
             e.printStackTrace();
-            result.put("code", "9999");
-            result.put("msg", "支付失败，请重试");
         }
         result.put("msg", "success");
         return result;
     }
-
-
-    /**
-     * 测试轮询池
-     *
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping(path = "/goods-info")
-    @ResponseBody
-    public String goodsInfo(HttpServletRequest request, HttpServletResponse response) {
-        return paymentService.goodsInfo(request,response);
-    }
-
 
     /**
      * 客户支付交易请求报文

@@ -173,11 +173,12 @@ public class PaymentService extends HttpServlet {
      * @param response
      * @param customer 客户消息信息
      */
-    public String payment(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
+    public Map<String,String> payment(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         String msg = "处理成功";
 //        String redirectPath = "result.jsp";
         Map<String, String> resultMap = null;
+        Map<String, String> map = new HashMap<>();
         String payUrl = "";
         // 利用treeMap对参数按key值进行排序
         TreeMap<String, String> transMap = ResponseUtil.getParamMap(request);
@@ -186,11 +187,10 @@ public class PaymentService extends HttpServlet {
         try {
             //根据订单流水号判断该流水号是否存在
             if (customerService.findByTranFlow(customer.getTranFlow()) != null) {
-                return "订单流水号已经存在";
-//                resultMap.put("code", "5006");
-//                resultMap.put("msg", "订单流水号已经存在");
-//                resultMap.put("merchantId","");
-//                return resultMap.toString();
+                map.put("code", "5006");
+                map.put("msg", "订单流水号已经存在");
+                map.put("merchantId","");
+                return map;
             }
             String payType = transMap.get("payType");
             String remark = "客户支付交易"; //备注  Char（100）
@@ -203,11 +203,11 @@ public class PaymentService extends HttpServlet {
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              * 个体工商户id(我们自己的)
              */
-            String goodsInfo = "873191009170812523";
-//            Map<String,String> goodsInfo = getMerchantNo(request.getParameter("amount"), request.getParameter("compID"), payType);
-//            if(goodsInfo.get("merchantId") == null || goodsInfo.get("merchantId").equals("")){
-//                return goodsInfo;
-//            }
+//            String goodsInfo = "873191009170812523";
+            Map<String,String> goodsInfo = getMerchantNo(request.getParameter("amount"), request.getParameter("compID"), payType);
+            if(goodsInfo.get("merchantId") == null || goodsInfo.get("merchantId").equals("")){
+                return goodsInfo;
+            }
             //String goodsNum = "1";
             String merchantNo = "S20190927084578"; //商户编号
             String version = Config.getInstance().getVersion();
@@ -236,7 +236,8 @@ public class PaymentService extends HttpServlet {
             transMap.put("ext2", ext2);
             //transMap.put("goodsNum", goodsNum);
 //            transMap.put("goodsInfo", goodsInfo.get("merchantId"));
-            transMap.put("goodsInfo", goodsInfo);
+            transMap.put("goodsInfo", goodsInfo.get("merchantId"));
+            map.put("merchantId",goodsInfo.get("merchantId"));
             //transMap.put("cardType", cardType);
             transMap.put("notifyUrl", notifyUrl);
             transMap.put("goodsName", goodsName);
@@ -303,10 +304,8 @@ public class PaymentService extends HttpServlet {
             request.setAttribute("errorMsg", msg);
 //            request.getRequestDispatcher(redirectPath).forward(request, response);
         }
-        if(payUrl != null ){
-            resultMap.put("payUrl",payUrl);
-        }
-        return payUrl;
+        map.put("payUrl",payUrl);
+        return map;
     }
 
     /**
@@ -443,7 +442,7 @@ public class PaymentService extends HttpServlet {
         return configure;
     }
 
-    public String getImgurl(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
+    public Map<String,String> getImgurl(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
         return payment(request, response, customer);//保返回给我们的支付图片
     }
 
