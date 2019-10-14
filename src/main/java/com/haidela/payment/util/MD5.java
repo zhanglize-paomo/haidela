@@ -8,6 +8,15 @@ import java.util.*;
 
 
 public class MD5 {
+
+	/**
+	 * MD5加密规则
+	 *
+	 * @param str
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws UnsupportedEncodingException
+	 */
 	public static String md5(String str) throws NoSuchAlgorithmException, UnsupportedEncodingException {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

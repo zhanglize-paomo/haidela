@@ -2,6 +2,8 @@ package com.haidela.payment.pay.payment;
 
 
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
+import com.haidela.payment.util.MD5;
+import com.haidela.payment.util.SecuritySHA1Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -111,6 +113,35 @@ public class PaymentController {
     }
 
     /**
+     * 生成加密的数据信息
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(path = "/md5")
+    public String md5(HttpServletRequest request, HttpServletResponse response) {
+        String tranFlow = request.getParameter("tranFlow");//流水号
+        String compID = request.getParameter("compID"); //公司id
+        String amount = request.getParameter("amount");//交易金额
+        String payType = request.getParameter("payType");//支付类型
+        String buyerId = request.getParameter("buyerId");//买家id
+        //将数据进行拼接
+        String secret = "9989639630683" + compID + amount + payType + buyerId + tranFlow;
+        String md5 = "";
+        //首先将数据进行sha1算法
+        try {
+            String security = MD5.md5(SecuritySHA1Utils.shaEncode(secret));
+            //将流水号进行md5加密处理
+            md5 = MD5.md5(security.trim() + MD5.md5(tranFlow).trim());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return md5;
+    }
+
+
+    /**
      * 客户支付交易请求报文(落雨轩)
      *
      * @return
@@ -121,7 +152,7 @@ public class PaymentController {
         Map<String, String> result = new HashMap<String, String>();
         result.put("code", "0");//成功
         //支付图片的url
-        String imgUrl = "";
+        Map<String, String> imgUrl = new HashMap<>();
         /**
          * 1获取客户端的请求参数，校验不可为空
          *
@@ -140,19 +171,36 @@ public class PaymentController {
         String compID = request.getParameter("compID"); //公司id
         String amount = request.getParameter("amount");//交易金额
         String payType = request.getParameter("payType");//支付类型
+        String buyerId = request.getParameter("buyerId");//买家id
+        String sign = request.getParameter("sign"); //加密数据信息
+        try {
+            //将数据进行拼接
+            String secret = "9989639630683" + compID + amount + payType + buyerId + tranFlow;
+            //首先将数据进行sha1算法
+            String security = MD5.md5(SecuritySHA1Utils.shaEncode(secret));
+            //将流水号进行md5加密处理
+            String md5 = MD5.md5(tranFlow);
+            //然后将所有的数据进行md5加密
+            if (!sign.equals(MD5.md5(security.trim() + md5.trim()))) {
+                result.put("code", "2002");
+                result.put("msg", "数据加密异常,请重试");
+                return result;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         PayCustomer payCustomer = new PayCustomer();
         payCustomer.setTranFlow(tranFlow);
-        payCustomer.setBuyerId(request.getParameter("buyerId"));//买家id
+        payCustomer.setBuyerId(buyerId);
         payCustomer.setAmount(amount);
         payCustomer.setPayType(payType);
         payCustomer.setCompID(compID);
         try {
             imgUrl = paymentService.getImgurl(request, response, payCustomer);
-            if(("订单流水号已经存在").equals(imgUrl)){
-                result.put("code", "9999");
-                result.put("imgUrl", imgUrl);
-            }else{
-                result.put("imgUrl", imgUrl);
+            if (("订单流水号已经存在").equals(imgUrl.get("msg"))) {
+                return result;
+            } else if (imgUrl.get("merchantId") == null || imgUrl.get("merchantId").equals("")) {
+                return imgUrl;
             }
         } catch (Exception e) {
             e.printStackTrace();

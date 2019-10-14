@@ -172,7 +172,7 @@ public class PaymentService extends HttpServlet {
      * @param response
      * @param customer 客户消息信息
      */
-    public String payment(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
+    public Map<String,String>  payment(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         String msg = "处理成功";
 //        String redirectPath = "result.jsp";
@@ -183,7 +183,10 @@ public class PaymentService extends HttpServlet {
         try {
             //根据订单流水号判断该流水号是否存在
             if (customerService.findByTranFlow(customer.getTranFlow()) != null) {
-                return "订单流水号已经存在";
+                resultMap.put("code", "5006");
+                resultMap.put("msg", "订单流水号已经存在");
+                resultMap.put("merchantId","");
+                return resultMap;
             }
             String payType = transMap.get("payType");
             String remark = "客户支付交易"; //备注  Char（100）
@@ -196,11 +199,11 @@ public class PaymentService extends HttpServlet {
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              * 个体工商户id(我们自己的)
              */
-//            String goodsInfo = "873191009170812523";
-            Map<String,String> goodsInfo = getMerchantNo(request.getParameter("amount"), request.getParameter("compID"), payType);
-            if(goodsInfo.get("merchantId") == null || goodsInfo.get("merchantId").equals("")){
-                return goodsInfo.toString();
-            }
+            String goodsInfo = "873191009170812523";
+//            Map<String,String> goodsInfo = getMerchantNo(request.getParameter("amount"), request.getParameter("compID"), payType);
+//            if(goodsInfo.get("merchantId") == null || goodsInfo.get("merchantId").equals("")){
+//                return goodsInfo;
+//            }
             //String goodsNum = "1";
             String merchantNo = "S20190927084578"; //商户编号
             String version = Config.getInstance().getVersion();
@@ -228,7 +231,8 @@ public class PaymentService extends HttpServlet {
             transMap.put("ext1", ext1);
             transMap.put("ext2", ext2);
             //transMap.put("goodsNum", goodsNum);
-            transMap.put("goodsInfo", goodsInfo.get("merchantId"));
+//            transMap.put("goodsInfo", goodsInfo.get("merchantId"));
+            transMap.put("goodsInfo", goodsInfo);
             //transMap.put("cardType", cardType);
             transMap.put("notifyUrl", notifyUrl);
             transMap.put("goodsName", goodsName);
@@ -295,7 +299,10 @@ public class PaymentService extends HttpServlet {
             request.setAttribute("errorMsg", msg);
 //            request.getRequestDispatcher(redirectPath).forward(request, response);
         }
-        return payUrl;
+        if(payUrl != null ){
+            resultMap.put("payUrl",payUrl);
+        }
+        return resultMap;
     }
 
     /**
@@ -319,7 +326,6 @@ public class PaymentService extends HttpServlet {
         payCustomer.setModifyTime(DateUtils.stringToDate());
         payCustomer.setCreateTime(transMap.get("tranTime"));
         payCustomer.setCreateDate(transMap.get("tranDate"));
-        payCustomer.setReceiveMessages("0");
         return customerService.add(payCustomer);
     }
 
@@ -341,6 +347,7 @@ public class PaymentService extends HttpServlet {
         if (configureList.size() == 0) {
             result.put("code", "5001");
             result.put("msg", "支付失败,请使用其他支付方式");
+            result.put("merchantId","");
             return result;
         }
         //随机选取一个商户号的信息
@@ -349,12 +356,14 @@ public class PaymentService extends HttpServlet {
         if (judgeTime(configure) != true) {
             result.put("code", "5002");
             result.put("msg", "支付失败,已过支付时间");
+            result.put("merchantId","");
             return result;
         }
         //判断该商户的支付类型今日是否已经达到上限
         if (judgeLimit(configure) != true) {
             result.put("code", "5001");
             result.put("msg", "支付失败,请使用其他支付类型");
+            result.put("merchantId","");
             return result;
         }
         /**
@@ -430,7 +439,7 @@ public class PaymentService extends HttpServlet {
         return configure;
     }
 
-    public String getImgurl(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
+    public Map<String,String> getImgurl(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
         return payment(request, response, customer);//保返回给我们的支付图片
     }
 
@@ -691,10 +700,11 @@ public class PaymentService extends HttpServlet {
         //根据交易流水号判断公司的id
         PayCustomer customer = customerService.findByTranFlow(request.getParameter("tranFlow"));
         if (customer.getCompID().equals("2789")) {
-            customerUrl = "http://182.92.192.208:8080/order-payment";
+            customerUrl = "http://fa2a94c3.ngrok.io/paymentSystem/forthAPI/callback/hyPay";
         } else if (customer.getCompID().equals("4189")) {
             customerUrl = "http://182.92.192.208:8080/order-payment";
         }
         return customerUrl;
     }
+
 }
