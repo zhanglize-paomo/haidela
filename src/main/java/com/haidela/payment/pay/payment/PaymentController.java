@@ -228,6 +228,21 @@ public class PaymentController {
         return result;
     }
 
+
+    /**
+     * 测试轮询池
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(path = "/goods-info")
+    @ResponseBody
+    public String goodsInfo(HttpServletRequest request, HttpServletResponse response) {
+        return paymentService.goodsInfo(request,response);
+    }
+
+
     /**
      * 客户支付交易请求报文
      * <p>

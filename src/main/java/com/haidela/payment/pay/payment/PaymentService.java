@@ -27,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -376,7 +377,7 @@ public class PaymentService extends HttpServlet {
         //获取当前时间的毫秒数
         long nowTime = System.currentTimeMillis();
         //获取调用时间
-        long callTime = Long.parseLong(configure.getCallTime());
+        long callTime = Timestamp.valueOf(configure.getCallTime()).getTime();
         long timeDifference = nowTime - callTime;
         //判断时间差是否大于相隔的时间以及商户的额度是否大于输入的金额
         if (timeDifference > Long.parseLong(configure.getTimeDifference())) {
@@ -709,5 +710,4 @@ public class PaymentService extends HttpServlet {
         }
         return customerUrl;
     }
-
 }
