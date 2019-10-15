@@ -99,4 +99,15 @@ public class MerchantConfigureService {
     public int updateStatus(Long id, String status) {
         return mapper.updateStatus(id,status);
     }
+
+    /**
+     * 根据商户编号以及支付类型获取到对应的配置对象信息
+     *
+     * @param merchantNo
+     * @param payType
+     * @return
+     */
+    public MerchantConfigure findByMerchantNo(String merchantNo, String payType) {
+        return mapper.findByMerchantNo(merchantNo,payType);
+    }
 }

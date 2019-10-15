@@ -38,6 +38,10 @@
         select * from lyx_merchant_configure where status = #{status}
     </select>
 
+    <select id="findByMerchantNo" resultMap="resultMap">
+        select * from lyx_merchant_configure where merchant_id = #{merchantNo} AND pay_type = #{payType}
+    </select>
+
     <select id="findByStstusCompId" resultMap="resultMap">
         select * from lyx_merchant_configure where status = #{status} AND comp_iD = #{compID} AND pay_type = #{payType}
     </select>

@@ -50,6 +50,15 @@ public interface MerchantConfigureMapper {
     List<MerchantConfigure> findByStstusCompId(@Param(value = "status") String status, @Param(value = "compID") String compID, @Param(value = "payType") String payType);
 
     /**
+     * 根据商户编号以及支付类型获取到对应的配置对象信息
+     *
+     * @param merchantNo
+     * @param payType
+     * @return
+     */
+    MerchantConfigure findByMerchantNo(@Param(value = "merchantNo") String merchantNo, @Param(value = "payType") String payType);
+
+    /**
      * 根据商户id修改该条商户的调用时间
      *
      * @param merchantId
@@ -74,4 +83,5 @@ public interface MerchantConfigureMapper {
      * @return
      */
     int updateStatus(@Param(value = "id") Long id, @Param(value = "status") String status);
+
 }

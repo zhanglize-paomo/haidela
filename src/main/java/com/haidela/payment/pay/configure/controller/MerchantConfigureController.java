@@ -50,4 +50,15 @@ public class MerchantConfigureController {
         return service.updateMerchantId(merchantId);
     }
 
+    /**
+     * 根据商户id修改该条商户的调用时间
+     *
+     * @param merchantId
+     * @return
+     */
+    @RequestMapping("merchantId/{merchantId}/{payType}")
+    public MerchantConfigure findByMerchantNo(@PathVariable String merchantId,@PathVariable String payType){
+        return service.findByMerchantNo(merchantId,payType);
+    }
+
 }

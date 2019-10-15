@@ -28,7 +28,6 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -236,7 +235,10 @@ public class PaymentService extends HttpServlet {
             transMap.put("ext2", ext2);
             //transMap.put("goodsNum", goodsNum);
 //            transMap.put("goodsInfo", goodsInfo.get("merchantId"));
-            transMap.put("goodsInfo", goodsInfo.get("merchantId"));
+            String merchantId = goodsInfo.get("merchantId");
+            transMap.put("goodsInfo", merchantId);
+            //根据商户id修改商户配置对象中该商户调用的时间信息
+            configureService.updateMerchantId(merchantId);
             map.put("merchantId",goodsInfo.get("merchantId"));
             //transMap.put("cardType", cardType);
             transMap.put("notifyUrl", notifyUrl);
@@ -304,6 +306,7 @@ public class PaymentService extends HttpServlet {
             request.setAttribute("errorMsg", msg);
 //            request.getRequestDispatcher(redirectPath).forward(request, response);
         }
+        logger.info(TAG + "商户编号：" + map.get("merchantId"));
         map.put("payUrl",payUrl);
         return map;
     }
@@ -654,25 +657,32 @@ public class PaymentService extends HttpServlet {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易完成";
                     customerService.updateStatus(request.getParameter("tranFlow"), status);
+                    //根据订单号获取到客户交易流水信息
+                    PayCustomer payCustomer = customerService.findByTranFlow(request.getParameter("tranFlow"));
+                    //根据商户号以及商户类型获取商户的配置对象
+                    MerchantConfigure configure = configureService.findByMerchantNo(payCustomer.getMerchantNo(),payCustomer.getPayType());
+                    //修改商户配置信息的当日收款总额
+                    configure.setTotalOneAmount(String.valueOf(Integer.parseInt(configure.getTotalOneAmount()) + Integer.parseInt(payCustomer.getAmount())));
+                    configureService.update(configure.getId(),configure.getTotalOneAmount(),"0");
                     //TODO 根据请求地址向我们的下游客户发送报文请求信息,交易完成的信息
                     if (customerUrl != null || !customerUrl.equals("")) {
                         int num = 0;
                         doPostOrGet(customerUrl, map.toString(), num, request.getParameter("tranFlow"));
                     }
-                    /**
-                     * 调用代付的接口,向第三方发起请求
-                     */
-                    PayCustomer payCustomer = new PayCustomer();
-                    payCustomer.setAmount(request.getParameter("amount"));
-                    payCustomer.setTranFlow(request.getParameter("tranFlow"));
-                    payCustomer.setPayType(request.getParameter("payType"));
-                    payCustomer.setMerchantId(request.getParameter("merchantNo"));
-                    payCustomer.setCreateTime(LocalDateTime.now().toString());
-//                    payCustomer.setId(Integer.parseInt(IdUtils.getIncreaseIdByCurrentTimeMillis()));
-                    payCustomer.setStatus("交易成功");
-                    payService.dfPay(request, response, payCustomer);
+//                    /**
+//                     * 调用代付的接口,向第三方发起请求
+//                     */
+//                    PayCustomer payCustomer = new PayCustomer();
+//                    payCustomer.setAmount(request.getParameter("amount"));
+//                    payCustomer.setTranFlow(request.getParameter("tranFlow"));
+//                    payCustomer.setPayType(request.getParameter("payType"));
+//                    payCustomer.setMerchantId(request.getParameter("merchantNo"));
+//                    payCustomer.setCreateTime(LocalDateTime.now().toString());
+////                    payCustomer.setId(Integer.parseInt(IdUtils.getIncreaseIdByCurrentTimeMillis()));
+//                    payCustomer.setStatus("交易成功");
+//                    payService.dfPay(request, response, payCustomer);
+
                 } else {
-                    //TODO 修改客户订单流水号信息,将状态改为失败状态
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易失败";
                     customerService.updateStatus(request.getParameter("tranFlow"), status);
