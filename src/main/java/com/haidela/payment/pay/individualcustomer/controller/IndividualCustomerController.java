@@ -1,7 +1,7 @@
-package com.haidela.payment.pay.createmerchant.controller;
+package com.haidela.payment.pay.individualcustomer.controller;
 
-import com.haidela.payment.pay.createmerchant.domain.IndividualCustomer;
-import com.haidela.payment.pay.createmerchant.service.IndividualCustomerService;
+import com.haidela.payment.pay.individualcustomer.domain.IndividualCustomer;
+import com.haidela.payment.pay.individualcustomer.service.IndividualCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,7 +1,7 @@
-package com.haidela.payment.pay.createmerchant.service;
+package com.haidela.payment.pay.individualcustomer.service;
 
-import com.haidela.payment.pay.createmerchant.domain.IndividualCustomer;
-import com.haidela.payment.pay.createmerchant.mapper.IndividualCustomerMapper;
+import com.haidela.payment.pay.individualcustomer.domain.IndividualCustomer;
+import com.haidela.payment.pay.individualcustomer.mapper.IndividualCustomerMapper;
 import com.haidela.payment.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

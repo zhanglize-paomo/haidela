@@ -1,4 +1,4 @@
-package com.haidela.payment.pay.createmerchant;
+package com.haidela.payment.pay.individualcustomer;
 
 import com.haidela.payment.util.HTTPRequestUtil;
 import net.sf.json.JSONObject;

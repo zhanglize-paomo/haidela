@@ -1,6 +1,6 @@
-package com.haidela.payment.pay.createmerchant.mapper;
+package com.haidela.payment.pay.individualcustomer.mapper;
 
-import com.haidela.payment.pay.createmerchant.domain.IndividualCustomer;
+import com.haidela.payment.pay.individualcustomer.domain.IndividualCustomer;
 import org.springframework.stereotype.Repository;
 
 /**

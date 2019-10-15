@@ -1,4 +1,4 @@
-package com.haidela.payment.pay.createmerchant.domain;
+package com.haidela.payment.pay.individualcustomer.domain;
 
 import java.io.Serializable;
 
