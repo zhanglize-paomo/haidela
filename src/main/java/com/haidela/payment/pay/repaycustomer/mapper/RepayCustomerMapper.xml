@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haidela.payment.pay.repaycustomer.mapper.RepayCustomerMapper">
+
+    <resultMap id="resultMap" type="com.haidela.payment.pay.repaycustomer.domain.RepayCustomer">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="tran_flow" jdbcType="VARCHAR" property="tranFlow"/>
+        <result column="repay_tran_flow" jdbcType="VARCHAR" property="repayTranFlow"/>
+        <result column="amount" jdbcType="VARCHAR" property="amount"/>
+        <result column="pay_type" jdbcType="VARCHAR" property="payType"/>
+        <result column="merchant_no" jdbcType="VARCHAR" property="merchantNo"/>
+        <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="comp_iD" jdbcType="VARCHAR" property="compID"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="pay_serial_no" jdbcType="VARCHAR" property="paySerialNo"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.haidela.payment.pay.repaycustomer.domain.RepayCustomer" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        lyx_repay_customer (id,tran_flow, repay_tran_flow,amount,pay_type,merchant_no,create_time,status,comp_iD,company_name,pay_serial_no)
+        values ( #{id,jdbcType=BIGINT},#{tranFlow,jdbcType=CHAR},#{repayTranFlow,jdbcType=CHAR},#{amount,jdbcType=CHAR},
+         #{payType,jdbcType=CHAR},#{merchantNo,jdbcType=CHAR},#{createTime,jdbcType=CHAR}, #{status,jdbcType=CHAR},
+         #{compID,jdbcType=CHAR},#{companyName,jdbcType=CHAR}, #{paySerialNo,jdbcType=CHAR})
+    </insert>
+
+</mapper>
