@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haidela.payment.pay.createmerchant.mapper.IndividualCustomerMapper">
+
+    <resultMap id="resultMap" type="com.haidela.payment.pay.createmerchant.domain.IndividualCustomer">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="merchant_no" jdbcType="VARCHAR" property="merchantNo"/>
+        <result column="currency" jdbcType="VARCHAR" property="currency"/>
+        <result column="merchant_name" jdbcType="VARCHAR" property="merchantName"/>
+        <result column="merchant_short_name" jdbcType="VARCHAR" property="merchantShortName"/>
+        <result column="industr_id" jdbcType="VARCHAR" property="industrId"/>
+        <result column="province" jdbcType="VARCHAR" property="province"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+        <result column="county" jdbcType="VARCHAR" property="county"/>
+        <result column="tel" jdbcType="VARCHAR" property="tel"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="customer_phone" jdbcType="VARCHAR" property="customerPhone"/>
+        <result column="principal" jdbcType="VARCHAR" property="principal"/>
+        <result column="principal_mobile" jdbcType="VARCHAR" property="principalMobile"/>
+        <result column="id_code" jdbcType="VARCHAR" property="idCode"/>
+        <result column="bank_id" jdbcType="VARCHAR" property="bankId"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName"/>
+        <result column="contact_line" jdbcType="VARCHAR" property="contactLine"/>
+        <result column="bank_name" jdbcType="VARCHAR" property="bankName"/>
+        <result column="bank_branch_name" jdbcType="VARCHAR" property="bankBranchName"/>
+        <result column="bank_province" jdbcType="VARCHAR" property="bankProvince"/>
+        <result column="bank_city" jdbcType="VARCHAR" property="bankCity"/>
+        <result column="id_card" jdbcType="VARCHAR" property="idCard"/>
+        <result column="bank_tel" jdbcType="VARCHAR" property="bankTel"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="bank_address" jdbcType="VARCHAR" property="bankAddress"/>
+        <result column="bill_rate" jdbcType="VARCHAR" property="billRate"/>
+        <result column="bill_rate1" jdbcType="VARCHAR" property="billRate1"/>
+        <result column="bill_rate2" jdbcType="VARCHAR" property="billRate2"/>
+        <result column="bill_rate3" jdbcType="VARCHAR" property="billRate3"/>
+        <result column="business_license" jdbcType="VARCHAR" property="businessLicense"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into
+        lyx_pay_customer (id,merchant_no,currency,merchant_name,merchant_short_name,industr_id, province,city,county,
+        tel,email, customer_phone,principal, principal_mobile,id_code, bank_id,account_name,contact_line,bank_name,
+        bank_branch_name,bank_province,bank_city, id_card,bank_tel,address,bank_address,bill_rate,bill_rate1,
+        bill_rate2,bill_rate3,business_license)
+        values ( #{id,jdbcType=BIGINT},#{merchantNo,jdbcType=CHAR},#{currency,jdbcType=CHAR}, #{merchantName,jdbcType=CHAR},
+        #{merchantShortName,jdbcType=CHAR}, #{industrId,jdbcType=CHAR},#{province,jdbcType=CHAR},#{city,jdbcType=CHAR},
+        #{county,jdbcType=CHAR},#{tel,jdbcType=CHAR}, #{email,jdbcType=CHAR}, #{customerPhone,jdbcType=CHAR}, #{principal,jdbcType=CHAR},
+        #{principalMobile,jdbcType=CHAR}, #{idCode,jdbcType=CHAR}, #{bankId,jdbcType=CHAR},#{accountName,jdbcType=CHAR},
+        #{contactLine,jdbcType=CHAR},  #{bankName,jdbcType=CHAR},#{bankBranchName,jdbcType=CHAR},#{bankProvince,jdbcType=CHAR},
+        #{bankCity,jdbcType=CHAR},#{idCard,jdbcType=CHAR},#{bankTel,jdbcType=CHAR}, #{address,jdbcType=CHAR},
+        #{bankAddress,jdbcType=CHAR},#{billRate,jdbcType=CHAR}),#{billRate1,jdbcType=CHAR},#{billRate2,jdbcType=CHAR},
+        #{billRate3,jdbcType=CHAR}),#{businessLicense,jdbcType=CHAR})
+    </insert>
+
+</mapper>
