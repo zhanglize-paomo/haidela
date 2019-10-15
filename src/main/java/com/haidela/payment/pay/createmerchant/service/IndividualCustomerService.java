@@ -1,8 +1,10 @@
-package com.haidela.payment.pay.createmerchant;
+package com.haidela.payment.pay.createmerchant.service;
 
 import com.haidela.payment.util.HTTPRequestUtil;
 import com.haidela.payment.util.MD5;
 import com.haidela.payment.util.RSAUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,13 +14,15 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /**
- * 商户进件Service
+ * 商户进件个体商户信息Service
  *
  * @author zhanglize
  * @create 2019/10/4
  */
 @Service
-public class CreatMerchantService {
+public class IndividualCustomerService {
+
+    private static final Logger logger = LoggerFactory.getLogger(IndividualCustomerService.class);
 
     /**
      * 获取到参数对象的签名信息
@@ -150,7 +154,7 @@ public class CreatMerchantService {
             trnMap.put("sign", sign);
             System.out.println("请求上游的参数：" + trnMap);
             String rtnStr = HTTPRequestUtil.formUpload(merUrl, trnMap, channelId);
-            System.out.println("上游返回结果：" + com.alibaba.fastjson.JSONObject.parse(rtnStr));
+            logger.info("上游返回结果：" + com.alibaba.fastjson.JSONObject.parse(rtnStr));
         } catch (Exception e) {
             System.out.println("请求上游异常" + e);
         }
@@ -164,10 +168,6 @@ public class CreatMerchantService {
         map.put("bankTel",trnMap.get("bankTel"));       //持卡人手机号  加密
         map.put("sign", sign);
         return map;
-    }
-
-    public static void main(String[] args) {
-        openWithDraw();
     }
 
 

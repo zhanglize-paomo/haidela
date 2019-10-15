@@ -1,5 +1,6 @@
-package com.haidela.payment.pay.createmerchant;
+package com.haidela.payment.pay.createmerchant.controller;
 
+import com.haidela.payment.pay.createmerchant.service.IndividualCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,19 +10,19 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 /**
- * 商户进件控制器
+ * 商户进件个体商户信息控制器
  *
  *
  * @author zhanglize
  * @create 2019/10/4
  */
 @RestController("creatMerchantController")
-public class CreatMerchantController {
+public class IndividualCustomerController {
 
-    private CreatMerchantService service;
+    private IndividualCustomerService service;
 
     @Autowired
-    public void setService(CreatMerchantService service) {
+    public void setService(IndividualCustomerService service) {
         this.service = service;
     }
 

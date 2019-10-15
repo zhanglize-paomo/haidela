@@ -1,15 +1,30 @@
-package com.haidela.payment.pay.createmerchant;
+package com.haidela.payment.pay.createmerchant.domain;
 
 import java.io.Serializable;
 
 /**
- * 商户进件
+ * 商户进件个体商户信息
  *
  * @author zhanglize
  * @create 2019/10/4
  */
-public class CreatMerchant implements Serializable {
+public class IndividualCustomer implements Serializable {
 
+
+    /**
+     * 主键id
+     */
+    private Long id;
+
+    /**
+     * 商户编号
+     */
+    private String merchantNo;
+
+    /**
+     * 交易币种
+     */
+    private String currency;
     /**
      * 商户名称
      */
@@ -36,9 +51,10 @@ public class CreatMerchant implements Serializable {
     private String city;
 
     /**
-     * 城市（地区CODE码）
+     * 国家（国家CODE码）
      */
     private String county;
+
     /**
      * 电话号
      */
@@ -64,10 +80,6 @@ public class CreatMerchant implements Serializable {
      * 负责人证件号   加密
      */
     private String idCode;
-    /**
-     * 负责人证件照 上传正反面两张，以;分割(前面图片处理中有返回)
-     */
-    private String indentityPhoto;
 
     /**
      * 银行卡号  加密
@@ -130,25 +142,116 @@ public class CreatMerchant implements Serializable {
     private String bankAddress;
 
     /**
+     *
      * 结算费率（信用卡手续费费率 （微信支付宝小额贷记卡 ） （单笔交易≤1000元）） 例 千分之 3 直接传3
      */
     private String billRate;
 
     /**
-     *
+     * 借记卡手续费费率 （小额借记卡） （单笔交易≤1000元） 可空 按billRate费率计算 （开通银联多费率支付的机构必须上送）
      */
-    private String licensePhoto;
+    private String billRate1;
 
     /**
-     *
+     * 信用卡手续费费率 （大额贷记卡）（单笔交易>1000元）可空 按billRate费率计算 （开通银联多费率支付的机构必须上送）
+     */
+    private String billRate2;
+
+    /**
+     * 借记卡手续费费率 （大额借记卡）（单笔交易>1000元） 可空 按billRate费率计算 （开通银联多费率支付的机构必须上送）
+     */
+    private String billRate3;
+
+    /**
+     * 营业执照号
      */
     private String businessLicense;
 
+    public IndividualCustomer(Long id, String merchantNo, String currency, String merchantName, String merchantShortName, String industrId, String province, String city, String county, String tel, String email, String customerPhone, String principal, String principalMobile, String idCode, String accountCode, String bankId, String accountName, String contactLine, String bankName, String bankBranchName, String bankProvince, String bankCity, String idCard, String bankTel, String address, String bankAddress, String billRate, String billRate1, String billRate2, String billRate3, String businessLicense) {
+        this.id = id;
+        this.merchantNo = merchantNo;
+        this.currency = currency;
+        this.merchantName = merchantName;
+        this.merchantShortName = merchantShortName;
+        this.industrId = industrId;
+        this.province = province;
+        this.city = city;
+        this.county = county;
+        this.tel = tel;
+        this.email = email;
+        this.customerPhone = customerPhone;
+        this.principal = principal;
+        this.principalMobile = principalMobile;
+        this.idCode = idCode;
+        this.accountCode = accountCode;
+        this.bankId = bankId;
+        this.accountName = accountName;
+        this.contactLine = contactLine;
+        this.bankName = bankName;
+        this.bankBranchName = bankBranchName;
+        this.bankProvince = bankProvince;
+        this.bankCity = bankCity;
+        this.idCard = idCard;
+        this.bankTel = bankTel;
+        this.address = address;
+        this.bankAddress = bankAddress;
+        this.billRate = billRate;
+        this.billRate1 = billRate1;
+        this.billRate2 = billRate2;
+        this.billRate3 = billRate3;
+        this.businessLicense = businessLicense;
+    }
 
-    /**
-     * 获取签名
-     */
-    private String sign;
+    public IndividualCustomer() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getMerchantNo() {
+        return merchantNo;
+    }
+
+    public void setMerchantNo(String merchantNo) {
+        this.merchantNo = merchantNo;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
+    public String getBillRate1() {
+        return billRate1;
+    }
+
+    public void setBillRate1(String billRate1) {
+        this.billRate1 = billRate1;
+    }
+
+    public String getBillRate2() {
+        return billRate2;
+    }
+
+    public void setBillRate2(String billRate2) {
+        this.billRate2 = billRate2;
+    }
+
+    public String getBillRate3() {
+        return billRate3;
+    }
+
+    public void setBillRate3(String billRate3) {
+        this.billRate3 = billRate3;
+    }
 
     public String getMerchantName() {
         return merchantName;
@@ -246,13 +349,6 @@ public class CreatMerchant implements Serializable {
         this.idCode = idCode;
     }
 
-    public String getIndentityPhoto() {
-        return indentityPhoto;
-    }
-
-    public void setIndentityPhoto(String indentityPhoto) {
-        this.indentityPhoto = indentityPhoto;
-    }
 
     public String getAccountCode() {
         return accountCode;
@@ -358,14 +454,6 @@ public class CreatMerchant implements Serializable {
         this.billRate = billRate;
     }
 
-    public String getLicensePhoto() {
-        return licensePhoto;
-    }
-
-    public void setLicensePhoto(String licensePhoto) {
-        this.licensePhoto = licensePhoto;
-    }
-
     public String getBusinessLicense() {
         return businessLicense;
     }
@@ -374,11 +462,6 @@ public class CreatMerchant implements Serializable {
         this.businessLicense = businessLicense;
     }
 
-    public String getSign() {
-        return sign;
-    }
 
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
+
 }

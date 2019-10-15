@@ -26,7 +26,6 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -171,7 +170,7 @@ public class PaymentService extends HttpServlet {
      * @param response
      * @param customer 客户消息信息
      */
-    public Map<String,String> payment(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
+    public Map<String, String> payment(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         String msg = "处理成功";
 //        String redirectPath = "result.jsp";
@@ -187,7 +186,7 @@ public class PaymentService extends HttpServlet {
             if (customerService.findByTranFlow(customer.getTranFlow()) != null) {
                 map.put("code", "5006");
                 map.put("msg", "订单流水号已经存在");
-                map.put("merchantId","");
+                map.put("merchantId", "");
                 return map;
             }
             String payType = transMap.get("payType");
@@ -202,8 +201,8 @@ public class PaymentService extends HttpServlet {
              * 个体工商户id(我们自己的)
              */
 //            String goodsInfo = "873191009170812523";
-            Map<String,String> goodsInfo = getMerchantNo(request.getParameter("amount"), request.getParameter("compID"), payType);
-            if(goodsInfo.get("merchantId") == null || goodsInfo.get("merchantId").equals("")){
+            Map<String, String> goodsInfo = getMerchantNo(request.getParameter("amount"), request.getParameter("compID"), payType);
+            if (goodsInfo.get("merchantId") == null || goodsInfo.get("merchantId").equals("")) {
                 return goodsInfo;
             }
             //String goodsNum = "1";
@@ -238,7 +237,7 @@ public class PaymentService extends HttpServlet {
             transMap.put("goodsInfo", merchantId);
             //根据商户id修改商户配置对象中该商户调用的时间信息
             configureService.updateMerchantId(merchantId);
-            map.put("merchantId",goodsInfo.get("merchantId"));
+            map.put("merchantId", goodsInfo.get("merchantId"));
             //transMap.put("cardType", cardType);
             transMap.put("notifyUrl", notifyUrl);
             transMap.put("goodsName", goodsName);
@@ -306,7 +305,7 @@ public class PaymentService extends HttpServlet {
 //            request.getRequestDispatcher(redirectPath).forward(request, response);
         }
         logger.info(TAG + "商户编号：" + map.get("merchantId"));
-        map.put("payUrl",payUrl);
+        map.put("payUrl", payUrl);
         return map;
     }
 
@@ -345,14 +344,14 @@ public class PaymentService extends HttpServlet {
      * @param compID  公司id
      * @return
      */
-    private Map<String,String> getMerchantNo(String amount, String compID, String payType) {
+    private Map<String, String> getMerchantNo(String amount, String compID, String payType) {
         //获取到所有状态为0的个体商户配置信息
         List<MerchantConfigure> configureList = configureService.findByStstusCompId("0", compID, payType);
         Map<String, String> result = new HashMap<>();
         if (configureList.size() == 0) {
             result.put("code", "5001");
             result.put("msg", "支付失败,请使用其他支付方式");
-            result.put("merchantId","");
+            result.put("merchantId", "");
             return result;
         }
         //随机选取一个商户号的信息
@@ -361,14 +360,14 @@ public class PaymentService extends HttpServlet {
         if (judgeTime(configure) != true) {
             result.put("code", "5002");
             result.put("msg", "支付失败,已过支付时间");
-            result.put("merchantId","");
+            result.put("merchantId", "");
             return result;
         }
         //判断该商户的支付类型今日是否已经达到上限
         if (judgeLimit(configure) != true) {
             result.put("code", "5001");
             result.put("msg", "支付失败,请使用其他支付类型");
-            result.put("merchantId","");
+            result.put("merchantId", "");
             return result;
         }
         /**
@@ -388,7 +387,7 @@ public class PaymentService extends HttpServlet {
                 configureService.updateMerchantId(configure.getMerchantId());
                 result.put("code", "5000");
                 result.put("msg", "5000");
-                result.put("merchantId",configure.getMerchantId());
+                result.put("merchantId", configure.getMerchantId());
                 return result;
             } else {
                 //否则重新选取相应的商户
@@ -412,7 +411,7 @@ public class PaymentService extends HttpServlet {
     private boolean judgeLimit(MerchantConfigure configure) {
         if (configure.getTotalOneAmount().equals(configure.getAmountLimit())) {
             //根据id修改该条数据为1,表示今日已完成
-            configureService.updateStatus(configure.getId(),"1");
+            configureService.updateStatus(configure.getId(), "1");
             return false;
         }
         return true;
@@ -444,7 +443,7 @@ public class PaymentService extends HttpServlet {
         return configure;
     }
 
-    public Map<String,String> getImgurl(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
+    public Map<String, String> getImgurl(HttpServletRequest request, ServletResponse response, PayCustomer customer) throws ServletException, IOException {
         return payment(request, response, customer);//保返回给我们的支付图片
     }
 
@@ -666,6 +665,7 @@ public class PaymentService extends HttpServlet {
                     e.printStackTrace();
                 }
                 map.put("digest", digest);
+                logger.info(digest + "下游客户请求地址信息:" + map.toString());
                 if (("0000").equals(rtnCode)) { //成功
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易完成";
@@ -674,30 +674,32 @@ public class PaymentService extends HttpServlet {
                     PayCustomer payCustomer = customerService.findByTranFlow(request.getParameter("tranFlow"));
                     //将该订单的平台流水号存入到数据库中
                     payCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
+                    logger.info(TAG + "平台流水号:" + payCustomer.getMerchantNo());
+                    //TODO 根据id修改该条商户信息的订单信息
                     //根据id修改该条商户信息的订单信息
-                    customerService.updateByPaySerialNo(payCustomer.getId(),payCustomer.getPaySerialNo());
+//                    customerService.updateByPaySerialNo(payCustomer.getId(), payCustomer.getPaySerialNo());
                     //根据商户号以及商户类型获取商户的配置对象
-                    MerchantConfigure configure = configureService.findByMerchantNo(payCustomer.getMerchantNo(),payCustomer.getPayType());
+                    MerchantConfigure configure = configureService.findByMerchantNo(payCustomer.getMerchantNo(), payCustomer.getPayType());
                     //修改商户配置信息的当日收款总额
                     configure.setTotalOneAmount(String.valueOf(Integer.parseInt(configure.getTotalOneAmount()) + Integer.parseInt(payCustomer.getAmount())));
-                    configureService.update(configure.getId(),configure.getTotalOneAmount(),"0");
+                    configureService.update(configure.getId(), configure.getTotalOneAmount(), "0");
                     //TODO 根据请求地址向我们的下游客户发送报文请求信息,交易完成的信息
                     if (customerUrl != null || !customerUrl.equals("")) {
                         int num = 0;
                         doPostOrGet(customerUrl, map.toString(), num, request.getParameter("tranFlow"));
                     }
-                    /**
-                     * 调用代付的接口,向第三方发起请求
-                     */
-                    PayCustomer customer = new PayCustomer();
-                    customer.setAmount(request.getParameter("amount"));
-                    customer.setTranFlow(request.getParameter("tranFlow"));
-                    customer.setPayType(request.getParameter("payType"));
-                    customer.setMerchantId(request.getParameter("merchantNo"));
-                    customer.setCreateTime(LocalDateTime.now().toString());
-//                    customer.setId(Integer.parseInt(IdUtils.getIncreaseIdByCurrentTimeMillis()));
-                    customer.setStatus("交易完成");
-                    payService.dfPay(request, response, payCustomer);
+//                    /**
+//                     * 调用代付的接口,向第三方发起请求
+//                     */
+//                    PayCustomer customer = new PayCustomer();
+//                    customer.setAmount(request.getParameter("amount"));
+//                    customer.setTranFlow(request.getParameter("tranFlow"));
+//                    customer.setPayType(request.getParameter("payType"));
+//                    customer.setMerchantNo(request.getParameter("merchantNo"));
+//                    customer.setCreateTime(LocalDateTime.now().toString());
+////                    customer.setId(Integer.parseInt(IdUtils.getIncreaseIdByCurrentTimeMillis()));
+//                    customer.setStatus("交易完成");
+//                    payService.dfPay(request, response, payCustomer);
 
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
@@ -730,7 +732,8 @@ public class PaymentService extends HttpServlet {
         //根据交易流水号判断公司的id
         PayCustomer customer = customerService.findByTranFlow(request.getParameter("tranFlow"));
         if (customer.getCompID().equals("2789")) {
-            customerUrl = "http://fa2a94c3.ngrok.io/paymentSystem/forthAPI/callback/hyPay";
+//          生产环境  http://payment.ilachang.com/paymentSystem/forthAPI/callback/hyPay
+            customerUrl = "http://61.222.80.172:8787/paymentSystem/forthAPI/callback/hyPay";
         } else if (customer.getCompID().equals("4189")) {
             customerUrl = "http://182.92.192.208:8080/order-payment";
         }

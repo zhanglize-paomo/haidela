@@ -42,8 +42,8 @@ public class PayService {
      */
     public String dfPay(HttpServletRequest request, HttpServletResponse response, PayCustomer payCustomer) throws Exception {
 
-        //商户号
-        String merchantNo = "S20190927084578";
+        //个体工商户
+        String merchantNo = request.getParameter("merchantNo");
 
         //测试商户的公钥私钥这两个文件在本项目的src目录下certs中
 
