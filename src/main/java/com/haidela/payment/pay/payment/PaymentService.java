@@ -7,9 +7,7 @@ import com.haidela.payment.pay.configure.service.MerchantConfigureService;
 import com.haidela.payment.pay.paycustomer.PayService;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
-import com.haidela.payment.util.DateUtils;
-import com.haidela.payment.util.IpUtil;
-import com.haidela.payment.util.ResponseUtil;
+import com.haidela.payment.util.*;
 import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.DateUtil;
 import com.hfb.merchant.pay.util.ParamUtil;
@@ -653,6 +651,20 @@ public class PaymentService extends HttpServlet {
                 map.put("rtnCode", rtnCode);
                 map.put("tranFlow", request.getParameter("tranFlow"));
                 map.put("rtnMsg", request.getParameter("rtnMsg"));
+                map.put("amount", request.getParameter("amount"));
+                String str = MD5.getSignContent(map, "", "");
+                //将数据进行拼接
+                String secret = "9989639630683" + str;
+                String digest = "";
+                //首先将数据进行sha1算法
+                try {
+                    String security = MD5.md5(SecuritySHA1Utils.shaEncode(secret));
+                    //将流水号进行md5加密处理
+                    digest = MD5.md5(security.trim() + MD5.md5(request.getParameter("tranFlow")).trim());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                map.put("digest", digest);
                 if (("0000").equals(rtnCode)) { //成功
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易完成";
