@@ -26,6 +26,7 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -671,6 +672,10 @@ public class PaymentService extends HttpServlet {
                     customerService.updateStatus(request.getParameter("tranFlow"), status);
                     //根据订单号获取到客户交易流水信息
                     PayCustomer payCustomer = customerService.findByTranFlow(request.getParameter("tranFlow"));
+                    //将该订单的平台流水号存入到数据库中
+                    payCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
+                    //根据id修改该条商户信息的订单信息
+                    customerService.updateByPaySerialNo(payCustomer.getId(),payCustomer.getPaySerialNo());
                     //根据商户号以及商户类型获取商户的配置对象
                     MerchantConfigure configure = configureService.findByMerchantNo(payCustomer.getMerchantNo(),payCustomer.getPayType());
                     //修改商户配置信息的当日收款总额
@@ -681,18 +686,18 @@ public class PaymentService extends HttpServlet {
                         int num = 0;
                         doPostOrGet(customerUrl, map.toString(), num, request.getParameter("tranFlow"));
                     }
-//                    /**
-//                     * 调用代付的接口,向第三方发起请求
-//                     */
-//                    PayCustomer payCustomer = new PayCustomer();
-//                    payCustomer.setAmount(request.getParameter("amount"));
-//                    payCustomer.setTranFlow(request.getParameter("tranFlow"));
-//                    payCustomer.setPayType(request.getParameter("payType"));
-//                    payCustomer.setMerchantId(request.getParameter("merchantNo"));
-//                    payCustomer.setCreateTime(LocalDateTime.now().toString());
-////                    payCustomer.setId(Integer.parseInt(IdUtils.getIncreaseIdByCurrentTimeMillis()));
-//                    payCustomer.setStatus("交易成功");
-//                    payService.dfPay(request, response, payCustomer);
+                    /**
+                     * 调用代付的接口,向第三方发起请求
+                     */
+                    PayCustomer customer = new PayCustomer();
+                    customer.setAmount(request.getParameter("amount"));
+                    customer.setTranFlow(request.getParameter("tranFlow"));
+                    customer.setPayType(request.getParameter("payType"));
+                    customer.setMerchantId(request.getParameter("merchantNo"));
+                    customer.setCreateTime(LocalDateTime.now().toString());
+//                    customer.setId(Integer.parseInt(IdUtils.getIncreaseIdByCurrentTimeMillis()));
+                    customer.setStatus("交易完成");
+                    payService.dfPay(request, response, payCustomer);
 
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态

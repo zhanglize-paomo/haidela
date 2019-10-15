@@ -74,11 +74,16 @@ public class PayCustomer {
     private String companyName;
 
     /**
+     * 平台流水号
+     */
+    private String paySerialNo;
+
+    /**
      * 是否接收到消息,0未接受;1接收到消息
      */
     private String receiveMessages;
 
-    public PayCustomer(Long id, String tranFlow, String amount, String payType, String merchantId, String merchantNo, String buyerId, String modifyTime, String createDate, String createTime, String status, String compID, String companyName, String receiveMessages) {
+    public PayCustomer(Long id, String tranFlow, String amount, String payType, String merchantId, String merchantNo, String buyerId, String modifyTime, String createDate, String createTime, String status, String compID, String companyName, String paySerialNo, String receiveMessages) {
         this.id = id;
         this.tranFlow = tranFlow;
         this.amount = amount;
@@ -92,7 +97,16 @@ public class PayCustomer {
         this.status = status;
         this.compID = compID;
         this.companyName = companyName;
+        this.paySerialNo = paySerialNo;
         this.receiveMessages = receiveMessages;
+    }
+
+    public String getPaySerialNo() {
+        return paySerialNo;
+    }
+
+    public void setPaySerialNo(String paySerialNo) {
+        this.paySerialNo = paySerialNo;
     }
 
     public String getReceiveMessages() {

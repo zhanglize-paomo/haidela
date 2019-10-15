@@ -64,4 +64,15 @@ public class PayCustomerService {
     public int updateReceiveMessages(String tranFlow, String receiveMessages) {
         return mapper.updateReceiveMessages(tranFlow,receiveMessages);
     }
+
+    /**
+     * 根据id修改该条商户信息的订单信息
+     *
+     * @param id
+     * @param paySerialNo  平台交易流水号
+     * @return
+     */
+    public int updateByPaySerialNo(Long id, String paySerialNo) {
+        return mapper.updateByPaySerialNo(id,paySerialNo);
+    }
 }

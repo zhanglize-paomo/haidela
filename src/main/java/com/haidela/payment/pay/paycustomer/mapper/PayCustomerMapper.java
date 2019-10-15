@@ -45,4 +45,12 @@ public interface PayCustomerMapper {
      */
     PayCustomer findByTranFlow(String tranFlow);
 
+    /**
+     * 根据id修改该条商户信息的订单信息
+     *
+     * @param id
+     * @param paySerialNo  平台交易流水号
+     * @return
+     */
+    int updateByPaySerialNo(@Param(value = "id") Long id, @Param(value = "paySerialNo") String paySerialNo);
 }

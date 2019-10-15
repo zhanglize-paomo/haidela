@@ -80,4 +80,17 @@ public class PayCustomerController {
         return service.findByTranFlow(tranFlow);
     }
 
+    /**
+     * 根据id修改该条商户信息的订单信息
+     *
+     * @param id
+     * @param paySerialNo  平台交易流水号
+     * @return
+     */
+    @RequestMapping("pay-serial-no/{id}/{paySerialNo}")
+    @PostMapping
+    public int updateByPaySerialNo(@PathVariable Long id,@PathVariable String paySerialNo){
+        return service.updateByPaySerialNo(id,paySerialNo);
+    }
+
 }

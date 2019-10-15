@@ -114,11 +114,7 @@ public class PayService {
 //        //预留字段
 //        String yUL3 = "3";
         //后台通知地址
-        /**
-         * 我们的地址
-         */
-        //TODO
-        String NOTICEURL = "http://c04647d4.ngrok.io/dfpay/notify.do";
+        String NOTICEURL = "http://182.92.192.208:8080/order-payment";
         /**
          * 切换正式环境商户号需要到正式环境商户后台 安全中心--证书管理 功能中下载正式并启用商户证书秘钥替换掉DEMO中的证书秘钥
          进入证书管理页面下载证步骤

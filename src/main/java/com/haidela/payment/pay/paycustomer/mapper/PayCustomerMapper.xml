@@ -17,6 +17,7 @@
         <result column="comp_iD" jdbcType="VARCHAR" property="compID"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
         <result column="receive_messages" jdbcType="VARCHAR" property="receiveMessages"/>
+        <result column="pay_serial_no" jdbcType="VARCHAR" property="paySerialNo"/>
     </resultMap>
 
     <insert id="add" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" useGeneratedKeys="true" keyProperty="id">
@@ -34,6 +35,10 @@
 
     <update id="updateReceiveMessages" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" >
         update lyx_pay_customer set receive_messages = #{receiveMessages,jdbcType=CHAR} where tran_flow = #{tranFlow}
+    </update>
+
+    <update id="updateByPaySerialNo" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" >
+        update lyx_pay_customer set pay_serial_no = #{paySerialNo,jdbcType=CHAR} where  id = #{id}
     </update>
 
     <select id="findByTranFlow" resultMap="resultMap">
