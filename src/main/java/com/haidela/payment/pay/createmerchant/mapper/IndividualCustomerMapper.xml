@@ -34,23 +34,24 @@
         <result column="bill_rate2" jdbcType="VARCHAR" property="billRate2"/>
         <result column="bill_rate3" jdbcType="VARCHAR" property="billRate3"/>
         <result column="business_license" jdbcType="VARCHAR" property="businessLicense"/>
+        <result column="account_code" jdbcType="VARCHAR" property="accountCode"/>
     </resultMap>
 
-    <insert id="add" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" useGeneratedKeys="true"
+    <insert id="add" parameterType="com.haidela.payment.pay.createmerchant.domain.IndividualCustomer" useGeneratedKeys="true"
             keyProperty="id">
         insert into
-        lyx_pay_customer (id,merchant_no,currency,merchant_name,merchant_short_name,industr_id, province,city,county,
+        lyx_individual_customer (id,merchant_no,currency,merchant_name,merchant_short_name,industr_id, province,city,county,
         tel,email, customer_phone,principal, principal_mobile,id_code, bank_id,account_name,contact_line,bank_name,
         bank_branch_name,bank_province,bank_city, id_card,bank_tel,address,bank_address,bill_rate,bill_rate1,
-        bill_rate2,bill_rate3,business_license)
+        bill_rate2,bill_rate3,business_license,account_code)
         values ( #{id,jdbcType=BIGINT},#{merchantNo,jdbcType=CHAR},#{currency,jdbcType=CHAR}, #{merchantName,jdbcType=CHAR},
         #{merchantShortName,jdbcType=CHAR}, #{industrId,jdbcType=CHAR},#{province,jdbcType=CHAR},#{city,jdbcType=CHAR},
         #{county,jdbcType=CHAR},#{tel,jdbcType=CHAR}, #{email,jdbcType=CHAR}, #{customerPhone,jdbcType=CHAR}, #{principal,jdbcType=CHAR},
         #{principalMobile,jdbcType=CHAR}, #{idCode,jdbcType=CHAR}, #{bankId,jdbcType=CHAR},#{accountName,jdbcType=CHAR},
         #{contactLine,jdbcType=CHAR},  #{bankName,jdbcType=CHAR},#{bankBranchName,jdbcType=CHAR},#{bankProvince,jdbcType=CHAR},
         #{bankCity,jdbcType=CHAR},#{idCard,jdbcType=CHAR},#{bankTel,jdbcType=CHAR}, #{address,jdbcType=CHAR},
-        #{bankAddress,jdbcType=CHAR},#{billRate,jdbcType=CHAR}),#{billRate1,jdbcType=CHAR},#{billRate2,jdbcType=CHAR},
-        #{billRate3,jdbcType=CHAR}),#{businessLicense,jdbcType=CHAR})
+        #{bankAddress,jdbcType=CHAR},#{billRate,jdbcType=CHAR},#{billRate1,jdbcType=CHAR},#{billRate2,jdbcType=CHAR},
+        #{billRate3,jdbcType=CHAR},#{businessLicense,jdbcType=CHAR},#{accountCode,jdbcType=CHAR})
     </insert>
 
 </mapper>

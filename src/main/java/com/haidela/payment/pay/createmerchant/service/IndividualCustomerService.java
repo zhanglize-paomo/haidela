@@ -1,10 +1,11 @@
 package com.haidela.payment.pay.createmerchant.service;
 
-import com.haidela.payment.util.HTTPRequestUtil;
-import com.haidela.payment.util.MD5;
-import com.haidela.payment.util.RSAUtils;
+import com.haidela.payment.pay.createmerchant.domain.IndividualCustomer;
+import com.haidela.payment.pay.createmerchant.mapper.IndividualCustomerMapper;
+import com.haidela.payment.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,12 @@ import java.util.TreeMap;
  */
 @Service
 public class IndividualCustomerService {
+
+    private IndividualCustomerMapper mapper;
+    @Autowired
+    public void setMapper(IndividualCustomerMapper mapper) {
+        this.mapper = mapper;
+    }
 
     private static final Logger logger = LoggerFactory.getLogger(IndividualCustomerService.class);
 
@@ -154,7 +161,14 @@ public class IndividualCustomerService {
             trnMap.put("sign", sign);
             System.out.println("请求上游的参数：" + trnMap);
             String rtnStr = HTTPRequestUtil.formUpload(merUrl, trnMap, channelId);
+            //判断上游返回的信息中是否存在个体商户id
+            Map<String, Object> stringObjectMap = JsonUtils.jsonToMap(rtnStr);
             logger.info("上游返回结果：" + com.alibaba.fastjson.JSONObject.parse(rtnStr));
+            String merchantId = JsonUtils.jsonToMap(stringObjectMap.get("data").toString()).get("merchantId").toString();
+            logger.info("商户ID MerchantId：" + merchantId);
+            if(!merchantId.equals("") || merchantId != null){
+                add(toCustomer(request,merchantId));
+            }
         } catch (Exception e) {
             System.out.println("请求上游异常" + e);
         }
@@ -168,6 +182,49 @@ public class IndividualCustomerService {
         map.put("bankTel",trnMap.get("bankTel"));       //持卡人手机号  加密
         map.put("sign", sign);
         return map;
+    }
+
+    /**
+     * 商户进件个体商户信息
+     *
+     * @param request
+     * @param merchantId
+     * @return
+     */
+    private IndividualCustomer toCustomer(HttpServletRequest request, String merchantId) {
+        IndividualCustomer customer = new IndividualCustomer();
+        customer.setCounty(request.getParameter("county"));
+        customer.setTel(request.getParameter("setTel"));
+        customer.setProvince( request.getParameter("province"));
+        customer.setPrincipalMobile( request.getParameter("principalMobile"));
+        customer.setMerchantShortName( request.getParameter("merchantShortName"));
+        customer.setMerchantNo(merchantId);
+        customer.setPrincipal(request.getParameter("principal"));
+        customer.setMerchantName( request.getParameter("merchantName"));
+        customer.setIndustrId( request.getParameter("industrId"));
+        customer.setIdCode( request.getParameter("idCode"));
+        customer.setIdCard( request.getParameter("idCard"));
+        customer.setEmail( request.getParameter("email"));
+        customer.setCustomerPhone( request.getParameter("customerPhone"));
+        customer.setCurrency( request.getParameter("currency"));
+        customer.setContactLine( request.getParameter("contactLine"));
+        customer.setCity( request.getParameter("city"));
+        customer.setBusinessLicense( request.getParameter("businessLicense"));
+        customer.setBillRate(request.getParameter("billRate"));
+        customer.setBillRate1(request.getParameter("billRate1"));
+        customer.setBillRate2(request.getParameter("billRate2"));
+        customer.setBillRate3(request.getParameter("billRate3"));
+        customer.setBankTel( request.getParameter("bankTel"));
+        customer.setBankProvince( request.getParameter("bankProvince"));
+        customer.setBankName( request.getParameter("bankName"));
+        customer.setBankId( request.getParameter("bankId"));
+        customer.setBankCity( request.getParameter("bankCity"));
+        customer.setBankBranchName( request.getParameter("bankBranchName"));
+        customer.setBankAddress( request.getParameter("bankAddress"));
+        customer.setAddress( request.getParameter("address"));
+        customer.setAccountName( request.getParameter("accountName"));
+        customer.setAccountCode( request.getParameter("accountCode"));
+        return customer;
     }
 
 
@@ -204,5 +261,17 @@ public class IndividualCustomerService {
         }
         trnMap.put("sign",sign);
         return trnMap;
+    }
+
+    /**
+     * 新增商户进件个体商户信息
+     *
+     * @param customer
+     * @return
+     */
+    public int add(IndividualCustomer customer) {
+        customer.setCurrency("RMB");
+        customer.setId(new SnowflakeIdUtils().nextId());
+        return mapper.add(customer);
     }
 }

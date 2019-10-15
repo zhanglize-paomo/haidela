@@ -1,7 +1,9 @@
 package com.haidela.payment.pay.createmerchant.controller;
 
+import com.haidela.payment.pay.createmerchant.domain.IndividualCustomer;
 import com.haidela.payment.pay.createmerchant.service.IndividualCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,7 +18,8 @@ import java.util.Map;
  * @author zhanglize
  * @create 2019/10/4
  */
-@RestController("creatMerchantController")
+@RestController("individualCustomerController")
+@RequestMapping("/individual-customer")
 public class IndividualCustomerController {
 
     private IndividualCustomerService service;
@@ -36,6 +39,18 @@ public class IndividualCustomerController {
     @RequestMapping(path = "/sign")
     public Map<String,String> getSign(HttpServletRequest request, HttpServletResponse response ) {
         return service.getSign(request,response);
+    }
+
+    /**
+     * 新增商户进件个体商户信息
+     *
+     * @param customer
+     * @return
+     */
+    @RequestMapping("add")
+    @PostMapping
+    public int add(IndividualCustomer customer){
+        return service.add(customer);
     }
 
     /**
