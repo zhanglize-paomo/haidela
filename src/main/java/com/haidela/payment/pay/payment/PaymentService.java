@@ -735,7 +735,7 @@ public class PaymentService extends HttpServlet {
 //          生产环境  http://payment.ilachang.com/paymentSystem/forthAPI/callback/hyPay
             customerUrl = "http://61.222.80.172:8787/paymentSystem/forthAPI/callback/hyPay";
         } else if (customer.getCompID().equals("4189")) {
-            customerUrl = "http://182.92.192.208:8080/order-payment";
+            customerUrl = "http://gate.dfzf6666.com/PlugOrderCallbackNotify21.ashx";
         }
         return customerUrl;
     }
