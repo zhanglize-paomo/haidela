@@ -661,7 +661,8 @@ public class PaymentService extends HttpServlet {
         PayCustomer customer = customerService.findByTranFlow(request.getParameter("tranFlow"));
         if (customer.getCompID().equals("2789")) {
 //          生产环境  http://payment.ilachang.com/paymentSystem/forthAPI/callback/hyPay
-            customerUrl = "http://61.222.80.172:8787/paymentSystem/forthAPI/callback/hyPay";
+            customerUrl = "http://payment.ilachang.com/paymentSystem/forthAPI/callback/hyPay";
+//            customerUrl = "http://61.222.80.172:8787/paymentSystem/forthAPI/callback/hyPay";
         } else if (customer.getCompID().equals("4189")) {
             customerUrl = "http://gate.dfzf6666.com/PlugOrderCallbackNotify21.ashx";
         }

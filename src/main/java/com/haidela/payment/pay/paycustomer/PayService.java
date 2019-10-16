@@ -64,21 +64,21 @@ public class PayService {
 
         //测试商户的公钥私钥这两个文件在本项目的src目录下certs中
 
-//        // 私钥文件路径
-//        //windows系统的文件信息
-//        String privateKey = PayService.class.getResource("/").getPath() + "cert/CS20190927084578_20190927201246553.pfx";
-//        // 公钥文件路径
-//        //windows系统的文件信息
-//        String publicKey = PayService.class.getResource("/").getPath() + "cert/SS20190927084578_20190927201246553.cer";
-
         // 私钥文件路径
-        //Linux系统的文件信息
-        //TODO 通过读取配置文件获取到相应的文件信息
-        String privateKey = "/home/CS20190927084578_20190927201246553.pfx";
+        //windows系统的文件信息
+        String privateKey = PayService.class.getResource("/").getPath() + "cert/CS20190927084578_20190927201246553.pfx";
         // 公钥文件路径
-        //Linux系统的文件信息
-        //TODO 通过读取配置文件获取到相应的文件信息
-        String publicKey = "/home/SS20190927084578_20190927201246553.cer";
+        //windows系统的文件信息
+        String publicKey = PayService.class.getResource("/").getPath() + "cert/SS20190927084578_20190927201246553.cer";
+
+//        // 私钥文件路径
+//        //Linux系统的文件信息
+//        //TODO 通过读取配置文件获取到相应的文件信息
+//        String privateKey = "/home/CS20190927084578_20190927201246553.pfx";
+//        // 公钥文件路径
+//        //Linux系统的文件信息
+//        //TODO 通过读取配置文件获取到相应的文件信息
+//        String publicKey = "/home/SS20190927084578_20190927201246553.cer";
         // 密钥密码
         String KeyPass = "666666";
 
