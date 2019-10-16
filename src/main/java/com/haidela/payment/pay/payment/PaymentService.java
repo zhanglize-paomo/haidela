@@ -43,7 +43,8 @@ public class PaymentService extends HttpServlet {
     /**
      * 判断下游消息是否为空,如果为空,每隔15秒发送一次请求,
      * 发送40次请求消息,总共估计10分钟
-     *  @param str      下游消息信息
+     *
+     * @param str      下游消息信息
      * @param pathUrl  请求地址信息
      * @param data     数据信息
      * @param num      次数
@@ -72,13 +73,14 @@ public class PaymentService extends HttpServlet {
 
     /**
      * 以post方式调用对方接口方法
-     *  @param pathUrl  请求地址信息
+     *
+     * @param pathUrl  请求地址信息
      * @param data     数据信息
      * @param num      数量
      * @param tranFlow 订单号信息
      */
-    private static String doPostOrGet(String pathUrl, Map<String,String> data, int num, String tranFlow) {
-        String str = HttpUtil2.doPost(pathUrl,data,"utf-8");
+    private static String doPostOrGet(String pathUrl, Map<String, String> data, int num, String tranFlow) {
+        String str = HttpUtil2.doPost(pathUrl, data, "utf-8");
         sendMessage(str, pathUrl, data, num, tranFlow);
         return str;
     }
@@ -612,7 +614,7 @@ public class PaymentService extends HttpServlet {
                     logger.info(TAG + "平台流水号:" + payCustomer.getMerchantNo());
                     //TODO 根据id修改该条商户信息的订单信息
                     //根据id修改该条商户信息的订单信息
-//                    customerService.updateByPaySerialNo(payCustomer.getId(), payCustomer.getPaySerialNo());
+                    customerService.updateByPaySerialNo(payCustomer.getId(), payCustomer.getPaySerialNo());
                     //根据商户号以及商户类型获取商户的配置对象
                     MerchantConfigure configure = configureService.findByMerchantNo(payCustomer.getMerchantNo(), payCustomer.getPayType());
                     //修改商户配置信息的当日收款总额
@@ -623,19 +625,10 @@ public class PaymentService extends HttpServlet {
                         int num = 0;
                         doPostOrGet(customerUrl, map, num, request.getParameter("tranFlow"));
                     }
-//                    /**
-//                     * 调用代付的接口,向第三方发起请求
-//                     */
-//                    PayCustomer customer = new PayCustomer();
-//                    customer.setAmount(request.getParameter("amount"));
-//                    customer.setTranFlow(request.getParameter("tranFlow"));
-//                    customer.setPayType(request.getParameter("payType"));
-//                    customer.setMerchantNo(request.getParameter("merchantNo"));
-//                    customer.setCreateTime(LocalDateTime.now().toString());
-////                    customer.setId(Integer.parseInt(IdUtils.getIncreaseIdByCurrentTimeMillis()));
-//                    customer.setStatus("交易完成");
-//                    payService.dfPay(request, response, payCustomer);
-
+                    /**
+                     * 调用代付的接口,向第三方发起请求
+                     */
+                    payService.dfPay(request, response);
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易失败";

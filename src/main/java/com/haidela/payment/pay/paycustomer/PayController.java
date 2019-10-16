@@ -53,13 +53,13 @@ public class PayController {
         payCustomer.setAmount(amount);
         payCustomer.setTranFlow(tranFlow);
         payCustomer.setMerchantId(merchantNo);
-        String string = null;
+        boolean string = false;
         try {
-            string = payService.dfPay(request, response, payCustomer);
+            string = payService.dfPay(request, response);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (string != null) {
+        if (string == true) {
             result.put("code", "200");
             result.put("msg", "代付成功");
         } else {

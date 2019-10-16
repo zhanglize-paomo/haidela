@@ -54,4 +54,8 @@
         #{billRate3,jdbcType=CHAR},#{businessLicense,jdbcType=CHAR},#{accountCode,jdbcType=CHAR})
     </insert>
 
+    <select id="findMerchantNo" resultMap="resultMap">
+        select * from lyx_individual_customer where merchant_no = #{merchantNo}
+    </select>
+
 </mapper>

@@ -19,4 +19,12 @@ public interface IndividualCustomerMapper {
      * @return
      */
     int add(IndividualCustomer customer);
+
+    /**
+     * 根据个人商户编号查询到对应的个人信息
+     *
+     * @param merchantNo 个人商户编号
+     * @return
+     */
+    IndividualCustomer findMerchantNo(String merchantNo);
 }

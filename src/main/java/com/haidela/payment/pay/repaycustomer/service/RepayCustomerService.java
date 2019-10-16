@@ -35,4 +35,5 @@ public class RepayCustomerService {
         customer.setId(new SnowflakeIdUtils().nextId());
         return mapper.add(customer);
     }
+
 }

@@ -277,4 +277,14 @@ public class IndividualCustomerService {
         customer.setId(new SnowflakeIdUtils().nextId());
         return mapper.add(customer);
     }
+
+    /**
+     * 根据个人商户编号查询到对应的个人信息
+     *
+     * @param merchantNo 个人商户编号
+     * @return
+     */
+    public IndividualCustomer findMerchantNo(String merchantNo) {
+        return mapper.findMerchantNo(merchantNo);
+    }
 }

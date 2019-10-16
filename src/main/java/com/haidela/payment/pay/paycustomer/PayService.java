@@ -1,7 +1,11 @@
 package com.haidela.payment.pay.paycustomer;
 
 
-import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
+import com.haidela.payment.pay.individualcustomer.domain.IndividualCustomer;
+import com.haidela.payment.pay.individualcustomer.service.IndividualCustomerService;
+import com.haidela.payment.pay.repaycustomer.domain.RepayCustomer;
+import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
+import com.haidela.payment.util.DateUtils;
 import com.hfb.merchant.df.model.DfPay;
 import com.hfb.merchant.df.sercret.CertUtil;
 import com.hfb.merchant.df.util.ModelPayUtil;
@@ -9,6 +13,7 @@ import com.hfb.merchant.pay.util.DateUtil;
 import com.hfb.merchant.pay.util.ParamUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.ServletException;
@@ -32,18 +37,30 @@ public class PayService {
     private static final Logger logger = LoggerFactory.getLogger(PayService.class);
     private static final String TAG = "【统一支付商户系统demo】-{统一交易异步通知}-";
 
+    private IndividualCustomerService service;
+    private RepayCustomerService customerService;
+
+    @Autowired
+    public void setService(IndividualCustomerService service) {
+        this.service = service;
+    }
+
+    @Autowired
+    public void setCustomerService(RepayCustomerService customerService) {
+        this.customerService = customerService;
+    }
+
     /**
      * 实时代付
      *
      * @param request
      * @param response
-     * @param payCustomer
      * @return
      */
-    public String dfPay(HttpServletRequest request, HttpServletResponse response, PayCustomer payCustomer) throws Exception {
-
-        //个体工商户
+    public boolean dfPay(HttpServletRequest request, HttpServletResponse response) throws Exception {
         String merchantNo = request.getParameter("merchantNo");
+        //根据个人商户编号查看代付个人信息
+        IndividualCustomer customer = service.findMerchantNo(merchantNo);
 
         //测试商户的公钥私钥这两个文件在本项目的src目录下certs中
 
@@ -78,31 +95,31 @@ public class PayService {
          * 加密
          */
         //收款账号(银行账号)
-        String accNo = "6228410784520592175";
+        String accNo = customer.getAccountCode();
         //收款账户名
-        String accName = "m";
+        String accName = customer.getAccountName();
         /**
          * 交易码
          */
-        String tranCode  = "1001";
+        String tranCode = "1001";
         /**
          * 交易币种
          */
-        String currency  = "RMB";
-        //交易流水号
-        String tranFlow = payCustomer.getTranFlow();
+        String currency = "RMB";
+
         //交易日期
         String tranDate = DateUtil.getDate();
         //交易时间
         String tranTime = DateUtil.getTime();
         //账户联行号
-        String bankAgentId = "103537530208";
+        String bankAgentId = customer.getContactLine();
         //收款行名称
-        String bankName = "中国农业银行";
-        //交易金额
-        String amount = payCustomer.getAmount();
+        String bankName = customer.getBankName();
         //摘要
-        String remark = "测试代付";
+        String remark = "代付";
+
+        String tranFlow = request.getParameter("tranFlow");
+        String amount = request.getParameter("amount");
 //        //扩展字段
 //        String ext1 = "1";
 //        //扩展字段
@@ -134,12 +151,27 @@ public class PayService {
         // 对发送的信息，进行加密，加签，发送至合付宝平台，并对返回的信息内容进行解析，验签操作
         Map<String, String> map = ModelPayUtil.sendModelPay(certUtil, dfPay, "https://cashier.hefupal.com/paygate/v1/dfpay");
 
+        if (map.get("rtnCode") != null || map.get("rtnCode") != "") {
+            //代付成功后将该笔订单的信息存入到代付消息接收情况中
+            RepayCustomer repayCustomer = new RepayCustomer();
+            repayCustomer.setTranFlow(tranFlow);
+            repayCustomer.setStatus(map.get("rtnCode"));
+            repayCustomer.setPayType(request.getParameter("payType"));
+            repayCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
+            repayCustomer.setMerchantNo(merchantNo);
+            repayCustomer.setCompID(request.getParameter("compID"));
+            repayCustomer.setCompanyName(request.getParameter("companyName"));
+            repayCustomer.setAmount(amount);
+            repayCustomer.setCreateTime(DateUtils.stringToDate());
+            customerService.add(repayCustomer);
+        }
+        boolean str = false;
         //如果后台通知地址为null
         if (NOTICEURL != null) {
             //调用异步消息通知
-            service(request, response);
+            str = service(request, response);
         }
-        return map.toString();
+        return str;
     }
 
     /**
@@ -150,9 +182,10 @@ public class PayService {
      * @throws ServletException
      * @throws IOException
      */
-    private void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    private boolean service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
         response.setCharacterEncoding("utf-8");
+        boolean result = false;
         try {
             TreeMap<String, String> transMap = new TreeMap<String, String>();
             Enumeration<String> enu = request.getParameterNames();
@@ -169,7 +202,6 @@ public class PayService {
             transMap.remove("sign");
             // 验签
             String transData = ParamUtil.getSignMsg(transMap);
-            boolean result = false;
             try {
                 com.hfb.mer.sdk.secret.CertUtil.getInstance().verify(transData, sign);
                 result = true;
@@ -181,10 +213,10 @@ public class PayService {
                 throw new Exception("商户编号为:" + merchantNo + "验签失败");
             }
             logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
-
         } catch (Exception e) {
             logger.info(TAG + "处理异常", e);
         }
+        return result;
     }
 
 }

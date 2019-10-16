@@ -19,4 +19,5 @@ public interface RepayCustomerMapper {
      * @return
      */
     int add(RepayCustomer customer);
+
 }
