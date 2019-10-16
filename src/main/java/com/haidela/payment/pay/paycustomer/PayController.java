@@ -1,6 +1,5 @@
 package com.haidela.payment.pay.paycustomer;
 
-import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -49,10 +48,6 @@ public class PayController {
         }
         String amount = request.getParameter("amount");//交易金额
         String merchantNo = request.getParameter("merchantNo");//商户号
-        PayCustomer payCustomer = new PayCustomer();
-        payCustomer.setAmount(amount);
-        payCustomer.setTranFlow(tranFlow);
-        payCustomer.setMerchantId(merchantNo);
         boolean string = false;
         try {
             string = payService.dfPay(request, response);

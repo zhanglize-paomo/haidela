@@ -8,8 +8,8 @@ import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
 import com.haidela.payment.util.DateUtils;
 import com.hfb.merchant.df.model.DfPay;
 import com.hfb.merchant.df.sercret.CertUtil;
+import com.hfb.merchant.df.util.DateUtil;
 import com.hfb.merchant.df.util.ModelPayUtil;
-import com.hfb.merchant.pay.util.DateUtil;
 import com.hfb.merchant.pay.util.ParamUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,12 +58,10 @@ public class PayService {
      * @return
      */
     public boolean dfPay(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        String merchantNo = request.getParameter("merchantNo");
+        String merchantNo = "S20190927084578";
+        String YUL3 = request.getParameter("YUL3");
         //根据个人商户编号查看代付个人信息
-        IndividualCustomer customer = service.findMerchantNo(merchantNo);
-
-        //测试商户的公钥私钥这两个文件在本项目的src目录下certs中
-
+        IndividualCustomer customer = service.findMerchantNo(YUL3);
         // 私钥文件路径
         //windows系统的文件信息
         String privateKey = PayService.class.getResource("/").getPath() + "cert/CS20190927084578_20190927201246553.pfx";
@@ -90,7 +88,6 @@ public class PayService {
          * 渠道编号
          */
         String channelNo = "04";
-
         /**
          * 加密
          */
@@ -106,7 +103,6 @@ public class PayService {
          * 交易币种
          */
         String currency = "RMB";
-
         //交易日期
         String tranDate = DateUtil.getDate();
         //交易时间
@@ -117,21 +113,19 @@ public class PayService {
         String bankName = customer.getBankName();
         //摘要
         String remark = "代付";
-
         String tranFlow = request.getParameter("tranFlow");
         String amount = request.getParameter("amount");
-//        //扩展字段
-//        String ext1 = "1";
-//        //扩展字段
-//        String ext2 = "2";
-//        //预留字段
-//        String yUL1 = "1";
-//        //预留字段
-//        String yUL2 = "2";
-//        //预留字段
-//        String yUL3 = "3";
+        //扩展字段
+        String ext1="1";
+        //扩展字段
+        String ext2="2";
+        //预留字段
+        String yUL1="1";
+        //预留字段
+        String yUL2="2";
         //后台通知地址
-        String NOTICEURL = "http://182.92.192.208:8080/order-payment";
+        String NOTICEURL="http://c04647d4.ngrok.io/dfpay/notify.do";
+
         /**
          * 切换正式环境商户号需要到正式环境商户后台 安全中心--证书管理 功能中下载正式并启用商户证书秘钥替换掉DEMO中的证书秘钥
          进入证书管理页面下载证步骤
@@ -158,7 +152,7 @@ public class PayService {
             repayCustomer.setStatus(map.get("rtnCode"));
             repayCustomer.setPayType(request.getParameter("payType"));
             repayCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
-            repayCustomer.setMerchantNo(merchantNo);
+            repayCustomer.setMerchantNo(YUL3);
             repayCustomer.setCompID(request.getParameter("compID"));
             repayCustomer.setCompanyName(request.getParameter("companyName"));
             repayCustomer.setAmount(amount);
@@ -166,11 +160,11 @@ public class PayService {
             customerService.add(repayCustomer);
         }
         boolean str = false;
-        //如果后台通知地址为null
-        if (NOTICEURL != null) {
-            //调用异步消息通知
-            str = service(request, response);
-        }
+//        //如果后台通知地址为null
+//        if (NOTICEURL != null) {
+//            //调用异步消息通知
+//            str = service(request, response);
+//        }
         return str;
     }
 
@@ -196,10 +190,13 @@ public class PayService {
             }
             logger.info(TAG + "返回数据：" + transMap);
             String merchantNo = (String) transMap.get("merchantNo");
+
+
             // 获取签名
             String sign = (String) transMap.get("sign");
             sign = sign.replaceAll(" ", "+");
             transMap.remove("sign");
+
             // 验签
             String transData = ParamUtil.getSignMsg(transMap);
             try {

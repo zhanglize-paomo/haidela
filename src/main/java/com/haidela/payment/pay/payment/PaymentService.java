@@ -52,24 +52,25 @@ public class PaymentService extends HttpServlet {
      */
     private static void sendMessage(String str, String pathUrl, Map<String, String> data, int num, String tranFlow) {
         if (("").equals(str) || str == null) {
-//            if (20 == num) {
-//                //根据订单号信息将该订单的接收消息信息置为已经接收
-//                customerService.updateReceiveMessages(tranFlow, "1");
-//            } else {
-//                num += 1;
-//                int finalNum = num;
-//                new Timer().schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        doPostOrGet(pathUrl, data, finalNum, tranFlow);
-//                    }
-//                }, 0, 15000);
-//            }
+            if (num != 20) {
+                num += 1;
+                try {
+                    Thread.sleep(5000);
+                    doPostOrGet(pathUrl, data, num, tranFlow);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            else{
+                //默认设置为已经接收返回消息
+                customerService.updateReceiveMessages(tranFlow, "1");
+            }
         } else {
             //根据订单号信息将该订单的接收消息信息置为已经接收
             customerService.updateReceiveMessages(tranFlow, "1");
         }
     }
+
 
     /**
      * 以post方式调用对方接口方法
@@ -84,6 +85,8 @@ public class PaymentService extends HttpServlet {
         sendMessage(str, pathUrl, data, num, tranFlow);
         return str;
     }
+
+
 
     @Autowired
     public void setCustomerService(PayCustomerService customerService) {
@@ -628,7 +631,7 @@ public class PaymentService extends HttpServlet {
                     /**
                      * 调用代付的接口,向第三方发起请求
                      */
-                    payService.dfPay(request, response);
+//                    payService.dfPay(request, response);
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易失败";
