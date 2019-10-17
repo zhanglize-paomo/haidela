@@ -124,8 +124,6 @@ public class PaymentService extends HttpServlet {
         String payUrl = "";
         // 利用treeMap对参数按key值进行排序
         TreeMap<String, String> transMap = ResponseUtil.getParamMap(request);
-//        transMap.remove("sign");
-//        transMap.remove("compID");
         try {
             //根据订单流水号判断该流水号是否存在
             if (customerService.findByTranFlow(customer.getTranFlow()) != null) {
@@ -145,7 +143,6 @@ public class PaymentService extends HttpServlet {
              * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
              * 个体工商户id(我们自己的)
              */
-//            String goodsInfo = "873191009170812523";
             Map<String, String> goodsInfo = getMerchantNo(request.getParameter("amount"), request.getParameter("compID"), payType);
             if (goodsInfo.get("merchantId") == null || goodsInfo.get("merchantId").equals("")) {
                 return goodsInfo;
@@ -155,7 +152,6 @@ public class PaymentService extends HttpServlet {
             String version = Config.getInstance().getVersion();
             String bindId = "YSM201909271637141884536731670";    //入驻ID
             String channelNo = Config.getInstance().getChannelNo();
-//            String notifyUrl = Config.getInstance().getNotifyUrl();
             /**
              * 异步消息通知的请求地址信息
              */
@@ -165,7 +161,6 @@ public class PaymentService extends HttpServlet {
             String tranTime = DateUtil.getTime();
             String buyerName = "213213";
             String contact = "213131233";
-            //String cardType = "01";
             String ext1 = "324242424";
             String ext2 = "873190924119746279";
             String YUL1 = "1241242424";
@@ -176,14 +171,11 @@ public class PaymentService extends HttpServlet {
             transMap.put("YUL2", YUL2);
             transMap.put("ext1", ext1);
             transMap.put("ext2", ext2);
-            //transMap.put("goodsNum", goodsNum);
-//            transMap.put("goodsInfo", goodsInfo.get("merchantId"));
             String merchantId = goodsInfo.get("merchantId");
             transMap.put("goodsInfo", merchantId);
             //根据商户id修改商户配置对象中该商户调用的时间信息
             configureService.updateMerchantId(merchantId);
             map.put("merchantId", goodsInfo.get("merchantId"));
-            //transMap.put("cardType", cardType);
             transMap.put("notifyUrl", notifyUrl);
             transMap.put("goodsName", goodsName);
             transMap.put("buyerId", customer.getBuyerId());
@@ -218,12 +210,12 @@ public class PaymentService extends HttpServlet {
             //将该订单号的信息存入到我们的数据库中
             addPayCustomer(transMap);
             // 发送扫码请求报文
-            logger.info(TAG + "本地服务发送请求报文给上游：" + transMap);
+            logger.info(TAG + "统一支付发送请求报文给上游：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
-            logger.info(TAG + "上游返回报文信息：" + asynMsg);
+            logger.info(TAG + "统一支付上游返回报文信息：" + asynMsg);
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
-            logger.info("请求结果返回解析数据：" + resultMap);
+            logger.info("统一支付请求结果返回解析数据：" + resultMap);
             // 当支付类型payType为24或者25时，返回qrCodeURL的地址使用POST请求
             payUrl = resultMap.get("qrCodeURL");
             if ("24".equals(payType) || "25".equals(payType)) {
@@ -234,7 +226,6 @@ public class PaymentService extends HttpServlet {
                     request.setAttribute("resultMap", resultMap);
                 } else {
                     request.setAttribute("action", payUrl);
-//                    redirectPath = "webPayUrl.jsp";
                 }
             } else {
                 if (resultMap.get("rtnMsg") != null) {
@@ -244,10 +235,8 @@ public class PaymentService extends HttpServlet {
             }
         } catch (Exception e) {
             e.printStackTrace();
-//            redirectPath = "error.jsp";
         } finally {
             request.setAttribute("errorMsg", msg);
-//            request.getRequestDispatcher(redirectPath).forward(request, response);
         }
         logger.info(TAG + "商户编号：" + map.get("merchantId"));
         map.put("payUrl", payUrl);
@@ -413,7 +402,7 @@ public class PaymentService extends HttpServlet {
                 t = enu.nextElement();
                 transMap.put(t, request.getParameter(t));
             }
-            logger.info(TAG + "返回数据：" + transMap);
+            logger.info(TAG + "异步消息通知返回数据：" + transMap);
             String merchantNo = (String) transMap.get("merchantNo");
             // 获取签名
             String sign = (String) transMap.get("sign");
@@ -429,8 +418,8 @@ public class PaymentService extends HttpServlet {
                 e.printStackTrace();
             }
             if (!result) {
-                logger.info(TAG + "商户编号为:" + merchantNo + "验签失败");
-                throw new Exception("商户编号为:" + merchantNo + "验签失败");
+                logger.info(TAG + "异步消息商户编号为:" + merchantNo + "验签失败");
+                throw new Exception("异步消息商户编号为:" + merchantNo + "验签失败");
             } else {
                 //判断返回的码是否是成功的信息
                 String rtnCode = request.getParameter("rtnCode");
@@ -452,7 +441,7 @@ public class PaymentService extends HttpServlet {
                     e.printStackTrace();
                 }
                 map.put("digest", digest);
-                logger.info(digest + "下游客户请求地址信息:" + map.toString());
+                logger.info(digest + "发送给下游客户的地址栏数据信息:" + map.toString());
                 if (("0000").equals(rtnCode)) { //成功
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易完成";
@@ -602,9 +591,9 @@ public class PaymentService extends HttpServlet {
             //将该订单号的信息存入到我们的数据库中
             addPayCustomer(transMap);
             // 发送扫码请求报文
-            logger.info(TAG + "请求报文：" + transMap);
+            logger.info(TAG + "统一支付发送请求报文给上游：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
-            logger.info(TAG + "返回报文：" + asynMsg);
+            logger.info(TAG + "统一支付返回报文：" + asynMsg);
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
             logger.info("请求结果返回解析数据：" + resultMap);
@@ -694,7 +683,7 @@ public class PaymentService extends HttpServlet {
                     e.printStackTrace();
                 }
                 map.put("digest", digest);
-                logger.info(digest + "下游客户请求地址信息:" + map.toString());
+                logger.info(digest + "测试下游客户请求地址信息:" + map.toString());
                 if (("0000").equals(rtnCode)) { //成功
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易完成";

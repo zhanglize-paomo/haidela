@@ -82,20 +82,6 @@ public class PaymentController {
             result.put("msg", "签名不可为空");
             return result;
         }
-
-//        String tranFlow = request.getParameter("tranFlow");//交易流水号
-//        if (null == tranFlow || tranFlow.equals("")) {
-//            result.put("code", "3005");
-//            result.put("msg", "交易流水号不可为空");
-//            return result;
-//        }
-//
-//        String tranSerialNum = request.getParameter("tranSerialNum");//交易流水号
-//        if (null == tranSerialNum || tranSerialNum.equals("")) {
-//            result.put("code", "3006");
-//            result.put("msg", "交易流水号不可为;
-//            return result;
-//        }
         String string = null;
         try {
             string = paymentService.orderPayment(request, response);

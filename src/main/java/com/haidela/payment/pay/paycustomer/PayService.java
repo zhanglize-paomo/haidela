@@ -153,7 +153,7 @@ public class PayService {
         if (map.get("rtnCode") != null || map.get("rtnCode") != "") {
             //根据交易流水号判断是否存在
             if(customerService.findByTranFlow(tranFlow) != null){
-                logger.info(TAG + "返回数据：" + "订单已存在，请核对，切勿重复出款");
+                logger.info(TAG + "实时代付返回数据：" + "订单已存在，请核对，切勿重复出款");
             }else{
                 //代付成功后将该笔订单的信息存入到代付消息接收情况中
                 RepayCustomer repayCustomer = new RepayCustomer();
