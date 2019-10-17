@@ -131,7 +131,7 @@ public class PayService {
         String yUL2="2";
         String YUL3 = payCustomer.getMerchantNo();
         //后台通知地址
-        String NOTICEURL="182.92.192.208:8080/order-repay";
+        String NOTICEURL="http://182.92.192.208:8080/order-repay";
 
         /**
          * 切换正式环境商户号需要到正式环境商户后台 安全中心--证书管理 功能中下载正式并启用商户证书秘钥替换掉DEMO中的证书秘钥
@@ -151,24 +151,24 @@ public class PayService {
 
         // 对发送的信息，进行加密，加签，发送至合付宝平台，并对返回的信息内容进行解析，验签操作
         Map<String, String> map = ModelPayUtil.sendModelPay(certUtil, dfPay, "https://cashier.hefupal.com/paygate/v1/dfpay");
-
         if (map.get("rtnCode") != null || map.get("rtnCode") != "") {
             //根据交易流水号判断是否存在
             if(customerService.findByTranFlow(tranFlow) != null){
                 logger.info(TAG + "返回数据：" + "订单已存在，请核对，切勿重复出款");
+            }else{
+                //代付成功后将该笔订单的信息存入到代付消息接收情况中
+                RepayCustomer repayCustomer = new RepayCustomer();
+                repayCustomer.setTranFlow(tranFlow);
+                repayCustomer.setStatus(map.get("rtnCode"));
+                repayCustomer.setPayType(payCustomer.getPayType());
+                repayCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
+                repayCustomer.setMerchantNo(payCustomer.getMerchantNo());
+                repayCustomer.setCompID(payCustomer.getCompID());
+                repayCustomer.setCompanyName(payCustomer.getCompanyName());
+                repayCustomer.setAmount(amount);
+                repayCustomer.setCreateTime(DateUtils.stringToDate());
+                customerService.add(repayCustomer);
             }
-            //代付成功后将该笔订单的信息存入到代付消息接收情况中
-            RepayCustomer repayCustomer = new RepayCustomer();
-            repayCustomer.setTranFlow(tranFlow);
-            repayCustomer.setStatus(map.get("rtnCode"));
-            repayCustomer.setPayType(payCustomer.getPayType());
-            repayCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
-            repayCustomer.setMerchantNo(payCustomer.getMerchantNo());
-            repayCustomer.setCompID(payCustomer.getCompID());
-            repayCustomer.setCompanyName(payCustomer.getCompanyName());
-            repayCustomer.setAmount(amount);
-            repayCustomer.setCreateTime(DateUtils.stringToDate());
-            customerService.add(repayCustomer);
         }
         boolean flag = false;
         if(map.get("rtnCode").equals("0000")){
