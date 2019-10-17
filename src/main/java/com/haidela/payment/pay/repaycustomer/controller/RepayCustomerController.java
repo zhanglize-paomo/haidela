@@ -57,7 +57,7 @@ public class RepayCustomerController {
      * @param status    交易状态
      * @return
      */
-    @RequestMapping("findByTranFlow/{tranFlow}/{status}")
+    @RequestMapping("updateByStatus/{tranFlow}/{status}")
     public int updateByStatus(@PathVariable String tranFlow,@PathVariable String status) {
         return service.updateByStatus(tranFlow,status);
     }
