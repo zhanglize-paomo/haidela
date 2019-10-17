@@ -62,21 +62,21 @@ public class PayService {
         String YUL3 = request.getParameter("YUL3");
         //根据个人商户编号查看代付个人信息
         IndividualCustomer customer = service.findMerchantNo(YUL3);
-        // 私钥文件路径
-        //windows系统的文件信息
-        String privateKey = PayService.class.getResource("/").getPath() + "cert/CS20190927084578_20190927201246553.pfx";
-        // 公钥文件路径
-        //windows系统的文件信息
-        String publicKey = PayService.class.getResource("/").getPath() + "cert/SS20190927084578_20190927201246553.cer";
-
 //        // 私钥文件路径
-//        //Linux系统的文件信息
-//        //TODO 通过读取配置文件获取到相应的文件信息
-//        String privateKey = "/home/CS20190927084578_20190927201246553.pfx";
+//        //windows系统的文件信息
+//        String privateKey = PayService.class.getResource("/").getPath() + "cert/CS20190927084578_20190927201246553.pfx";
 //        // 公钥文件路径
-//        //Linux系统的文件信息
-//        //TODO 通过读取配置文件获取到相应的文件信息
-//        String publicKey = "/home/SS20190927084578_20190927201246553.cer";
+//        //windows系统的文件信息
+//        String publicKey = PayService.class.getResource("/").getPath() + "cert/SS20190927084578_20190927201246553.cer";
+
+        // 私钥文件路径
+        //Linux系统的文件信息
+        //TODO 通过读取配置文件获取到相应的文件信息
+        String privateKey = "/home/CS20190927084578_20190927201246553.pfx";
+        // 公钥文件路径
+        //Linux系统的文件信息
+        //TODO 通过读取配置文件获取到相应的文件信息
+        String publicKey = "/home/SS20190927084578_20190927201246553.cer";
         // 密钥密码
         String KeyPass = "666666";
 
@@ -140,12 +140,16 @@ public class PayService {
         CertUtil certUtil = new CertUtil(publicKey, privateKey, KeyPass, true);
 
         //对数据进行封装
-        DfPay dfPay = new DfPay(merchantNo, tranFlow, tranDate, tranTime, accNo, accName, bankAgentId, bankName, amount, remark, null, null, null, null, null, NOTICEURL);
+        DfPay dfPay = new DfPay(merchantNo, tranFlow, tranDate, tranTime, accNo, accName, bankAgentId, bankName, amount, remark, "ext1", "ext2", "yUL1", "yUL2", YUL3, NOTICEURL);
 
         // 对发送的信息，进行加密，加签，发送至合付宝平台，并对返回的信息内容进行解析，验签操作
         Map<String, String> map = ModelPayUtil.sendModelPay(certUtil, dfPay, "https://cashier.hefupal.com/paygate/v1/dfpay");
 
         if (map.get("rtnCode") != null || map.get("rtnCode") != "") {
+            //根据交易流水号判断是否存在
+            if(customerService.findByTranFlow(tranFlow) != null){
+                logger.info(TAG + "返回数据：" + "订单已存在，请核对，切勿重复出款");
+            }
             //代付成功后将该笔订单的信息存入到代付消息接收情况中
             RepayCustomer repayCustomer = new RepayCustomer();
             repayCustomer.setTranFlow(tranFlow);
@@ -159,13 +163,16 @@ public class PayService {
             repayCustomer.setCreateTime(DateUtils.stringToDate());
             customerService.add(repayCustomer);
         }
-        boolean str = false;
+        boolean flag = false;
+        if(map.get("rtnCode").equals("0000")){
+            flag = true;
+        }
 //        //如果后台通知地址为null
 //        if (NOTICEURL != null) {
 //            //调用异步消息通知
 //            str = service(request, response);
 //        }
-        return str;
+        return flag;
     }
 
     /**
@@ -190,7 +197,6 @@ public class PayService {
             }
             logger.info(TAG + "返回数据：" + transMap);
             String merchantNo = (String) transMap.get("merchantNo");
-
 
             // 获取签名
             String sign = (String) transMap.get("sign");

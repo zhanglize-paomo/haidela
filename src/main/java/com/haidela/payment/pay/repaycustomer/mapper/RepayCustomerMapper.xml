@@ -24,4 +24,8 @@
          #{compID,jdbcType=CHAR},#{companyName,jdbcType=CHAR}, #{paySerialNo,jdbcType=CHAR})
     </insert>
 
+    <select id="findByTranFlow" resultMap="resultMap">
+        select * from lyx_repay_customer where tran_flow = #{tranFlow}
+    </select>
+
 </mapper>

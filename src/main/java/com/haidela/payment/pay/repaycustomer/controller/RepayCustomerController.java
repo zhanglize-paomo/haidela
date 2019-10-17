@@ -3,6 +3,7 @@ package com.haidela.payment.pay.repaycustomer.controller;
 import com.haidela.payment.pay.repaycustomer.domain.RepayCustomer;
 import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -35,5 +36,16 @@ public class RepayCustomerController {
     @PostMapping
     public int add(RepayCustomer customer){
         return service.add(customer);
+    }
+
+    /**
+     * 根据交易流水号查询对应的代付交易对象的信息
+     *
+     * @param tranFlow  交易流水号
+     * @return
+     */
+    @RequestMapping("findByTranFlow/{tranFlow}")
+    public RepayCustomer findByTranFlow(@PathVariable String tranFlow) {
+        return service.findByTranFlow(tranFlow);
     }
 }

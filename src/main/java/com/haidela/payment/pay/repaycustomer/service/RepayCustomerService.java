@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class RepayCustomerService {
 
-    private String TRAN_FLOW = "DF";
+    private String TRAN_FLOW = "DF_";
 
     private RepayCustomerMapper mapper;
 
@@ -36,4 +36,13 @@ public class RepayCustomerService {
         return mapper.add(customer);
     }
 
+    /**
+     * 根据交易流水号查询对应的代付交易对象的信息
+     *
+     * @param tranFlow  交易流水号
+     * @return
+     */
+    public RepayCustomer findByTranFlow(String tranFlow) {
+        return mapper.findByTranFlow(tranFlow);
+    }
 }

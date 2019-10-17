@@ -60,8 +60,7 @@ public class PaymentService extends HttpServlet {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-            }
-            else{
+            } else {
                 //默认设置为已经接收返回消息
                 customerService.updateReceiveMessages(tranFlow, "1");
             }
@@ -85,7 +84,6 @@ public class PaymentService extends HttpServlet {
         sendMessage(str, pathUrl, data, num, tranFlow);
         return str;
     }
-
 
 
     @Autowired
@@ -388,164 +386,6 @@ public class PaymentService extends HttpServlet {
     }
 
     /**
-     * 其他客户支付交易请求报文
-     * <p>
-     * 入驻ID:YSM201908081719455501620025977
-     * 商户ID：873190924119746279
-     * 提供信息例如：
-     * 商户号：401500011562   第三方支付公司的编号
-     * <p>
-     * <p>
-     * md5的key(商户进件使用的密钥)：adc2fbfb4654ed95b28dfe0a0cb03da6
-     * 加密的公钥信息publicKey(publicKey是商户进件使用的密钥)：MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDFf6krDWQUDUzKj+K+WvML2EyZLagKaJ5YTeCoBNhx/WpD1Vh2j/
-     * wQ9G3RC/tpUcmE7szr/vgdEVHkOfk6mGpeHapS6QE4enJ/CVaTPM573uI8VGWBek9v/E6HaVxRV0Hs8ZsvHAKopqYNDZRKhIrlLUrrkFD2KXJgIiRPQALeMQIDAQAB
-     *
-     * @param request
-     * @param response
-     * @param customer
-     * @returnf
-     */
-    public String getOtherImgurl(HttpServletRequest request, HttpServletResponse response, PayCustomer customer) throws IOException, ServletException {
-        request.setCharacterEncoding("utf-8");
-        String msg = "处理成功";
-//        String redirectPath = "result.jsp";
-        Map<String, String> resultMap = null;
-        String payType = customer.getPayType();
-        String payUrl = "";
-        try {
-            // 利用treeMap对参数按key值进行排序
-            Map<String, String> transMap = ResponseUtil.getParamMap(request);
-            /**
-             * 备注  Char（100）
-             */
-            String remark = "客户支付交易";
-
-            /**
-             * 用户IP  char(100)
-             * 支持匹配用户的IP规则
-             */
-            String YUL3 = "4234242424";
-            /**
-             * 订单有效时间
-             */
-            Long valid = 3600L;
-
-            /**
-             * 交易币种 char(3)
-             */
-            String currency = "CNY";
-            /**
-             * 业务代码 char(5)
-             */
-            String bizType = "12";
-            /**
-             * 商品名称  char(100)
-             */
-            String goodsName = "商品名称";
-            String goodsInfo = "873190924119746279";
-            String goodsNum = "1";
-            /**
-             * 买家ID  char(100)  买家在商城的唯一编号
-             */
-            String buyerId = "324242424";
-
-            /**
-             * 轮询池,将客户端的随机选取商户,并在某一些时间内不能重复选取某个商户
-             *
-             */
-            String merchantNo = "S20190927084578"; //商户编号
-            String version = Config.getInstance().getVersion();
-            String bindId = "YSM201908081719455501620025977";    //入驻ID
-            String channelNo = Config.getInstance().getChannelNo();
-            String notifyUrl = Config.getInstance().getNotifyUrl();
-            String tranCode = "YS1003";
-            String tranDate = DateUtil.getDate();
-            String tranTime = DateUtil.getTime();
-            String buyerName = "213213";
-            String contact = "213131233";
-            String cardType = "01";
-            String ext1 = "324242424";
-            String ext2 = "873190924119746279";
-            String YUL1 = "1241242424";
-            String YUL2 = "ANDROID";
-            // 组织交易报文
-            transMap.put("merchantNo", merchantNo);
-            transMap.put("YUL1", YUL1);
-            transMap.put("YUL2", YUL2);
-            transMap.put("ext1", ext1);
-            transMap.put("ext2", ext2);
-            transMap.put("goodsNum", goodsNum);
-            transMap.put("goodsInfo", goodsInfo);
-            transMap.put("cardType", cardType);
-            transMap.put("notifyUrl", notifyUrl);
-            transMap.put("goodsName", goodsName);
-            transMap.put("buyerId", buyerId);
-            transMap.put("bindId", bindId);
-            transMap.put("bizType", bizType);
-            transMap.put("currency", currency);
-            transMap.put("valid", valid.toString());
-            transMap.put("YUL3", YUL3);
-            transMap.put("remark", remark);
-            transMap.put("version", version);
-            transMap.put("channelNo", channelNo);
-            transMap.put("tranCode", tranCode);
-            transMap.put("tranFlow", customer.getTranFlow());
-            transMap.put("tranDate", tranDate);
-            transMap.put("tranTime", tranTime);
-            transMap.put("payType", customer.getPayType());
-            transMap.put("amount", customer.getAmount());
-            // 敏感信息加密
-            transMap.put("buyerName", CertUtil.getInstance().encrypt(buyerName));
-            transMap.put("contact", CertUtil.getInstance().encrypt(contact));
-            /**
-             * 数字签名根据算法进行加密
-             *
-             */
-            // 组织签名字符串
-            String signMsg = ParamUtil.getSignMsg(transMap);
-            // 签名
-            String sign = CertUtil.getInstance().sign(signMsg);
-//            String sign = MD5.putPairsSequenceAndTogether(transMap);
-            // 将签名放入交易map中
-            transMap.put("sign", sign);
-            // 发送扫码请求报文
-            logger.info(TAG + "请求报文：" + transMap);
-            String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
-            logger.info(TAG + "返回报文：" + asynMsg);
-            // 解析返回
-            resultMap = ResponseUtil.parseResponse(asynMsg);
-            logger.info("请求结果返回解析数据：" + resultMap);
-            // 当支付类型payType为24或者25时，返回qrCodeURL的地址使用POST请求
-            payUrl = resultMap.get("qrCodeURL");
-            if ("24".equals(payType) || "25".equals(payType)) {
-                if ("".equals(payUrl) || payUrl == null || "null".equals(payUrl)) {
-                    if (resultMap.get("rtnMsg") != null) {
-                        msg = resultMap.get("rtnMsg").toString();
-                    }
-
-                    request.setAttribute("resultMap", resultMap);
-                } else {
-                    request.setAttribute("action", payUrl);
-//                    redirectPath = "webPayUrl.jsp";
-                }
-            } else {
-                if (resultMap.get("rtnMsg") != null) {
-                    msg = resultMap.get("rtnMsg").toString();
-                }
-                request.setAttribute("resultMap", resultMap);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-//            redirectPath = "error.jsp";
-        } finally {
-            request.setAttribute("errorMsg", msg);
-//            request.getRequestDispatcher(redirectPath).forward(request, response);
-        }
-
-        return payUrl;
-    }
-
-    /**
      * 异步消息通知接口
      * 通知我们订单处理的结果是成功还是失败,其他的状态均视为交易进行中
      *
@@ -670,5 +510,226 @@ public class PaymentService extends HttpServlet {
             customerUrl = "http://gate.dfzf6666.com/PlugOrderCallbackNotify21.ashx";
         }
         return customerUrl;
+    }
+
+    /**
+     * 客户支付交易测试接口
+     *
+     * @return
+     */
+    public Map<String, String> getOtherImgurl(HttpServletRequest request, HttpServletResponse response, PayCustomer customer) throws IOException, ServletException {
+        request.setCharacterEncoding("utf-8");
+        String msg = "处理成功";
+        Map<String, String> resultMap = null;
+        Map<String, String> map = new HashMap<>();
+        String payUrl = "";
+        // 利用treeMap对参数按key值进行排序
+        TreeMap<String, String> transMap = ResponseUtil.getParamMap(request);
+        try {
+            //根据订单流水号判断该流水号是否存在
+            if (customerService.findByTranFlow(customer.getTranFlow()) != null) {
+                map.put("code", "5006");
+                map.put("msg", "订单流水号已经存在");
+                map.put("merchantId", "");
+                return map;
+            }
+            String payType = transMap.get("payType");
+            String remark = "客户支付交易"; //备注  Char（100）
+            String YUL3 = IpUtil.getRandomIp(); //用户IP  char(100) 支持匹配用户的IP规则
+            Long valid = 3600L; //订单有效时间
+            String currency = "CNY"; //交易币种 char(3)
+            String bizType = "16"; //业务代码 char(5)
+            String goodsName = "商品名称";  //商品名称  char(100)
+            String goodsInfo = customer.getMerchantId();
+            String merchantNo = "S20190927084578"; //商户编号
+            String version = Config.getInstance().getVersion();
+            String bindId = "YSM201909271637141884536731670";    //入驻ID
+            String channelNo = Config.getInstance().getChannelNo();
+            String notifyUrl = "http://182.92.192.208:8080/other-order-payment";
+            String tranCode = "YS1003";
+            String tranDate = DateUtil.getDate();
+            String tranTime = DateUtil.getTime();
+            String buyerName = "213213";
+            String contact = "213131233";
+            String ext1 = "324242424";
+            String ext2 = "873190924119746279";
+            String YUL1 = "1241242424";
+            String YUL2 = "ANDROID";
+            // 组织交易报文
+            transMap.put("merchantNo", merchantNo);
+            transMap.put("YUL1", YUL1);
+            transMap.put("YUL2", YUL2);
+            transMap.put("ext1", ext1);
+            transMap.put("ext2", ext2);
+            transMap.put("goodsInfo", goodsInfo);
+            //根据商户id修改商户配置对象中该商户调用的时间信息
+            configureService.updateMerchantId(goodsInfo);
+            map.put("merchantId", goodsInfo);
+            transMap.put("notifyUrl", notifyUrl);
+            transMap.put("goodsName", goodsName);
+            transMap.put("buyerId", customer.getBuyerId());
+            transMap.put("bindId", bindId);
+            transMap.put("bizType", bizType);
+            transMap.put("currency", currency);
+            transMap.put("valid", valid.toString());
+            transMap.put("YUL3", YUL3);
+            transMap.put("remark", remark);
+            transMap.put("version", version);
+            transMap.put("channelNo", channelNo);
+            transMap.put("tranCode", tranCode);
+            transMap.put("tranFlow", customer.getTranFlow());
+            transMap.put("tranDate", tranDate);
+            transMap.put("tranTime", tranTime);
+            transMap.put("payType", customer.getPayType());
+            transMap.put("amount", customer.getAmount());
+            transMap.put("compID", customer.getCompID());
+            // 敏感信息加密
+            transMap.put("buyerName", CertUtil.getInstance().encrypt(buyerName));
+            transMap.put("contact", CertUtil.getInstance().encrypt(contact));
+            // 组织签名字符串
+            String signMsg = ParamUtil.getSignMsg(transMap);
+            // 签名
+            String sign = CertUtil.getInstance().sign(signMsg);
+            // 将签名放入交易map中
+            transMap.put("sign", sign);
+            //将该订单号的信息存入到我们的数据库中
+            addPayCustomer(transMap);
+            // 发送扫码请求报文
+            logger.info(TAG + "请求报文：" + transMap);
+            String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
+            logger.info(TAG + "返回报文：" + asynMsg);
+            // 解析返回
+            resultMap = ResponseUtil.parseResponse(asynMsg);
+            logger.info("请求结果返回解析数据：" + resultMap);
+            // 当支付类型payType为24或者25时，返回qrCodeURL的地址使用POST请求
+            payUrl = resultMap.get("qrCodeURL");
+            if ("24".equals(payType) || "25".equals(payType)) {
+                if ("".equals(payUrl) || payUrl == null || "null".equals(payUrl)) {
+                    if (resultMap.get("rtnMsg") != null) {
+                        msg = resultMap.get("rtnMsg").toString();
+                    }
+                    request.setAttribute("resultMap", resultMap);
+                } else {
+                    request.setAttribute("action", payUrl);
+                }
+            } else {
+                if (resultMap.get("rtnMsg") != null) {
+                    msg = resultMap.get("rtnMsg").toString();
+                }
+                request.setAttribute("resultMap", resultMap);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            request.setAttribute("errorMsg", msg);
+        }
+        logger.info(TAG + "商户编号：" + map.get("merchantId"));
+        map.put("payUrl", payUrl);
+        return map;
+    }
+
+    /**
+     * 测试异步消息通知接口
+     * 通知我们订单处理的结果是成功还是失败,其他的状态均视为交易进行中
+     *
+     * @return
+     */
+    public String otherOrderPayment(HttpServletRequest request, HttpServletResponse response) {
+        //获取到下游客户的请求地址信息
+        String customerUrl = getCustomerUrl(request);
+        response.setCharacterEncoding("utf-8");
+        TreeMap<String, String> transMap = new TreeMap<String, String>();
+        String transData = null;
+        try {
+            Enumeration<String> enu = request.getParameterNames();
+            String t;
+            while (enu.hasMoreElements()) {
+                t = enu.nextElement();
+                transMap.put(t, request.getParameter(t));
+            }
+            logger.info(TAG + "返回数据：" + transMap);
+            String merchantNo = (String) transMap.get("merchantNo");
+            // 获取签名
+            String sign = (String) transMap.get("sign");
+            sign = sign.replaceAll(" ", "+");
+            transMap.remove("sign");
+            // 验签
+            transData = ParamUtil.getSignMsg(transMap);
+            boolean result = true;
+            try {
+                CertUtil.getInstance().verify(transData, sign);
+                result = true;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (!result) {
+                logger.info(TAG + "商户编号为:" + merchantNo + "验签失败");
+                throw new Exception("商户编号为:" + merchantNo + "验签失败");
+            } else {
+                //判断返回的码是否是成功的信息
+                String rtnCode = request.getParameter("rtnCode");
+                Map<String, String> map = new HashMap<>();
+                map.put("rtnCode", rtnCode);
+                map.put("tranFlow", request.getParameter("tranFlow"));
+                map.put("rtnMsg", request.getParameter("rtnMsg"));
+                map.put("amount", request.getParameter("amount"));
+                String str = MD5.getSignContent(map, "", "");
+                //将数据进行拼接
+                String secret = "9989639630683" + str;
+                String digest = "";
+                //首先将数据进行sha1算法
+                try {
+                    String security = MD5.md5(SecuritySHA1Utils.shaEncode(secret));
+                    //将流水号进行md5加密处理
+                    digest = MD5.md5(security.trim() + MD5.md5(request.getParameter("tranFlow")).trim());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                map.put("digest", digest);
+                logger.info(digest + "下游客户请求地址信息:" + map.toString());
+                if (("0000").equals(rtnCode)) { //成功
+                    //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
+                    String status = "交易完成";
+                    customerService.updateStatus(request.getParameter("tranFlow"), status);
+                    //根据订单号获取到客户交易流水信息
+                    PayCustomer payCustomer = customerService.findByTranFlow(request.getParameter("tranFlow"));
+                    //TODO 将该订单的平台流水号存入到数据库中
+                    payCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
+                    logger.info(TAG + "平台流水号:" + payCustomer.getMerchantNo());
+                    //TODO 根据id修改该条商户信息的订单信息
+                    //根据id修改该条商户信息的订单信息
+                    customerService.updateByPaySerialNo(payCustomer.getId(), payCustomer.getPaySerialNo());
+                    //根据商户号以及商户类型获取商户的配置对象
+                    MerchantConfigure configure = configureService.findByMerchantNo(payCustomer.getMerchantNo(), payCustomer.getPayType());
+                    //修改商户配置信息的当日收款总额
+                    configure.setTotalOneAmount(String.valueOf(Integer.parseInt(configure.getTotalOneAmount()) + Integer.parseInt(payCustomer.getAmount())));
+                    configureService.update(configure.getId(), configure.getTotalOneAmount(), "0");
+                    //TODO 根据请求地址向我们的下游客户发送报文请求信息,交易完成的信息
+                    if (customerUrl != null || !customerUrl.equals("")) {
+                        int num = 0;
+                        doPostOrGet(customerUrl, map, num, request.getParameter("tranFlow"));
+                    }
+                    /**
+                     * 调用代付的接口,向第三方发起请求
+                     */
+                    payService.dfPay(request, response);
+                } else {
+                    //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
+                    String status = "交易失败";
+                    customerService.updateStatus(request.getParameter("tranFlow"), status);
+                    //TODO 根据请求地址向我们的下游客户发送报文请求信息,交易失败的信息
+                    if (customerUrl != null || !customerUrl.equals("")) {
+                        int num = 0;
+                        doPostOrGet(customerUrl, map, num, request.getParameter("tranFlow"));
+                    }
+                }
+            }
+            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
+        } catch (Exception e) {
+            System.out.println("处理异常:" + e);
+            logger.info(TAG + "处理异常", e);
+        }
+        System.out.println(transData);
+        return transData;
     }
 }

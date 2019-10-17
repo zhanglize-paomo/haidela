@@ -20,4 +20,11 @@ public interface RepayCustomerMapper {
      */
     int add(RepayCustomer customer);
 
+    /**
+     * 根据交易流水号查询对应的代付交易对象的信息
+     *
+     * @param tranFlow  交易流水号
+     * @return
+     */
+    RepayCustomer findByTranFlow(String tranFlow);
 }
