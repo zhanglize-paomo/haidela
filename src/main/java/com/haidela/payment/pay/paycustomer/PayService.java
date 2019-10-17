@@ -64,7 +64,6 @@ public class PayService {
             t = enu.nextElement();
             transMap.put(t, request.getParameter(t));
         }
-        logger.info(TAG + "调用第三方接口生产的数据信息========" + transMap.toString());
         String merchantNo = "S20190927084578";
         //根据个人商户编号查看代付个人信息
         IndividualCustomer customer = service.findMerchantNo(payCustomer.getMerchantNo());

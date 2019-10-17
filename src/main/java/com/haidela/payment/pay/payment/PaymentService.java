@@ -218,9 +218,9 @@ public class PaymentService extends HttpServlet {
             //将该订单号的信息存入到我们的数据库中
             addPayCustomer(transMap);
             // 发送扫码请求报文
-            logger.info(TAG + "请求报文：" + transMap);
+            logger.info(TAG + "本地服务发送请求报文给上游：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
-            logger.info(TAG + "返回报文：" + asynMsg);
+            logger.info(TAG + "上游返回报文信息：" + asynMsg);
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
             logger.info("请求结果返回解析数据：" + resultMap);
