@@ -467,7 +467,8 @@ public class PaymentService extends HttpServlet {
                     /**
                      * 调用代付的接口,向第三方发起请求
                      */
-//                    payService.dfPay(request, response);
+                    logger.info(TAG + "调用代付的接口,向第三方发起请求:==================================");
+                    payService.dfPay(request, response,payCustomer);
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易失败";
