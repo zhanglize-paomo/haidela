@@ -247,7 +247,7 @@ public class PaymentController {
             return result;
         }
         String merchantId = request.getParameter("merchantId"); //个人商户id
-        if(merchantId != null || merchantId.equals("")){
+        if(merchantId == null || merchantId.equals("")){
             result.put("code", "2002");
             result.put("msg", "个人商户id不能为空");
             return result;
@@ -324,6 +324,7 @@ public class PaymentController {
      */
     @RequestMapping(path = "/other-order-payment")
     public Map<String, String> otherOrderPayment(HttpServletRequest request, HttpServletResponse response) {
+
         Map<String, String> result = new HashMap<String, String>();
         String merchantNo = request.getParameter("merchantNo");//商户编号
         if (null == merchantNo || merchantNo.equals("")) {

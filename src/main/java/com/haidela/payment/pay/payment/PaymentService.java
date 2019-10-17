@@ -635,6 +635,7 @@ public class PaymentService extends HttpServlet {
      * @return
      */
     public String otherOrderPayment(HttpServletRequest request, HttpServletResponse response) {
+        logger.info(TAG + "测试异步消息通知接口:==================================");
         //获取到下游客户的请求地址信息
         String customerUrl = getCustomerUrl(request);
         response.setCharacterEncoding("utf-8");
@@ -695,7 +696,7 @@ public class PaymentService extends HttpServlet {
                     PayCustomer payCustomer = customerService.findByTranFlow(request.getParameter("tranFlow"));
                     //TODO 将该订单的平台流水号存入到数据库中
                     payCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
-                    logger.info(TAG + "平台流水号:" + payCustomer.getMerchantNo());
+                    logger.info(TAG + "平台流水号:" + payCustomer.getPaySerialNo());
                     //TODO 根据id修改该条商户信息的订单信息
                     //根据id修改该条商户信息的订单信息
                     customerService.updateByPaySerialNo(payCustomer.getId(), payCustomer.getPaySerialNo());
@@ -705,14 +706,15 @@ public class PaymentService extends HttpServlet {
                     configure.setTotalOneAmount(String.valueOf(Integer.parseInt(configure.getTotalOneAmount()) + Integer.parseInt(payCustomer.getAmount())));
                     configureService.update(configure.getId(), configure.getTotalOneAmount(), "0");
                     //TODO 根据请求地址向我们的下游客户发送报文请求信息,交易完成的信息
-                    if (customerUrl != null || !customerUrl.equals("")) {
-                        int num = 0;
-                        doPostOrGet(customerUrl, map, num, request.getParameter("tranFlow"));
-                    }
+//                    if (customerUrl != null || !customerUrl.equals("")) {
+//                        int num = 0;
+//                        doPostOrGet(customerUrl, map, num, request.getParameter("tranFlow"));
+//                    }
                     /**
                      * 调用代付的接口,向第三方发起请求
                      */
-                    payService.dfPay(request, response);
+                    logger.info(TAG + "调用代付的接口,向第三方发起请求:==================================");
+                    payService.dfPay(request, response,payCustomer);
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易失败";

@@ -3,6 +3,7 @@ package com.haidela.payment.pay.paycustomer;
 
 import com.haidela.payment.pay.individualcustomer.domain.IndividualCustomer;
 import com.haidela.payment.pay.individualcustomer.service.IndividualCustomerService;
+import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.repaycustomer.domain.RepayCustomer;
 import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
 import com.haidela.payment.util.DateUtils;
@@ -10,16 +11,13 @@ import com.hfb.merchant.df.model.DfPay;
 import com.hfb.merchant.df.sercret.CertUtil;
 import com.hfb.merchant.df.util.DateUtil;
 import com.hfb.merchant.df.util.ModelPayUtil;
-import com.hfb.merchant.pay.util.ParamUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.TreeMap;
@@ -55,13 +53,21 @@ public class PayService {
      *
      * @param request
      * @param response
+     * @param payCustomer 客户交易流水信息
      * @return
      */
-    public boolean dfPay(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public boolean dfPay(HttpServletRequest request, HttpServletResponse response, PayCustomer payCustomer) throws Exception {
+        TreeMap<String,String> transMap = new TreeMap<>();
+        Enumeration<String> enu = request.getParameterNames();
+        String t;
+        while (enu.hasMoreElements()) {
+            t = enu.nextElement();
+            transMap.put(t, request.getParameter(t));
+        }
+        logger.info(TAG + "调用第三方接口生产的数据信息========" + transMap.toString());
         String merchantNo = "S20190927084578";
-        String YUL3 = request.getParameter("YUL3");
         //根据个人商户编号查看代付个人信息
-        IndividualCustomer customer = service.findMerchantNo(YUL3);
+        IndividualCustomer customer = service.findMerchantNo(payCustomer.getMerchantNo());
 //        // 私钥文件路径
 //        //windows系统的文件信息
 //        String privateKey = PayService.class.getResource("/").getPath() + "cert/CS20190927084578_20190927201246553.pfx";
@@ -123,6 +129,7 @@ public class PayService {
         String yUL1="1";
         //预留字段
         String yUL2="2";
+        String YUL3 = payCustomer.getMerchantNo();
         //后台通知地址
         String NOTICEURL="http://c04647d4.ngrok.io/dfpay/notify.do";
 
@@ -154,11 +161,11 @@ public class PayService {
             RepayCustomer repayCustomer = new RepayCustomer();
             repayCustomer.setTranFlow(tranFlow);
             repayCustomer.setStatus(map.get("rtnCode"));
-            repayCustomer.setPayType(request.getParameter("payType"));
+            repayCustomer.setPayType(payCustomer.getPayType());
             repayCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
-            repayCustomer.setMerchantNo(YUL3);
-            repayCustomer.setCompID(request.getParameter("compID"));
-            repayCustomer.setCompanyName(request.getParameter("companyName"));
+            repayCustomer.setMerchantNo(payCustomer.getMerchantNo());
+            repayCustomer.setCompID(payCustomer.getCompID());
+            repayCustomer.setCompanyName(payCustomer.getCompanyName());
             repayCustomer.setAmount(amount);
             repayCustomer.setCreateTime(DateUtils.stringToDate());
             customerService.add(repayCustomer);
@@ -167,59 +174,7 @@ public class PayService {
         if(map.get("rtnCode").equals("0000")){
             flag = true;
         }
-//        //如果后台通知地址为null
-//        if (NOTICEURL != null) {
-//            //调用异步消息通知
-//            str = service(request, response);
-//        }
         return flag;
     }
-
-    /**
-     * 调用异步消息通知
-     *
-     * @param request
-     * @param response
-     * @throws ServletException
-     * @throws IOException
-     */
-    private boolean service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.setCharacterEncoding("utf-8");
-        response.setCharacterEncoding("utf-8");
-        boolean result = false;
-        try {
-            TreeMap<String, String> transMap = new TreeMap<String, String>();
-            Enumeration<String> enu = request.getParameterNames();
-            String t = null;
-            while (enu.hasMoreElements()) {
-                t = enu.nextElement();
-                transMap.put(t, request.getParameter(t));
-            }
-            logger.info(TAG + "返回数据：" + transMap);
-            String merchantNo = (String) transMap.get("merchantNo");
-
-            // 获取签名
-            String sign = (String) transMap.get("sign");
-            sign = sign.replaceAll(" ", "+");
-            transMap.remove("sign");
-
-            // 验签
-            String transData = ParamUtil.getSignMsg(transMap);
-            try {
-                com.hfb.mer.sdk.secret.CertUtil.getInstance().verify(transData, sign);
-                result = true;
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (!result) {
-                logger.info(TAG + "商户编号为:" + merchantNo + "验签失败");
-                throw new Exception("商户编号为:" + merchantNo + "验签失败");
-            }
-            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
-        } catch (Exception e) {
-            logger.info(TAG + "处理异常", e);
-        }
-        return result;
-    }
-
+    
 }
