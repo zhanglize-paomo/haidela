@@ -7,6 +7,7 @@ import com.haidela.payment.pay.configure.service.MerchantConfigureService;
 import com.haidela.payment.pay.paycustomer.PayService;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
+import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
 import com.haidela.payment.util.*;
 import com.hfb.mer.sdk.secret.CertUtil;
 import com.hfb.merchant.pay.util.DateUtil;
@@ -39,6 +40,12 @@ public class PaymentService extends HttpServlet {
     private static PayCustomerService customerService;
     private PayService payService;
     private MerchantConfigureService configureService;
+    private RepayCustomerService repayCustomerService;
+
+    @Autowired
+    public void setRepayCustomerService(RepayCustomerService repayCustomerService) {
+        this.repayCustomerService = repayCustomerService;
+    }
 
     /**
      * 判断下游消息是否为空,如果为空,每隔15秒发送一次请求,
@@ -733,5 +740,24 @@ public class PaymentService extends HttpServlet {
         }
         System.out.println(transData);
         return transData;
+    }
+    /**
+     * 代付交易通知地址
+     *
+     * @return
+     */
+    public Map<String,String> orderRepay(HttpServletRequest request, HttpServletResponse response) {
+        TreeMap<String, String> transMap = new TreeMap<String, String>();
+        Enumeration<String> enu = request.getParameterNames();
+        String t;
+        while (enu.hasMoreElements()) {
+            t = enu.nextElement();
+            transMap.put(t, request.getParameter(t));
+        }
+        logger.info(TAG + "代付交易通知地址:" + transMap.toString());
+        if(transMap.get("rtnCode").equals("0000")){
+            repayCustomerService.updateByStatus(transMap.get("tranFlow"),transMap.get("rtnCode"));
+        }
+        return transMap;
     }
 }

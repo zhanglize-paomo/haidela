@@ -28,4 +28,9 @@
         select * from lyx_repay_customer where tran_flow = #{tranFlow}
     </select>
 
+
+    <update id="updateByStatus" parameterType="com.haidela.payment.pay.repaycustomer.domain.RepayCustomer" >
+        update lyx_repay_customer set status = #{status,jdbcType=CHAR} where tran_flow = #{tranFlow}
+    </update>
+
 </mapper>

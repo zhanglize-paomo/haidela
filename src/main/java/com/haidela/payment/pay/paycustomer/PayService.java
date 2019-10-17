@@ -131,7 +131,7 @@ public class PayService {
         String yUL2="2";
         String YUL3 = payCustomer.getMerchantNo();
         //后台通知地址
-        String NOTICEURL="http://c04647d4.ngrok.io/dfpay/notify.do";
+        String NOTICEURL="182.92.192.208:8080/order-repay";
 
         /**
          * 切换正式环境商户号需要到正式环境商户后台 安全中心--证书管理 功能中下载正式并启用商户证书秘钥替换掉DEMO中的证书秘钥
@@ -176,5 +176,5 @@ public class PayService {
         }
         return flag;
     }
-    
+
 }

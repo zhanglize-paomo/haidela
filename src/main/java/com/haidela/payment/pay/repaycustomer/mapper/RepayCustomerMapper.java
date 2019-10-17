@@ -1,6 +1,7 @@
 package com.haidela.payment.pay.repaycustomer.mapper;
 
 import com.haidela.payment.pay.repaycustomer.domain.RepayCustomer;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -27,4 +28,14 @@ public interface RepayCustomerMapper {
      * @return
      */
     RepayCustomer findByTranFlow(String tranFlow);
+
+    /**
+     *
+     * 根据交易流水号修改代付交易的状态
+     *
+     * @param tranFlow  交易流水号
+     * @param status    交易状态
+     * @return
+     */
+    int updateByStatus(@Param(value = "tranFlow") String tranFlow, @Param(value = "status") String status);
 }

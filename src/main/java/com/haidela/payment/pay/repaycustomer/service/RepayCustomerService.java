@@ -45,4 +45,16 @@ public class RepayCustomerService {
     public RepayCustomer findByTranFlow(String tranFlow) {
         return mapper.findByTranFlow(tranFlow);
     }
+
+    /**
+     *
+     * 根据交易流水号修改代付交易的状态
+     *
+     * @param tranFlow  交易流水号
+     * @param status    交易状态
+     * @return
+     */
+    public int updateByStatus(String tranFlow, String status) {
+        return mapper.updateByStatus(tranFlow,status);
+    }
 }

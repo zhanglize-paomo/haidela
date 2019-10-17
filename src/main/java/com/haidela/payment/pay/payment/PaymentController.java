@@ -231,6 +231,34 @@ public class PaymentController {
     }
 
     /**
+     * 代付交易通知地址
+     *
+     * @return
+     */
+    @RequestMapping(path = "/order-repay")
+    @ResponseBody
+    public Map<String,String> orderRepay(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String> result = new HashMap<String, String>();
+        result.put("code", "0");//成功
+        try {
+            Map<String, String> map = paymentService.orderRepay(request, response);
+            result.put("rtnCode",map.get("rtnCode"));
+            result.put("rtnMsg",map.get("rtnMsg"));
+            if(!map.get("rtnCode").equals("0000")){
+                result.put("msg", "代付失败");
+            }else{
+                result.put("msg", "success");
+            }
+            result.put("rtnCode",map.get("rtnCode"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+
+
+    /**
      * 客户支付交易测试接口
      *
      * @return
