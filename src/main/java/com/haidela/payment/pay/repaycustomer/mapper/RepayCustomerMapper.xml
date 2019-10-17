@@ -13,14 +13,15 @@
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="comp_iD" jdbcType="VARCHAR" property="compID"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="modify_time" jdbcType="VARCHAR" property="modifyTime"/>
         <result column="pay_serial_no" jdbcType="VARCHAR" property="paySerialNo"/>
     </resultMap>
 
     <insert id="add" parameterType="com.haidela.payment.pay.repaycustomer.domain.RepayCustomer" useGeneratedKeys="true" keyProperty="id">
         insert into
-        lyx_repay_customer (id,tran_flow, repay_tran_flow,amount,pay_type,merchant_no,create_time,status,comp_iD,company_name,pay_serial_no)
+        lyx_repay_customer (id,tran_flow, repay_tran_flow,amount,pay_type,merchant_no,create_time,modify_time,status,comp_iD,company_name,pay_serial_no)
         values ( #{id,jdbcType=BIGINT},#{tranFlow,jdbcType=CHAR},#{repayTranFlow,jdbcType=CHAR},#{amount,jdbcType=CHAR},
-         #{payType,jdbcType=CHAR},#{merchantNo,jdbcType=CHAR},#{createTime,jdbcType=CHAR}, #{status,jdbcType=CHAR},
+         #{payType,jdbcType=CHAR},#{merchantNo,jdbcType=CHAR},#{createTime,jdbcType=CHAR},#{modifyTime,jdbcType=CHAR}, #{status,jdbcType=CHAR},
          #{compID,jdbcType=CHAR},#{companyName,jdbcType=CHAR}, #{paySerialNo,jdbcType=CHAR})
     </insert>
 
@@ -30,7 +31,7 @@
 
 
     <update id="updateByStatus" parameterType="com.haidela.payment.pay.repaycustomer.domain.RepayCustomer" >
-        update lyx_repay_customer set status = #{status,jdbcType=CHAR} where tran_flow = #{tranFlow}
+        update lyx_repay_customer set status = #{status,jdbcType=CHAR},modify_time = now() where tran_flow = #{tranFlow}
     </update>
 
 </mapper>

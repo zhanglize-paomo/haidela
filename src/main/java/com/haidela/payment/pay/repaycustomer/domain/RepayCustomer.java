@@ -45,6 +45,11 @@ public class RepayCustomer {
     private String createTime;
 
     /**
+     * 修改时间
+     */
+    private String modifyTime;
+
+    /**
      * 代付交易状态
      */
     private String status;
@@ -62,7 +67,7 @@ public class RepayCustomer {
      */
     private String paySerialNo;
 
-    public RepayCustomer(Long id, String tranFlow, String repayTranFlow, String amount, String payType, String merchantNo, String createTime, String status, String compID, String companyName, String paySerialNo) {
+    public RepayCustomer(Long id, String tranFlow, String repayTranFlow, String amount, String payType, String merchantNo, String createTime, String modifyTime, String status, String compID, String companyName, String paySerialNo) {
         this.id = id;
         this.tranFlow = tranFlow;
         this.repayTranFlow = repayTranFlow;
@@ -70,10 +75,19 @@ public class RepayCustomer {
         this.payType = payType;
         this.merchantNo = merchantNo;
         this.createTime = createTime;
+        this.modifyTime = modifyTime;
         this.status = status;
         this.compID = compID;
         this.companyName = companyName;
         this.paySerialNo = paySerialNo;
+    }
+
+    public String getModifyTime() {
+        return modifyTime;
+    }
+
+    public void setModifyTime(String modifyTime) {
+        this.modifyTime = modifyTime;
     }
 
     public RepayCustomer() {

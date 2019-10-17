@@ -755,9 +755,7 @@ public class PaymentService extends HttpServlet {
             transMap.put(t, request.getParameter(t));
         }
         logger.info(TAG + "代付交易通知地址:" + transMap.toString());
-        if(transMap.get("rtnCode").equals("0000")){
-            repayCustomerService.updateByStatus(transMap.get("tranFlow"),transMap.get("rtnCode"));
-        }
+        repayCustomerService.updateByStatus(transMap.get("tranFlow"),transMap.get("rtnCode"));
         return transMap;
     }
 }

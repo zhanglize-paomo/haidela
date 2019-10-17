@@ -48,4 +48,18 @@ public class RepayCustomerController {
     public RepayCustomer findByTranFlow(@PathVariable String tranFlow) {
         return service.findByTranFlow(tranFlow);
     }
+
+    /**
+     *
+     * 根据交易流水号修改代付交易的状态
+     *
+     * @param tranFlow  交易流水号
+     * @param status    交易状态
+     * @return
+     */
+    @RequestMapping("findByTranFlow/{tranFlow}/{status}")
+    public int updateByStatus(@PathVariable String tranFlow,@PathVariable String status) {
+        return service.updateByStatus(tranFlow,status);
+    }
+
 }

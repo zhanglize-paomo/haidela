@@ -30,6 +30,7 @@ public class RepayCustomerService {
      * @return
      */
     public int add(RepayCustomer customer) {
+        customer.setModifyTime(DateUtils.stringToDate());
         customer.setCreateTime(DateUtils.stringToDate());
         customer.setRepayTranFlow(TRAN_FLOW + customer.getTranFlow());
         customer.setId(new SnowflakeIdUtils().nextId());
