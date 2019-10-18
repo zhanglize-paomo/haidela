@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * 代付消息接收情况控制器层
  *
@@ -61,5 +63,26 @@ public class RepayCustomerController {
     public int updateByStatus(@PathVariable String tranFlow,@PathVariable String status) {
         return service.updateByStatus(tranFlow,status);
     }
+
+    /**
+     * 查询代付中各个账户的信息
+     *
+     * @return
+     */
+    @RequestMapping("success")
+    public Map<String,String> findRepayCustomer() {
+        return service.findRepayCustomer();
+    }
+
+    /**
+     * 查询代付中各个账户代付失败的信息
+     *
+     * @return
+     */
+    @RequestMapping("fail")
+    public Map<String,String> findFailRepayCustomer() {
+        return service.findFailRepayCustomer();
+    }
+
 
 }

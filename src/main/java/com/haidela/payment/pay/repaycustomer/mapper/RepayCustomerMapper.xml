@@ -29,6 +29,13 @@
         select * from lyx_repay_customer where tran_flow = #{tranFlow}
     </select>
 
+    <select id="findByMerchantNo" resultMap="resultMap">
+        select * from lyx_repay_customer where merchant_no = #{erchantNo}
+    </select>
+
+    <select id="findByAll" resultMap="resultMap">
+        select * from lyx_repay_customer
+    </select>
 
     <update id="updateByStatus" parameterType="com.haidela.payment.pay.repaycustomer.domain.RepayCustomer" >
         update lyx_repay_customer set status = #{status,jdbcType=CHAR},modify_time = now() where tran_flow = #{tranFlow}
