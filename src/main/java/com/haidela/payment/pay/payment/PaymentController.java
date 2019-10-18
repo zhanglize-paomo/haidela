@@ -5,6 +5,7 @@ import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.util.MD5;
 import com.haidela.payment.util.SecuritySHA1Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -397,6 +398,22 @@ public class PaymentController {
             result.put("msg", "异步消息接收失败");
         }
         return result;
+    }
+
+    /**
+     * 轮询池
+     * 1.每个商户存在限制额度
+     * 2.在某个时间不能同时进行多次的操作
+     * 3.如果存在每个商户的额度到达限制后,该商户直接停用,即从集合中将该数据删除
+     *
+     * @param payType 支付类型
+     * @param amount  交易金额
+     * @param compID  公司id
+     * @return
+     */
+    @RequestMapping(path = "/get/{amount}/{compID}/{payType}")
+    public Map<String, String> getMerchantNo(@PathVariable String amount,@PathVariable String compID,@PathVariable String payType) {
+        return paymentService.getMerchantNo(amount,compID,payType);
     }
 
 

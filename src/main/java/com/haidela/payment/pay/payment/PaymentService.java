@@ -277,7 +277,7 @@ public class PaymentService extends HttpServlet {
      * @param compID  公司id
      * @return
      */
-    private Map<String, String> getMerchantNo(String amount, String compID, String payType) {
+    public Map<String, String> getMerchantNo(String amount, String compID, String payType) {
         //获取到所有状态为0的个体商户配置信息
         List<MerchantConfigure> configureList = configureService.findByStstusCompId("0", compID, payType);
         Map<String, String> result = new HashMap<>();
