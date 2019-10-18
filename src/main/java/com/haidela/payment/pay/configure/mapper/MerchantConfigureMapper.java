@@ -93,4 +93,11 @@ public interface MerchantConfigureMapper {
      * @return
      */
     int updateMerchantIdPayType(@Param(value = "merchantNo") String merchantNo,@Param(value = "payType") String payType, @Param(value = "status") String status);
+
+    /**
+     * 查询所有的商户信息
+     *
+     * @return
+     */
+    List<MerchantConfigure> finAllCustomer();
 }

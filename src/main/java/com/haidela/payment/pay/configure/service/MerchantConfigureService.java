@@ -2,10 +2,16 @@ package com.haidela.payment.pay.configure.service;
 
 import com.haidela.payment.pay.configure.domain.MerchantConfigure;
 import com.haidela.payment.pay.configure.mapper.MerchantConfigureMapper;
+import com.haidela.payment.pay.individualcustomer.domain.IndividualCustomer;
+import com.haidela.payment.pay.individualcustomer.service.IndividualCustomerService;
+import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
+import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 个体商户配置
@@ -15,6 +21,18 @@ import java.util.List;
  */
 @Service
 public class MerchantConfigureService {
+
+    private PayCustomerService payCustomerService;
+    @Autowired
+    public void setPayCustomerService(PayCustomerService payCustomerService) {
+        this.payCustomerService = payCustomerService;
+    }
+
+    private IndividualCustomerService individualCustomerService;
+    @Autowired
+    public void setIndividualCustomerService(IndividualCustomerService individualCustomerService) {
+        this.individualCustomerService = individualCustomerService;
+    }
 
     @Autowired
     private MerchantConfigureMapper mapper;
@@ -97,4 +115,45 @@ public class MerchantConfigureService {
     public int updateMerchantIdPayType(String merchantNo, String payType, String status) {
         return mapper.updateMerchantIdPayType(merchantNo, payType, status);
     }
+
+    /**
+     * 查询每个商户对应的金额信息
+     *
+     * @return
+     */
+    public Map<String,String> findByCustomer() {
+        Map<String,String> map = new HashMap<>();
+        //查询所有的商户信息
+        List<MerchantConfigure> configureList = finAllCustomer();
+        //获取到每个商户交易成功的数据信息
+        configureList.forEach(configure -> {
+            List<PayCustomer> payCustomerList = payCustomerService.findByMerchantNo(configure.getMerchantId());
+            Integer amount = 0;
+            for(int i = 0 ; i< payCustomerList.size() ; i++){
+                if(payCustomerList.get(i).getStatus().equals("交易完成")){
+                    amount += Integer.parseInt(payCustomerList.get(i).getAmount());
+                }
+            }
+            IndividualCustomer customer = individualCustomerService.findMerchantNo(configure.getMerchantId());
+            map.put(configure.getMerchantId() + ":" + customer.getAccountName(),amount.toString());
+        });
+        Integer total = 0;
+        for (Map.Entry<String,String> entry : map.entrySet()) {
+            System.out.println("key = " + entry.getKey() + ", value = " + entry.getValue());
+            total += Integer.parseInt(entry.getValue());
+        }
+        map.put("total",total.toString());
+        return map;
+    }
+
+    /**
+     * 查询所有的商户信息
+     *
+     * @return
+     */
+    public List<MerchantConfigure> finAllCustomer() {
+        return mapper.finAllCustomer();
+    }
+
+
 }

@@ -4,70 +4,33 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <!--导入属性配置-->
-    <properties resource="datasource.properties"></properties>
+    <classPathEntry location="C:/Users/ZLZ/.m2/repository/mysql/mysql-connector-java/5.1.29/mysql-connector-java-5.1.29.jar" />
 
-    <!-- 指定数据库驱动的jdbc驱动jar包的位置 -->
-    <classPathEntry location="${db.driverLocation}"/>
-
-    <!-- context 是逆向工程的主要配置信息 -->
-    <!-- id：起个名字 -->
-    <!-- targetRuntime：设置生成的文件适用于那个 mybatis 版本 -->
-    <context id="default" targetRuntime="MyBatis3">
-
-        <!--optional,旨在创建class时，对注释进行控制-->
-        <commentGenerator>
-            <property name="suppressDate" value="true"/>
-            <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
-            <property name="suppressAllComments" value="true"/>
-        </commentGenerator>
-
-        <!--jdbc的数据库连接-->
-        <jdbcConnection driverClass="${db.driverClassName}"
-                        connectionURL="${db.url}"
-                        userId="${db.username}"
-                        password="${db.password}">
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!-- 数据库链接地址，账号，密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://182.92.192.208:3306/lyx?useUnicode=true"
+                        userId="root"
+                        password="Fenmiao2017">
         </jdbcConnection>
 
-        <!--非必须，类型处理器，在数据库类型和java类型之间的转换控制-->
-        <javaTypeResolver>
-            <!-- 默认情况下数据库中的 decimal，bigInt 在 Java 对应是 sql 下的 BigDecimal 类 -->
-            <!-- 不是 double 和 long 类型 -->
-            <!-- 使用常用的基本类型代替 sql 包下的引用类型 -->
-            <property name="forceBigDecimals" value="false"/>
-        </javaTypeResolver>
-
-        <!-- targetPackage：生成的实体类所在的包 -->
-        <!-- targetProject：生成的实体类所在的硬盘位置 -->
-        <javaModelGenerator targetPackage="com.haidela.payment.pay.configure.domain"
-                            targetProject=".\src\main\java">
-            <!-- 是否允许子包 -->
-            <property name="enableSubPackages" value="false"/>
-            <!-- 是否对modal添加构造函数 -->
-            <property name="constructorBased" value="true"/>
-            <!-- 是否清理从数据库中查询出的字符串左右两边的空白字符 -->
-            <property name="trimStrings" value="true"/>
-            <!-- 建立modal对象是否不可改变 即生成的modal对象不会有setter方法，只有构造方法 -->
-            <property name="immutable" value="false"/>
+        <!-- DataObject存放位置-->
+        <javaModelGenerator targetPackage="com.haidela.payment.pay.merchantfail.domain" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
         </javaModelGenerator>
 
-        <!-- targetPackage 和 targetProject：生成的 mapper 映射文件的生成 -->
-        <sqlMapGenerator targetPackage="com.haidela.payment.pay.configure"
-                         targetProject=".\src\main\resource">
-            <!-- 针对数据库的一个配置，是否把 schema 作为字包名 -->
-            <property name="enableSubPackages" value="false"/>
+        <!-- 生成映射文件存放位置-->
+        <sqlMapGenerator targetPackage="com.haidela.payment.pay.merchantfail.mapper"  targetProject="src/main/resources/mapping">
+            <property name="enableSubPackages" value="true" />
         </sqlMapGenerator>
 
-        <!-- targetPackage 和 targetProject：生成的 mapper接口 文件的包和位置 -->
-        <javaClientGenerator type="XMLMAPPER"
-                             targetPackage="com.haidela.payment.pay" targetProject=".\src\main\java">
-            <!-- 针对 oracle 数据库的一个配置，是否把 schema 作为字包名 -->
-            <property name="enableSubPackages" value="true"/>
+        <!-- 生成dao存放位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.haidela.payment.pay.merchantfail.mapper"  targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
-        <table tableName="lyx_merchant_configure" domainObjectName="MerchantConfigure"
-               enableCountByExample="false" enableUpdateByExample="false"
-               enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false">
-        </table>
+
+        <table  tableName="lyx_merchant_fail" domainObjectName="MerchantFail" selectByExampleQueryId="false" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"> </table>
+
     </context>
 </generatorConfiguration>

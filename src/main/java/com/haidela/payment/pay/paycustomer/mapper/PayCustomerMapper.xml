@@ -45,6 +45,10 @@
         select * from lyx_pay_customer where tran_flow = #{tranFlow}
     </select>
 
+    <select id="findByMerchantNo" resultMap="resultMap">
+       select * from lyx_pay_customer where merchant_no = #{merchantNo}
+    </select>
+
     <select id="findByThree" resultMap="resultMap">
         select * from lyx_pay_customer where merchant_no = #{merchantNo} ORDER BY modify_time DESC LIMIT 3
     </select>
