@@ -22,20 +22,20 @@ public class MerchantConfigureService {
     /**
      * 根据id修改个体工商户配置的基本信息
      *
-     * @param id    主键
+     * @param id             主键
      * @param totalOneAmount 单日总额
-     * @param status  状态
+     * @param status         状态
      * @return
      */
     public int update(Long id, String totalOneAmount, String status) {
-        return mapper.update(id,totalOneAmount,status);
+        return mapper.update(id, totalOneAmount, status);
     }
 
     /**
      * 根据状态查询所需要的个体工商户的信息
      *
+     * @param status 状态
      * @return
-     * @param status  状态
      */
     public List<MerchantConfigure> findByStstus(String status) {
         return mapper.findByStstus(status);
@@ -44,14 +44,13 @@ public class MerchantConfigureService {
     /**
      * 查询公司下所有可用的商户id信息
      *
-     *
      * @param payType 支付类型
      * @param status  状态
      * @param compID  公司ID
      * @return
      */
-    public List<MerchantConfigure> findByStstusCompId(String status, String compID,String payType) {
-        return mapper.findByStstusCompId(status,compID,payType);
+    public List<MerchantConfigure> findByStstusCompId(String status, String compID, String payType) {
+        return mapper.findByStstusCompId(status, compID, payType);
     }
 
     /**
@@ -68,12 +67,12 @@ public class MerchantConfigureService {
     /**
      * 根据id修改该条商户信息
      *
-     * @param id   ID
+     * @param id     ID
      * @param status 状态
      * @return
      */
     public int updateStatus(Long id, String status) {
-        return mapper.updateStatus(id,status);
+        return mapper.updateStatus(id, status);
     }
 
     /**
@@ -84,7 +83,7 @@ public class MerchantConfigureService {
      * @return
      */
     public MerchantConfigure findByMerchantNo(String merchantNo, String payType) {
-        return mapper.findByMerchantNo(merchantNo,payType);
+        return mapper.findByMerchantNo(merchantNo, payType);
     }
 
     /**
@@ -96,6 +95,6 @@ public class MerchantConfigureService {
      * @return
      */
     public int updateMerchantIdPayType(String merchantNo, String payType, String status) {
-        return mapper.updateMerchantIdPayType(merchantNo,payType,status);
+        return mapper.updateMerchantIdPayType(merchantNo, payType, status);
     }
 }
