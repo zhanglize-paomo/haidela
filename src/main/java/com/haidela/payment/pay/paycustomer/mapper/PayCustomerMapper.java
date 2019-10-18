@@ -4,6 +4,8 @@ import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * @author zhanglize
  * @create 2019/10/10
@@ -53,4 +55,12 @@ public interface PayCustomerMapper {
      * @return
      */
     int updateByPaySerialNo(@Param(value = "id") Long id, @Param(value = "paySerialNo") String paySerialNo);
+
+    /**
+     * 根据商户号查询对应的最新商户数据信息
+     *
+     * @param merchantNo
+     * @return
+     */
+    List<PayCustomer> findByThree(String merchantNo);
 }

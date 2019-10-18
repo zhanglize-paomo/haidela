@@ -3,7 +3,6 @@ package com.haidela.payment.pay.configure.service;
 import com.haidela.payment.pay.configure.domain.MerchantConfigure;
 import com.haidela.payment.pay.configure.mapper.MerchantConfigureMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,29 +18,6 @@ public class MerchantConfigureService {
 
     @Autowired
     private MerchantConfigureMapper mapper;
-
-
-    /**
-     * 轮询池定时任务,每天晚上12:00对于轮询池中的状态,以及单日的交易金额总量进行清0
-     *
-     */
-    @Scheduled(cron = "0 0 0 * * ? *")
-    public void task(){
-        //查询所有状态为完成状态的1所对应的个体商户配置信息
-        List<MerchantConfigure> configureList = findByStstus("1");
-        configureList.forEach(merchantConfigure -> {
-            merchantConfigure.setTotalOneAmount("0");
-            merchantConfigure.setStatus("0");
-            update(merchantConfigure.getId(),merchantConfigure.getTotalOneAmount(),merchantConfigure.getStatus());
-        });
-        //查询所有状态为未完成状态0所对应的个体工商户信息
-        List<MerchantConfigure> list = findByStstus("1");
-        list.forEach(merchantConfigure -> {
-            merchantConfigure.setTotalOneAmount("0");
-            merchantConfigure.setStatus("0");
-            update(merchantConfigure.getId(),merchantConfigure.getTotalOneAmount(),merchantConfigure.getStatus());
-        });
-    }
 
     /**
      * 根据id修改个体工商户配置的基本信息
@@ -109,5 +85,17 @@ public class MerchantConfigureService {
      */
     public MerchantConfigure findByMerchantNo(String merchantNo, String payType) {
         return mapper.findByMerchantNo(merchantNo,payType);
+    }
+
+    /**
+     * 根据该商户的id修改该商户的支付类型的状态
+     *
+     * @param merchantNo
+     * @param payType
+     * @param status
+     * @return
+     */
+    public int updateMerchantIdPayType(String merchantNo, String payType, String status) {
+        return mapper.updateMerchantIdPayType(merchantNo,payType,status);
     }
 }

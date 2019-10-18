@@ -42,9 +42,25 @@ public class PaymentService extends HttpServlet {
     private MerchantConfigureService configureService;
     private RepayCustomerService repayCustomerService;
 
+
     @Autowired
     public void setRepayCustomerService(RepayCustomerService repayCustomerService) {
         this.repayCustomerService = repayCustomerService;
+    }
+
+    @Autowired
+    public void setCustomerService(PayCustomerService customerService) {
+        this.customerService = customerService;
+    }
+
+    @Autowired
+    public void setPayService(PayService payService) {
+        this.payService = payService;
+    }
+
+    @Autowired
+    public void setConfigureService(MerchantConfigureService configureService) {
+        this.configureService = configureService;
     }
 
     /**
@@ -77,7 +93,6 @@ public class PaymentService extends HttpServlet {
         }
     }
 
-
     /**
      * 以post方式调用对方接口方法
      *
@@ -90,22 +105,6 @@ public class PaymentService extends HttpServlet {
         String str = HttpUtil2.doPost(pathUrl, data, "utf-8");
         sendMessage(str, pathUrl, data, num, tranFlow);
         return str;
-    }
-
-
-    @Autowired
-    public void setCustomerService(PayCustomerService customerService) {
-        this.customerService = customerService;
-    }
-
-    @Autowired
-    public void setPayService(PayService payService) {
-        this.payService = payService;
-    }
-
-    @Autowired
-    public void setConfigureService(MerchantConfigureService configureService) {
-        this.configureService = configureService;
     }
 
     /**
@@ -317,6 +316,18 @@ public class PaymentService extends HttpServlet {
         if (timeDifference > Long.parseLong(configure.getTimeDifference())) {
             //获取商户的的总金额以及商户的单日总额
             if (Integer.parseInt(configure.getAmountLimit()) - Integer.parseInt(configure.getTotalOneAmount()) > Integer.parseInt(amount)) {
+                /**
+                 * 根据商户id判断该商户在最新3三笔交易中是否存在连续交易失败,
+                 * 如果存在该商户置为状态为1,表示今日不可使用,重新选取商户
+                 */
+                List<PayCustomer> customerList = customerService.findByThree(configure.getMerchantId());
+                int num = (int) customerList.stream().filter(payCustomer -> payCustomer.getStatus().equals("交易中")).count();
+                if (num == customerList.size()) {
+                    //将该商户置为1
+                    configureService.updateMerchantIdPayType(configure.getMerchantId(), payType, "1");
+                    //重新选取对应的商户
+                    getMerchantNo(amount, compID, payType);
+                }
                 //根据商户id修改该条商户的调用时间
                 configureService.updateMerchantId(configure.getMerchantId());
                 result.put("code", "5000");
@@ -468,7 +479,7 @@ public class PaymentService extends HttpServlet {
                      * 调用代付的接口,向第三方发起请求
                      */
                     logger.info(TAG + "调用代付的接口,向第三方发起请求:==================================");
-                    payService.dfPay(request, response,payCustomer);
+                    payService.dfPay(request, response, payCustomer);
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易失败";
@@ -711,7 +722,7 @@ public class PaymentService extends HttpServlet {
                      * 调用代付的接口,向第三方发起请求
                      */
                     logger.info(TAG + "调用代付的接口,向第三方发起请求:==================================");
-                    payService.dfPay(request, response,payCustomer);
+                    payService.dfPay(request, response, payCustomer);
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易失败";
@@ -731,12 +742,13 @@ public class PaymentService extends HttpServlet {
         System.out.println(transData);
         return transData;
     }
+
     /**
      * 代付交易通知地址
      *
      * @return
      */
-    public Map<String,String> orderRepay(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, String> orderRepay(HttpServletRequest request, HttpServletResponse response) {
         TreeMap<String, String> transMap = new TreeMap<String, String>();
         Enumeration<String> enu = request.getParameterNames();
         String t;
@@ -745,7 +757,7 @@ public class PaymentService extends HttpServlet {
             transMap.put(t, request.getParameter(t));
         }
         logger.info(TAG + "代付交易通知地址:" + transMap.toString());
-        repayCustomerService.updateByStatus(transMap.get("tranFlow"),transMap.get("rtnCode"));
+        repayCustomerService.updateByStatus(transMap.get("tranFlow"), transMap.get("rtnCode"));
         return transMap;
     }
 }

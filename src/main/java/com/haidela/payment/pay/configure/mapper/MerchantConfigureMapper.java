@@ -84,4 +84,13 @@ public interface MerchantConfigureMapper {
      */
     int updateStatus(@Param(value = "id") Long id, @Param(value = "status") String status);
 
+    /**
+     * 根据该商户的id修改该商户的支付类型的状态
+     *
+     * @param merchantNo
+     * @param payType
+     * @param status
+     * @return
+     */
+    int updateMerchantIdPayType(@Param(value = "merchantNo") String merchantNo,@Param(value = "payType") String payType, @Param(value = "status") String status);
 }

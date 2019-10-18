@@ -6,6 +6,8 @@ import com.haidela.payment.util.SnowflakeIdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 客户交易流水信息业务
  *
@@ -74,5 +76,15 @@ public class PayCustomerService {
      */
     public int updateByPaySerialNo(Long id, String paySerialNo) {
         return mapper.updateByPaySerialNo(id,paySerialNo);
+    }
+
+    /**
+     * 根据商户号查询对应的最新商户数据信息
+     *
+     * @param merchantNo
+     * @return
+     */
+    public List<PayCustomer> findByThree(String merchantNo) {
+        return mapper.findByThree(merchantNo);
     }
 }
