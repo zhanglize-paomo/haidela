@@ -36,7 +36,6 @@ public class PaymentService extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
-    private static final String TAG = "【统一支付商户系统demo】-{统一支付}-";
     private static PayCustomerService customerService;
     private PayService payService;
     private MerchantConfigureService configureService;
@@ -209,9 +208,9 @@ public class PaymentService extends HttpServlet {
             //将该订单号的信息存入到我们的数据库中
             addPayCustomer(transMap);
             // 发送扫码请求报文
-            logger.info(TAG + "统一支付发送请求报文给上游：" + transMap);
+            logger.info("统一支付发送请求报文给上游：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
-            logger.info(TAG + "统一支付上游返回报文信息：" + asynMsg);
+            logger.info("统一支付上游返回报文信息：" + asynMsg);
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
             logger.info("统一支付请求结果返回解析数据：" + resultMap);
@@ -237,7 +236,7 @@ public class PaymentService extends HttpServlet {
         } finally {
             request.setAttribute("errorMsg", msg);
         }
-        logger.info(TAG + "商户编号：" + map.get("merchantId"));
+        logger.info("商户编号：" + map.get("merchantId"));
         map.put("payUrl", payUrl);
         return map;
     }
@@ -413,7 +412,7 @@ public class PaymentService extends HttpServlet {
                 t = enu.nextElement();
                 transMap.put(t, request.getParameter(t));
             }
-            logger.info(TAG + "异步消息通知返回数据：" + transMap);
+            logger.info("异步消息通知返回数据：" + transMap);
             String merchantNo = (String) transMap.get("merchantNo");
             // 获取签名
             String sign = (String) transMap.get("sign");
@@ -429,7 +428,7 @@ public class PaymentService extends HttpServlet {
                 e.printStackTrace();
             }
             if (!result) {
-                logger.info(TAG + "异步消息商户编号为:" + merchantNo + "验签失败");
+                logger.info("异步消息商户编号为:" + merchantNo + "验签失败");
                 throw new Exception("异步消息商户编号为:" + merchantNo + "验签失败");
             } else {
                 //判断返回的码是否是成功的信息
@@ -461,7 +460,7 @@ public class PaymentService extends HttpServlet {
                     PayCustomer payCustomer = customerService.findByTranFlow(request.getParameter("tranFlow"));
                     //TODO 将该订单的平台流水号存入到数据库中
                     payCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
-                    logger.info(TAG + "平台流水号:" + payCustomer.getMerchantNo());
+                    logger.info("平台流水号:" + payCustomer.getMerchantNo());
                     //TODO 根据id修改该条商户信息的订单信息
                     //根据id修改该条商户信息的订单信息
                     customerService.updateByPaySerialNo(payCustomer.getId(), payCustomer.getPaySerialNo());
@@ -478,7 +477,7 @@ public class PaymentService extends HttpServlet {
                     /**
                      * 调用代付的接口,向第三方发起请求
                      */
-                    logger.info(TAG + "调用代付的接口,向第三方发起请求:==================================");
+                    logger.info("调用代付的接口,向第三方发起请求:==================================");
                     payService.dfPay(request, response, payCustomer);
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
@@ -491,10 +490,10 @@ public class PaymentService extends HttpServlet {
                     }
                 }
             }
-            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
+            logger.info("商户编号为:" + merchantNo + "验签成功");
         } catch (Exception e) {
             System.out.println("处理异常:" + e);
-            logger.info(TAG + "处理异常", e);
+            logger.info("处理异常", e);
         }
         System.out.println(transData);
         return transData;
@@ -603,9 +602,9 @@ public class PaymentService extends HttpServlet {
             //将该订单号的信息存入到我们的数据库中
             addPayCustomer(transMap);
             // 发送扫码请求报文
-            logger.info(TAG + "统一支付发送请求报文给上游：" + transMap);
+            logger.info("统一支付发送请求报文给上游：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
-            logger.info(TAG + "统一支付返回报文：" + asynMsg);
+            logger.info("统一支付返回报文：" + asynMsg);
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
             logger.info("请求结果返回解析数据：" + resultMap);
@@ -631,7 +630,7 @@ public class PaymentService extends HttpServlet {
         } finally {
             request.setAttribute("errorMsg", msg);
         }
-        logger.info(TAG + "商户编号：" + map.get("merchantId"));
+        logger.info("商户编号：" + map.get("merchantId"));
         map.put("payUrl", payUrl);
         return map;
     }
@@ -643,7 +642,7 @@ public class PaymentService extends HttpServlet {
      * @return
      */
     public String otherOrderPayment(HttpServletRequest request, HttpServletResponse response) {
-        logger.info(TAG + "测试异步消息通知接口:==================================");
+        logger.info("测试异步消息通知接口:==================================");
         //获取到下游客户的请求地址信息
         String customerUrl = getCustomerUrl(request);
         response.setCharacterEncoding("utf-8");
@@ -656,7 +655,7 @@ public class PaymentService extends HttpServlet {
                 t = enu.nextElement();
                 transMap.put(t, request.getParameter(t));
             }
-            logger.info(TAG + "返回数据：" + transMap);
+            logger.info("返回数据：" + transMap);
             String merchantNo = (String) transMap.get("merchantNo");
             // 获取签名
             String sign = (String) transMap.get("sign");
@@ -672,7 +671,7 @@ public class PaymentService extends HttpServlet {
                 e.printStackTrace();
             }
             if (!result) {
-                logger.info(TAG + "商户编号为:" + merchantNo + "验签失败");
+                logger.info("商户编号为:" + merchantNo + "验签失败");
                 throw new Exception("商户编号为:" + merchantNo + "验签失败");
             } else {
                 //判断返回的码是否是成功的信息
@@ -704,7 +703,7 @@ public class PaymentService extends HttpServlet {
                     PayCustomer payCustomer = customerService.findByTranFlow(request.getParameter("tranFlow"));
                     //TODO 将该订单的平台流水号存入到数据库中
                     payCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
-                    logger.info(TAG + "平台流水号:" + payCustomer.getPaySerialNo());
+                    logger.info("平台流水号:" + payCustomer.getPaySerialNo());
                     //TODO 根据id修改该条商户信息的订单信息
                     //根据id修改该条商户信息的订单信息
                     customerService.updateByPaySerialNo(payCustomer.getId(), payCustomer.getPaySerialNo());
@@ -721,7 +720,7 @@ public class PaymentService extends HttpServlet {
                     /**
                      * 调用代付的接口,向第三方发起请求
                      */
-                    logger.info(TAG + "调用代付的接口,向第三方发起请求:==================================");
+                    logger.info("调用代付的接口,向第三方发起请求:==================================");
                     payService.dfPay(request, response, payCustomer);
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
@@ -734,10 +733,10 @@ public class PaymentService extends HttpServlet {
                     }
                 }
             }
-            logger.info(TAG + "商户编号为:" + merchantNo + "验签成功");
+            logger.info("商户编号为:" + merchantNo + "验签成功");
         } catch (Exception e) {
             System.out.println("处理异常:" + e);
-            logger.info(TAG + "处理异常", e);
+            logger.info("处理异常", e);
         }
         System.out.println(transData);
         return transData;
@@ -756,7 +755,7 @@ public class PaymentService extends HttpServlet {
             t = enu.nextElement();
             transMap.put(t, request.getParameter(t));
         }
-        logger.info(TAG + "代付交易通知地址:" + transMap.toString());
+        logger.info("代付交易通知地址:" + transMap.toString());
         repayCustomerService.updateByStatus(transMap.get("tranFlow"), transMap.get("rtnCode"));
         return transMap;
     }
