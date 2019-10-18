@@ -36,6 +36,7 @@ public class PaymentService extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private static final Logger logger = LoggerFactory.getLogger(PaymentService.class);
+    private static final String TAG = "{统一支付}-";
     private static PayCustomerService customerService;
     private PayService payService;
     private MerchantConfigureService configureService;
@@ -208,12 +209,12 @@ public class PaymentService extends HttpServlet {
             //将该订单号的信息存入到我们的数据库中
             addPayCustomer(transMap);
             // 发送扫码请求报文
-            logger.info("统一支付发送请求报文给上游：" + transMap);
+            logger.info(TAG+"发送请求报文给上游：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
-            logger.info("统一支付上游返回报文信息：" + asynMsg);
+            logger.info(TAG+"上游返回报文信息：" + asynMsg);
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
-            logger.info("统一支付请求结果返回解析数据：" + resultMap);
+            logger.info(TAG+"请求结果返回解析数据：" + resultMap);
             // 当支付类型payType为24或者25时，返回qrCodeURL的地址使用POST请求
             payUrl = resultMap.get("qrCodeURL");
             if ("24".equals(payType) || "25".equals(payType)) {
@@ -602,12 +603,12 @@ public class PaymentService extends HttpServlet {
             //将该订单号的信息存入到我们的数据库中
             addPayCustomer(transMap);
             // 发送扫码请求报文
-            logger.info("统一支付发送请求报文给上游：" + transMap);
+            logger.info(TAG+"发送请求报文给上游：" + transMap);
             String asynMsg = new Httpz().post(Config.getInstance().getPaygateReqUrl(), transMap);
-            logger.info("统一支付返回报文：" + asynMsg);
+            logger.info(TAG+"返回报文：" + asynMsg);
             // 解析返回
             resultMap = ResponseUtil.parseResponse(asynMsg);
-            logger.info("请求结果返回解析数据：" + resultMap);
+            logger.info(TAG+"请求结果返回解析数据：" + resultMap);
             // 当支付类型payType为24或者25时，返回qrCodeURL的地址使用POST请求
             payUrl = resultMap.get("qrCodeURL");
             if ("24".equals(payType) || "25".equals(payType)) {
