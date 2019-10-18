@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 个体商户配置对象控制器层
@@ -61,4 +62,13 @@ public class MerchantConfigureController {
         return service.findByMerchantNo(merchantId,payType);
     }
 
+    /**
+     * 查询所有的商户交易成功
+     *
+     * @return
+     */
+    @RequestMapping()
+    public Map<String,String> findByCustomer(){
+        return service.findByCustomer();
+    }
 }

@@ -63,4 +63,13 @@ public interface PayCustomerMapper {
      * @return
      */
     List<PayCustomer> findByThree(String merchantNo);
+
+    /**
+     * 根据商户号查询到对应的支付信息
+     *
+     * @param merchantId
+     * @return
+     */
+    List<PayCustomer> findByMerchantNo(String merchantId);
+
 }

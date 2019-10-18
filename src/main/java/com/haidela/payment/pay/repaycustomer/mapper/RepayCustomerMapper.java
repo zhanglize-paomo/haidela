@@ -4,6 +4,8 @@ import com.haidela.payment.pay.repaycustomer.domain.RepayCustomer;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 代付消息接收情况MAPPER
  *
@@ -38,4 +40,19 @@ public interface RepayCustomerMapper {
      * @return
      */
     int updateByStatus(@Param(value = "tranFlow") String tranFlow, @Param(value = "status") String status);
+
+    /**
+     * 查询所有的代付账户信息情况
+     *
+     * @return
+     */
+    List<RepayCustomer> findByAll();
+
+    /**
+     * 根据商户号查询对应的代付信息
+     *
+     * @param merchantNo
+     * @return
+     */
+    List<RepayCustomer> findByMerchantNo(String merchantNo);
 }

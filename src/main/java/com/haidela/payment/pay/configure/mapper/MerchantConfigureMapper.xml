@@ -50,4 +50,8 @@
         select * from lyx_merchant_configure where status = #{status} AND comp_iD = #{compID} AND pay_type = #{payType}
     </select>
 
+    <select id="finAllCustomer" resultMap="resultMap">
+        select * from lyx_merchant_configure
+    </select>
+
 </mapper>
