@@ -1,12 +1,16 @@
 package com.haidela.payment.pay.paycustomer;
 
 
+import com.alibaba.fastjson.JSONObject;
 import com.haidela.payment.pay.individualcustomer.domain.IndividualCustomer;
 import com.haidela.payment.pay.individualcustomer.service.IndividualCustomerService;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.repaycustomer.domain.RepayCustomer;
 import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
 import com.haidela.payment.util.DateUtils;
+import com.haidela.payment.util.HTTPRequestUtil;
+import com.haidela.payment.util.JsonUtils;
+import com.haidela.payment.util.MD5;
 import com.hfb.merchant.df.model.DfPay;
 import com.hfb.merchant.df.sercret.CertUtil;
 import com.hfb.merchant.df.util.DateUtil;
@@ -57,7 +61,7 @@ public class PayService {
      * @return
      */
     public boolean dfPay(HttpServletRequest request, HttpServletResponse response, PayCustomer payCustomer) throws Exception {
-        TreeMap<String,String> transMap = new TreeMap<>();
+        TreeMap<String, String> transMap = new TreeMap<>();
         Enumeration<String> enu = request.getParameterNames();
         String t;
         while (enu.hasMoreElements()) {
@@ -119,18 +123,19 @@ public class PayService {
         //摘要
         String remark = "代付";
         String tranFlow = request.getParameter("tranFlow");
-        String amount = request.getParameter("amount");
+        //获取当日可提现余额信息
+        String amount = JsonUtils.jsonToMap(getQueryBalance(customer.getMerchantNo()).get("data").toString()).get("withdrawal_balance").toString();
         //扩展字段
-        String ext1="1";
+        String ext1 = "1";
         //扩展字段
-        String ext2="2";
+        String ext2 = "2";
         //预留字段
-        String yUL1="1";
+        String yUL1 = "1";
         //预留字段
-        String yUL2="2";
+        String yUL2 = "2";
         String YUL3 = payCustomer.getMerchantNo();
         //后台通知地址
-        String NOTICEURL="http://182.92.192.208:8080/order-repay";
+        String NOTICEURL = "http://182.92.192.208:8080/order-repay";
 
         /**
          * 切换正式环境商户号需要到正式环境商户后台 安全中心--证书管理 功能中下载正式并启用商户证书秘钥替换掉DEMO中的证书秘钥
@@ -152,9 +157,9 @@ public class PayService {
         Map<String, String> map = ModelPayUtil.sendModelPay(certUtil, dfPay, "https://cashier.hefupal.com/paygate/v1/dfpay");
         if (map.get("rtnCode") != null || map.get("rtnCode") != "") {
             //根据交易流水号判断是否存在
-            if(customerService.findByTranFlow(tranFlow) != null){
+            if (customerService.findByTranFlow(tranFlow) != null) {
                 logger.info(TAG + "实时代付返回数据：" + "订单已存在，请核对，切勿重复出款");
-            }else{
+            } else {
                 //代付成功后将该笔订单的信息存入到代付消息接收情况中
                 RepayCustomer repayCustomer = new RepayCustomer();
                 repayCustomer.setTranFlow(tranFlow);
@@ -170,10 +175,40 @@ public class PayService {
             }
         }
         boolean flag = false;
-        if(map.get("rtnCode").equals("0000")){
+        if (map.get("rtnCode").equals("0000")) {
             flag = true;
         }
         return flag;
     }
+
+    /**
+     * 获取当日实时余额信息
+     *
+     * @param merchantNo 商户ID
+     * @return
+     */
+    public Map<String,Object> getQueryBalance(String merchantNo) {
+        String key = "adc2fbfb4654ed95b28dfe0a0cb03da6";
+        String pathUrl = "https://sd.96299.com.cn/api/account/queryBalance";
+        String channelId = "401530011651";
+        Map<String, String> trnMap = new TreeMap<String, String>();
+        trnMap.put("mch_id",merchantNo);  //商户ID
+        String str= MD5.getSignMsg(trnMap, key);
+        String sign = "";
+        String rtnStr = "";
+        try {
+            sign = MD5.md5(str);
+            sign = sign.toUpperCase();
+            trnMap.put("sign", sign);
+            logger.info("请求上游的参数：" + trnMap);
+            rtnStr = HTTPRequestUtil.formUpload(pathUrl, trnMap, channelId);
+            logger.info("上游返回结果：" + JSONObject.parse(rtnStr));
+        } catch (Exception e) {
+            logger.info("请求上游异常:" + e);
+        }
+        //将String类型转换为map
+        return JsonUtils.jsonToMap(rtnStr);
+    }
+
 
 }

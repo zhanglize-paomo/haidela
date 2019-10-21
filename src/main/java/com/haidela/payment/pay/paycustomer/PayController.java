@@ -1,6 +1,7 @@
 package com.haidela.payment.pay.paycustomer;
 
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,6 +18,7 @@ import java.util.Map;
  * @create 2019/9/30
  */
 @RestController("payController")
+@RequestMapping("/pay")
 public class PayController {
 
 
@@ -65,6 +67,18 @@ public class PayController {
         }
         return result;
     }
+
+    /**
+     * 获取当日实时余额
+     *
+     * @return
+     */
+    @RequestMapping(path = "/balance/{merchantNo}")
+    public Map<String,Object> getQueryBalance(@PathVariable String merchantNo) {
+      return payService.getQueryBalance(merchantNo);
+    }
+
+
 
     @RequestMapping(path = "/hello")
     public Map<String,String> DfPay() {
