@@ -4,7 +4,7 @@ package com.haidela.payment.pay.payment;
 import com.haidela.payment.common.Config;
 import com.haidela.payment.pay.configure.domain.MerchantConfigure;
 import com.haidela.payment.pay.configure.service.MerchantConfigureService;
-import com.haidela.payment.pay.paycustomer.PayService;
+import com.haidela.payment.pay.repaycustomer.PayService;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
 import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
