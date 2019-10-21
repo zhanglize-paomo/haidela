@@ -53,4 +53,8 @@
         select * from lyx_pay_customer where merchant_no = #{merchantNo} ORDER BY modify_time DESC LIMIT 3
     </select>
 
+    <select id="findByStatus" resultMap="resultMap">
+        select * from lyx_pay_customer where status = #{status}
+    </select>
+
 </mapper>

@@ -1,5 +1,9 @@
 package com.haidela.payment.util;
 
+import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
+import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.util.Random;
 
 /**
@@ -9,6 +13,12 @@ import java.util.Random;
  * @create 2019/10/9
  */
 public class IpUtil {
+
+    private static PayCustomerService customerService;
+    @Autowired
+    public static void setCustomerService(PayCustomerService customerService) {
+        IpUtil.customerService = customerService;
+    }
 
     public static String getRandomIp(){
         //ip范围
@@ -42,6 +52,24 @@ public class IpUtil {
 
         return x;
     }
+
+    /**
+     * 获取到下游客户的请求地址信息
+     *
+     * @return
+     */
+    public static String getCustomerUrl( PayCustomer customer) {
+        String customerUrl = "";
+        if (customer.getCompID().equals("2789")) {
+//          生产环境  http://payment.ilachang.com/paymentSystem/forthAPI/callback/hyPay
+            customerUrl = "http://payment.ilachang.com/paymentSystem/forthAPI/callback/hyPay";
+//            customerUrl = "http://61.222.80.172:8787/paymentSystem/forthAPI/callback/hyPay";
+        } else if (customer.getCompID().equals("4189")) {
+            customerUrl = "http://gate.dfzf6666.com/PlugOrderCallbackNotify21.ashx";
+        }
+        return customerUrl;
+    }
+
 
 
 

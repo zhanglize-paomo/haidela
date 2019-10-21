@@ -101,7 +101,7 @@ public class PaymentService extends HttpServlet {
      * @param num      数量
      * @param tranFlow 订单号信息
      */
-    private static String doPostOrGet(String pathUrl, Map<String, String> data, int num, String tranFlow) {
+    public static String doPostOrGet(String pathUrl, Map<String, String> data, int num, String tranFlow) {
         String str = HttpUtil2.doPost(pathUrl, data, "utf-8");
         sendMessage(str, pathUrl, data, num, tranFlow);
         return str;
@@ -401,8 +401,10 @@ public class PaymentService extends HttpServlet {
      * @return
      */
     public String orderPayment(HttpServletRequest request, HttpServletResponse response) {
+        //根据交易流水号判断公司的id
+        PayCustomer customer = customerService.findByTranFlow(request.getParameter("tranFlow"));
         //获取到下游客户的请求地址信息
-        String customerUrl = getCustomerUrl(request);
+        String customerUrl = IpUtil.getCustomerUrl(customer);
         response.setCharacterEncoding("utf-8");
         TreeMap<String, String> transMap = new TreeMap<String, String>();
         String transData = null;
@@ -498,26 +500,6 @@ public class PaymentService extends HttpServlet {
         }
         System.out.println(transData);
         return transData;
-    }
-
-    /**
-     * 获取到下游客户的请求地址信息
-     *
-     * @param request
-     * @return
-     */
-    private String getCustomerUrl(HttpServletRequest request) {
-        String customerUrl = "";
-        //根据交易流水号判断公司的id
-        PayCustomer customer = customerService.findByTranFlow(request.getParameter("tranFlow"));
-        if (customer.getCompID().equals("2789")) {
-//          生产环境  http://payment.ilachang.com/paymentSystem/forthAPI/callback/hyPay
-            customerUrl = "http://payment.ilachang.com/paymentSystem/forthAPI/callback/hyPay";
-//            customerUrl = "http://61.222.80.172:8787/paymentSystem/forthAPI/callback/hyPay";
-        } else if (customer.getCompID().equals("4189")) {
-            customerUrl = "http://gate.dfzf6666.com/PlugOrderCallbackNotify21.ashx";
-        }
-        return customerUrl;
     }
 
     /**
@@ -644,8 +626,10 @@ public class PaymentService extends HttpServlet {
      */
     public String otherOrderPayment(HttpServletRequest request, HttpServletResponse response) {
         logger.info("测试异步消息通知接口:==================================");
+        //根据交易流水号判断公司的id
+        PayCustomer customer = customerService.findByTranFlow(request.getParameter("tranFlow"));
         //获取到下游客户的请求地址信息
-        String customerUrl = getCustomerUrl(request);
+        String customerUrl = IpUtil.getCustomerUrl(customer);
         response.setCharacterEncoding("utf-8");
         TreeMap<String, String> transMap = new TreeMap<String, String>();
         String transData = null;

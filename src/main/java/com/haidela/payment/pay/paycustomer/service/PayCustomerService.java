@@ -97,4 +97,14 @@ public class PayCustomerService {
     public List<PayCustomer> findByMerchantNo(String merchantId) {
         return mapper.findByMerchantNo(merchantId);
     }
+
+    /**
+     * 查询某种交易状态的交易信息
+     *
+     * @param status
+     * @return
+     */
+    public List<PayCustomer> findByStatus(String status) {
+        return mapper.findByStatus(status);
+    }
 }

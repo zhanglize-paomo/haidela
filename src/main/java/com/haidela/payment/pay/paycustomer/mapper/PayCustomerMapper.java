@@ -72,4 +72,11 @@ public interface PayCustomerMapper {
      */
     List<PayCustomer> findByMerchantNo(String merchantId);
 
+    /**
+     * 查询某种交易状态的交易信息
+     *
+     * @param status
+     * @return
+     */
+    List<PayCustomer> findByStatus(String status);
 }

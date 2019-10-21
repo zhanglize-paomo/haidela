@@ -11,7 +11,6 @@ import java.util.Date;
  */
 public class DateUtils {
 
-
     /**
      * 默认时间格式：yyyy-MM-dd HH:mm:ss
      */
@@ -21,6 +20,7 @@ public class DateUtils {
      * 默认时间格式：HH:mm
      */
     public static final String DEFAULT_TIME_PATTERN = "HH:mm";
+
 
 
     /**
