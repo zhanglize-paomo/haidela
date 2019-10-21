@@ -22,9 +22,7 @@ import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * 实时代付
@@ -41,7 +39,11 @@ public class PayService {
 
     private IndividualCustomerService service;
     private RepayCustomerService customerService;
-
+    private IndividualCustomerService individualCustomerService;
+    @Autowired
+    public void setIndividualCustomerService(IndividualCustomerService individualCustomerService) {
+        this.individualCustomerService = individualCustomerService;
+    }
     @Autowired
     public void setService(IndividualCustomerService service) {
         this.service = service;
@@ -210,5 +212,40 @@ public class PayService {
         return JsonUtils.jsonToMap(rtnStr);
     }
 
+    /**
+     * 查询所有的商户所对应的余额信息
+     *
+     * @return
+     */
+    public  List<Map<String,String>> getAllQueryBalance() {
+        String key = "adc2fbfb4654ed95b28dfe0a0cb03da6";
+        String pathUrl = "https://sd.96299.com.cn/api/account/queryBalance";
+        String channelId = "401530011651";
+        List<Map<String,String>> list = new ArrayList<>();
+        List<IndividualCustomer> customerList = individualCustomerService.findAllMerchant();
+        customerList.forEach(customer -> {
+            Map<String, String> trnMap = new TreeMap<String, String>();
+            trnMap.put("mch_id",customer.getMerchantNo());  //商户ID
+            String str= MD5.getSignMsg(trnMap, key);
+            String sign = "";
+            String rtnStr = "";
+            try {
+                sign = MD5.md5(str);
+                sign = sign.toUpperCase();
+                trnMap.put("sign", sign);
+                logger.info("请求上游的参数：" + trnMap);
+                rtnStr = HTTPRequestUtil.formUpload(pathUrl, trnMap, channelId);
+                logger.info("上游返回结果：" + JSONObject.parse(rtnStr));
+            } catch (Exception e) {
+                logger.info("请求上游异常:" + e);
+            }
+            Map<String,String> map = new HashMap<>();
+            map.put(customer.getMerchantNo() + ":" + customer.getAccountName(),JSONObject.parse(rtnStr).toString());
+            list.add(map);
+        });
+        //将String类型转换为map
+        return list;
 
+
+    }
 }

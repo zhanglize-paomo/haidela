@@ -3,6 +3,8 @@ package com.haidela.payment.pay.individualcustomer.mapper;
 import com.haidela.payment.pay.individualcustomer.domain.IndividualCustomer;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 /**
  * 商户进件个体商户信息
  *
@@ -27,4 +29,11 @@ public interface IndividualCustomerMapper {
      * @return
      */
     IndividualCustomer findMerchantNo(String merchantNo);
+
+    /**
+     * 查询商户进件个体商户信息
+     *
+     * @return
+     */
+    List<IndividualCustomer> findAllMerchant();
 }

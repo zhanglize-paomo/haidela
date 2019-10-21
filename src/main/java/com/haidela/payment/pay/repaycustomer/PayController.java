@@ -9,6 +9,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -76,6 +77,16 @@ public class PayController {
     @RequestMapping(path = "/balance/{merchantNo}")
     public Map<String,Object> getQueryBalance(@PathVariable String merchantNo) {
       return payService.getQueryBalance(merchantNo);
+    }
+
+    /**
+     * 查询所有的商户所对应的余额信息
+     *
+     * @return
+     */
+    @RequestMapping(path = "/all/balance")
+    public List<Map<String,String>> getAllQueryBalance() {
+        return payService.getAllQueryBalance();
     }
 
 

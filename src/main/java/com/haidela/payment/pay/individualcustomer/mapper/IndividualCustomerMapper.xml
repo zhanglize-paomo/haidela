@@ -58,4 +58,8 @@
         select * from lyx_individual_customer where merchant_no = #{merchantNo}
     </select>
 
+    <select id="findAllMerchant" resultMap="resultMap">
+        select * from lyx_individual_customer
+    </select>
+
 </mapper>

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -286,5 +287,14 @@ public class IndividualCustomerService {
      */
     public IndividualCustomer findMerchantNo(String merchantNo) {
         return mapper.findMerchantNo(merchantNo);
+    }
+
+    /**
+     * 查询商户进件个体商户信息
+     *
+     * @return
+     */
+    public List<IndividualCustomer> findAllMerchant() {
+        return mapper.findAllMerchant();
     }
 }
