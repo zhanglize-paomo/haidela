@@ -176,7 +176,7 @@ public class PaymentController {
             //将流水号进行md5加密处理
             String md5 = MD5.md5(tranFlow);
             //然后将所有的数据进行md5加密
-            if (!digest.equals(MD5.md5(security.trim() + md5.trim()))) {
+            if (!MD5.md5(security.trim() + md5.trim()).equals(digest)){
                 result.put("code", "2002");
                 result.put("msg", "数据加密异常,请重试");
                 return result;
