@@ -8,10 +8,7 @@ package com.haidela.payment.pay.paycustomer.controller;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * 客户交易流水信息
@@ -36,8 +33,7 @@ public class PayCustomerController {
      * @param customer
      * @return
      */
-    @RequestMapping("add")
-    @PostMapping
+    @RequestMapping(value = "add",method = RequestMethod.POST)
     public int add(PayCustomer customer){
         return service.add(customer);
     }
@@ -49,8 +45,7 @@ public class PayCustomerController {
      * @param status   交易状态
      * @return
      */
-    @RequestMapping("update-status/{tranFlow}/{status}")
-    @PostMapping
+    @RequestMapping(value = "update-status/{tranFlow}/{status}",method = RequestMethod.POST)
     public int updateStatus(@PathVariable String tranFlow, @PathVariable String status){
         return service.updateStatus(tranFlow,status);
     }
@@ -62,8 +57,7 @@ public class PayCustomerController {
      * @param receiveMessages   消息
      * @return
      */
-    @RequestMapping("update-receive-messages/{tranFlow}/{receiveMessages}")
-    @PostMapping
+    @RequestMapping(value = "update-receive-messages/{tranFlow}/{receiveMessages}",method = RequestMethod.POST)
     public int updateReceiveMessages(@PathVariable String tranFlow, @PathVariable String receiveMessages){
         return service.updateReceiveMessages(tranFlow,receiveMessages);
     }
@@ -74,8 +68,7 @@ public class PayCustomerController {
      * @param tranFlow  交易流水号
      * @return
      */
-    @RequestMapping("find-tranflow/{tranFlow}")
-    @PostMapping
+    @RequestMapping(value = "find-tranflow/{tranFlow}",method = RequestMethod.POST)
     public PayCustomer findByTranFlow(@PathVariable String tranFlow){
         return service.findByTranFlow(tranFlow);
     }
@@ -87,8 +80,7 @@ public class PayCustomerController {
      * @param paySerialNo  平台交易流水号
      * @return
      */
-    @RequestMapping("pay-serial-no/{id}/{paySerialNo}")
-    @PostMapping
+    @RequestMapping(value = "pay-serial-no/{id}/{paySerialNo}",method = RequestMethod.POST)
     public int updateByPaySerialNo(@PathVariable Long id,@PathVariable String paySerialNo){
         return service.updateByPaySerialNo(id,paySerialNo);
     }
