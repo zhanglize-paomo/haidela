@@ -4,8 +4,11 @@ import com.haidela.payment.pay.user.domain.User;
 import com.haidela.payment.pay.user.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 /**
+ * 用户服务
+ *
  * @author zhanglize
  * @create 2019/10/22
  */
@@ -41,5 +44,17 @@ public class UserService {
 
     public int updateByPrimaryKey(User user) {
         return userMapper.updateByPrimaryKey(user);
+    }
+
+    /**
+     * 登录页面信息
+     *
+     * @param model
+     * @param compId   公司id
+     * @param password  密码
+     * @return
+     */
+    public String login(Model model, String compId, String password) {
+        return "登陆成功";
     }
 }

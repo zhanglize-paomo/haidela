@@ -3,6 +3,7 @@ package com.haidela.payment.pay.user.controller;
 import com.haidela.payment.pay.user.domain.User;
 import com.haidela.payment.pay.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -50,6 +51,19 @@ public class UserController {
     @RequestMapping(value = "update-primary-key",method = RequestMethod.PUT)
     public int updateByPrimaryKey(@RequestBody User user){
         return service.updateByPrimaryKey(user);
+    }
+
+    /**
+     * 登录页面信息
+     *
+     * @param model
+     * @param compId   公司id
+     * @param password  密码
+     * @return
+     */
+    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    public String login(Model model, @RequestParam String compId, @RequestParam String password){
+        return service.login(model,compId,password);
     }
 
 
