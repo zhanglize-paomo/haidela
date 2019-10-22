@@ -14,21 +14,21 @@
                         password="Fenmiao2017">
         </jdbcConnection>
 
-        <!-- DataObject存放位置-->
-        <javaModelGenerator targetPackage="com.haidela.payment.pay.user.domain" targetProject="src/main/java">
-            <property name="enableSubPackages" value="true" />
-            <property name="trimStrings" value="true" />
-        </javaModelGenerator>
+        <!--&lt;!&ndash; DataObject存放位置&ndash;&gt;-->
+        <!--<javaModelGenerator targetPackage="com.haidela.payment.pay.user.domain" targetProject="src/main/java">-->
+            <!--<property name="enableSubPackages" value="true" />-->
+            <!--<property name="trimStrings" value="true" />-->
+        <!--</javaModelGenerator>-->
 
-        <!-- 生成映射文件存放位置-->
-        <sqlMapGenerator targetPackage="com.haidela.payment.pay.user.mapper"  targetProject="src/main/java">
-            <property name="enableSubPackages" value="true" />
-        </sqlMapGenerator>
+        <!--&lt;!&ndash; 生成映射文件存放位置&ndash;&gt;-->
+        <!--<sqlMapGenerator targetPackage="com.haidela.payment.pay.user.mapper"  targetProject="src/main/java">-->
+            <!--<property name="enableSubPackages" value="true" />-->
+        <!--</sqlMapGenerator>-->
 
-        <!-- 生成dao存放位置-->
-        <javaClientGenerator type="XMLMAPPER" targetPackage="com.haidela.payment.pay.user.mapper"  targetProject="src/main/java">
-            <property name="enableSubPackages" value="true" />
-        </javaClientGenerator>
+        <!--&lt;!&ndash; 生成dao存放位置&ndash;&gt;-->
+        <!--<javaClientGenerator type="XMLMAPPER" targetPackage="com.haidela.payment.pay.user.mapper"  targetProject="src/main/java">-->
+            <!--<property name="enableSubPackages" value="true" />-->
+        <!--</javaClientGenerator>-->
 
         <table  tableName="lyx_user" domainObjectName="User" selectByExampleQueryId="false" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"> </table>
 
