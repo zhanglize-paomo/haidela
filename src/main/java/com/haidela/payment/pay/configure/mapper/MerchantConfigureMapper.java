@@ -16,20 +16,6 @@ import java.util.List;
 @Repository
 public interface MerchantConfigureMapper {
 
-    MerchantConfigure Sel(int id);
-
-    int deleteByPrimaryKey(Integer id);
-
-    int insert(MerchantConfigure record);
-
-    int insertSelective(MerchantConfigure record);
-
-    MerchantConfigure selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(MerchantConfigure record);
-
-    int updateByPrimaryKey(MerchantConfigure record);
-
     /**
      * 查询所有状态为1的个体商户信息
      *

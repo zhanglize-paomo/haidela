@@ -26,7 +26,7 @@
 
     <update id="update" parameterType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
          UPDATE lyx_merchant_configure
-         SET total_one_amount = #{totalOneAmount,jdbcType=VARCHAR},status = #{status,jdbcType=VARCHAR}
+         SET total_one_amount = #{totalOneAmount,jdbcType=VARCHAR},status = #{status,jdbcType=VARCHAR},modify_time = now()
          WHERE id = #{id}
     </update>
 
