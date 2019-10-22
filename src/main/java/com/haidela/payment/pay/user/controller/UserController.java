@@ -1,0 +1,56 @@
+package com.haidela.payment.pay.user.controller;
+
+import com.haidela.payment.pay.user.domain.User;
+import com.haidela.payment.pay.user.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+/**
+ * 用户控制器层
+ *
+ *
+ * @author zhanglize
+ * @create 2019/10/22
+ */
+@RestController("UserController")
+@RequestMapping("/user")
+public class UserController {
+
+    private UserService service;
+    @Autowired
+    public void setService(UserService service) {
+        this.service = service;
+    }
+
+    @RequestMapping(value = "delete",method = RequestMethod.DELETE)
+    public int deleteByPrimaryKey(@PathVariable Long id){
+        return service.deleteByPrimaryKey(id);
+    }
+
+    @RequestMapping(value = "insert",method = RequestMethod.POST)
+    public int insert(@RequestBody User user){
+        return service.insert(user);
+    }
+
+    @RequestMapping(value = "insert-selective",method = RequestMethod.POST)
+    public int insertSelective(@RequestBody User user){
+        return service.insertSelective(user);
+    }
+
+    @RequestMapping(value = "select-primary-key",method = RequestMethod.POST)
+    public User selectByPrimaryKey(@PathVariable Long id){
+        return service.selectByPrimaryKey(id);
+    }
+
+    @RequestMapping(value = "update",method = RequestMethod.PUT)
+    public int updateByPrimaryKeySelective(@RequestBody User user){
+        return service.updateByPrimaryKeySelective(user);
+    }
+
+    @RequestMapping(value = "update-primary-key",method = RequestMethod.PUT)
+    public int updateByPrimaryKey(@RequestBody User user){
+        return service.updateByPrimaryKey(user);
+    }
+
+
+}

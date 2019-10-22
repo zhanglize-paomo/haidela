@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haidela.payment.pay.user.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.haidela.payment.pay.user.domain.User">
+        <id column="id" jdbcType="DECIMAL" property="id" />
+        <result column="comp_iD" jdbcType="CHAR" property="compId" />
+        <result column="company_name" jdbcType="CHAR" property="companyName" />
+        <result column="password" jdbcType="CHAR" property="password" />
+        <result column="type" jdbcType="CHAR" property="type" />
+    </resultMap>
+    <sql id="Base_Column_List">
+        id, comp_iD, company_name, password, type
+    </sql>
+    <select id="selectByPrimaryKey" parameterType="java.math.BigDecimal" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from lyx_user
+        where id = #{id,jdbcType=DECIMAL}
+    </select>
+
+    <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
+        delete from lyx_user where id = #{id,jdbcType=DECIMAL}
+    </delete>
+
+    <insert id="insert" parameterType="com.haidela.payment.pay.user.domain.User">
+        insert into lyx_user (id, comp_iD, company_name, password, type)
+        values (#{id,jdbcType=DECIMAL}, #{compId,jdbcType=CHAR}, #{companyName,jdbcType=CHAR},
+        #{password,jdbcType=CHAR}, #{type,jdbcType=CHAR})
+    </insert>
+
+    <insert id="insertSelective" parameterType="com.haidela.payment.pay.user.domain.User">
+        insert into lyx_user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="compId != null">
+                comp_iD,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=DECIMAL},
+            </if>
+            <if test="compId != null">
+                #{compId,jdbcType=CHAR},
+            </if>
+            <if test="companyName != null">
+                #{companyName,jdbcType=CHAR},
+            </if>
+            <if test="password != null">
+                #{password,jdbcType=CHAR},
+            </if>
+            <if test="type != null">
+                #{type,jdbcType=CHAR},
+            </if>
+        </trim>
+    </insert>
+
+
+    <update id="updateByPrimaryKeySelective" parameterType="com.haidela.payment.pay.user.domain.User">
+        update lyx_user
+        <set>
+            <if test="compId != null">
+                comp_iD = #{compId,jdbcType=CHAR},
+            </if>
+            <if test="companyName != null">
+                company_name = #{companyName,jdbcType=CHAR},
+            </if>
+            <if test="password != null">
+                password = #{password,jdbcType=CHAR},
+            </if>
+            <if test="type != null">
+                type = #{type,jdbcType=CHAR},
+            </if>
+        </set>
+        where id = #{id,jdbcType=DECIMAL}
+    </update>
+
+    <update id="updateByPrimaryKey" parameterType="com.haidela.payment.pay.user.domain.User">
+        update lyx_user
+        set comp_iD = #{compId,jdbcType=CHAR},
+        company_name = #{companyName,jdbcType=CHAR},
+        password = #{password,jdbcType=CHAR},
+        type = #{type,jdbcType=CHAR}
+        where id = #{id,jdbcType=DECIMAL}
+    </update>
+</mapper>
