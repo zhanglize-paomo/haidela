@@ -24,3 +24,57 @@ function fnLogin() {
     }
     window.alert("登录成功")
 }
+
+
+/**
+ *
+ * @authors Your Name (you@example.org)
+ * @date    2015-12-25 17:25:23
+ * @version $Id$
+ */
+
+$(function(){
+    // input表单
+    $("input").focus(function(event) {
+        var moren = $(this).attr('inp-val');
+        if ($(this).val()== moren) {
+            $(this).css('color','#333');
+            $(this).val('');
+        };
+    }).blur(function(event) {
+        if ($(this).val()=='') {
+            var moren = $(this).attr('inp-val');
+            $(this).css('color','#b7b7b7');
+            $(this).val(moren);
+        }else{
+            $(this).css('color','#333')
+        };
+    });
+
+    $(function() {
+        $(".order_top1 ul li").hover(function() {
+// 				$(this).addClass('current').siblings().removeClass('current');
+// 				$(".order_top1 ul li img.img_2").hide();
+// 				$(".order_top1 ul li img.img_1").show();
+// 				$(this).find('.img_2').show();
+// 				$(this).find('.img_1').hide();
+            $(".order_top1 ul li .order_topcontmain").hide();
+            $(this).find('.order_topcontmain').show();
+        }, function() {
+            $(".order_top1 ul li .order_topcontmain").hide();
+        });
+        $(".order_top1 ul li a").hover(function() {
+// 		 		$(this).addClass('yellow').siblings().removeClass('yellow');
+
+        });
+    });
+
+
+    $(".main_tabel ul li a.mark").click(function () {
+        $("#bg").css({
+            display: "block", height: $(document).height()
+        });
+        $(".marker").show();
+    });
+
+});
