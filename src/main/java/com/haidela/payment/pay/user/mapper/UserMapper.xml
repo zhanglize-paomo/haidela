@@ -18,6 +18,13 @@
         where id = #{id,jdbcType=DECIMAL}
     </select>
 
+    <select id="findByCompId" parameterType="com.haidela.payment.pay.user.domain.User" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from lyx_user
+        where comp_iD = #{compId,jdbcType=CHAR}
+    </select>
+
     <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
         delete from lyx_user where id = #{id,jdbcType=DECIMAL}
     </delete>

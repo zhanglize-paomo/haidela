@@ -34,4 +34,11 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
+    /**
+     * 根据公司ID查询对应的人员信息
+     *
+     * @param compId
+     * @return
+     */
+    User findByCompId(String compId);
 }
