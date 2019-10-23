@@ -143,9 +143,10 @@ public class ScheduledTasks {
 
 
     /**
-     * 代付失败后,轮询进行代付将代付失败的款项重新发起代付,默认每次代付100元
+     * 代付失败后,轮询进行代付将代付失败的款项重新发起代付
      */
-    @Scheduled(cron = "1 * * * * ?")
+    @Scheduled(cron = "0 0/5 * * * ?")
+//    @Scheduled(cron = "5 * * * * ?")
     public void otherDfPayTask() {
         logger.info("轮询代付 :" + DateUtils.stringToDate());
         //商户进件信息
@@ -153,9 +154,12 @@ public class ScheduledTasks {
         customerList.forEach(customer->{
             String merchantNo = customer.getMerchantNo();
             String tranFlow = String.valueOf(Timestamp.valueOf(LocalDateTime.now()).getTime());
-            String amount = "10000";
+            //获取当日可提现余额信息
+            String amount = JsonUtils.jsonToMap(payService.getQueryBalance(customer.getMerchantNo()).get("data").toString()).get("withdrawal_balance").toString();
             try {
-                payService.otherDfPay(merchantNo,tranFlow,amount);
+                if(amount != null && !amount.equals("0") && !amount.equals("")){
+                    payService.otherDfPay(merchantNo,tranFlow,amount);
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }

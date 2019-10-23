@@ -321,7 +321,7 @@ public class PayService {
                 repayCustomer.setAmount(amount);
                 repayCustomer.setCreateTime(DateUtils.stringToDate());
                 customerService.add(repayCustomer);
-                logger.info(TAG + "定时任务实时代付返回数据：" + repayCustomer.toString());
+                logger.info(TAG + "定时任务实时代付返回数据：" + JsonUtils.jsonToMap(repayCustomer.toString()));
             }
         }
         boolean flag = false;
