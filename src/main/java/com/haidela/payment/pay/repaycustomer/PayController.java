@@ -50,9 +50,10 @@ public class PayController {
             result.put("msg", "流水号不可为空");
             return result;
         }
-        String amount = request.getParameter("amount");//交易金额
         String merchantNo = request.getParameter("merchantNo");//商户号
         PayCustomer payCustomer = new PayCustomer();
+        payCustomer.setTranFlow(tranFlow);
+        payCustomer.setMerchantNo(merchantNo);
         boolean string = false;
         try {
             string = payService.dfPay(request, response,payCustomer);
