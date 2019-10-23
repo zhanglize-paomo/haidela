@@ -70,6 +70,44 @@ public class PayController {
         return result;
     }
 
+
+    /**
+     * 客户人工代付交易请求报文
+     *
+     * @return
+     */
+    @RequestMapping(path = "/other-pay")
+    public Map<String, String> otherDfPay(HttpServletRequest request, HttpServletResponse response) {
+        Map<String, String> result = new HashMap<String, String>();
+        String tranFlow = request.getParameter("tranFlow");//流水号
+        if (null == tranFlow || tranFlow.equals("")) {
+            result.put("code", "2001");
+            result.put("msg", "流水号不可为空");
+            return result;
+        }
+        String merchantNo = request.getParameter("merchantNo");//商户号
+        String amount = request.getParameter("amount");//金额
+        PayCustomer payCustomer = new PayCustomer();
+        payCustomer.setTranFlow(tranFlow);
+        payCustomer.setMerchantNo(merchantNo);
+        payCustomer.setAmount(amount);
+        boolean string = false;
+        try {
+            string = payService.otherDfPay(request, response,payCustomer);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (string == true) {
+            result.put("code", "200");
+            result.put("msg", "代付成功");
+        } else {
+            result.put("code", "9999");
+            result.put("msg", "代付失败，请重试");
+        }
+        return result;
+    }
+
+
     /**
      * 获取当日实时余额
      *
