@@ -76,24 +76,17 @@ public class PayController {
      *
      * @return
      */
-    @RequestMapping(path = "/other-pay")
-    public Map<String, String> otherDfPay(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(path = "/other-pay/{merchantId}/{tranFlow}/{amount}")
+    public Map<String, String> otherDfPay(@PathVariable String merchantId, @PathVariable String tranFlow, @PathVariable String amount) {
         Map<String, String> result = new HashMap<String, String>();
-        String tranFlow = request.getParameter("tranFlow");//流水号
         if (null == tranFlow || tranFlow.equals("")) {
             result.put("code", "2001");
             result.put("msg", "流水号不可为空");
             return result;
         }
-        String merchantNo = request.getParameter("merchantNo");//商户号
-        String amount = request.getParameter("amount");//金额
-        PayCustomer payCustomer = new PayCustomer();
-        payCustomer.setTranFlow(tranFlow);
-        payCustomer.setMerchantNo(merchantNo);
-        payCustomer.setAmount(amount);
         boolean string = false;
         try {
-            string = payService.otherDfPay(request, response,payCustomer);
+            string = payService.otherDfPay(merchantId,tranFlow,amount);
         } catch (Exception e) {
             e.printStackTrace();
         }

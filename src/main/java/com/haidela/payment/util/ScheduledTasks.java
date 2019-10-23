@@ -2,9 +2,12 @@ package com.haidela.payment.util;
 
 import com.haidela.payment.pay.configure.domain.MerchantConfigure;
 import com.haidela.payment.pay.configure.service.MerchantConfigureService;
+import com.haidela.payment.pay.individualcustomer.domain.IndividualCustomer;
+import com.haidela.payment.pay.individualcustomer.service.IndividualCustomerService;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
 import com.haidela.payment.pay.payment.PaymentService;
+import com.haidela.payment.pay.repaycustomer.PayService;
 import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,9 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -31,7 +36,17 @@ public class ScheduledTasks {
     private RepayCustomerService repayCustomerService;
     private PayCustomerService payCustomerService;
     private PaymentService paymentService;
+    private IndividualCustomerService individualCustomerService;
+    private PayService payService;
     private Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
+    @Autowired
+    public void setIndividualCustomerService(IndividualCustomerService individualCustomerService) {
+        this.individualCustomerService = individualCustomerService;
+    }
+    @Autowired
+    public void setPayService(PayService payService) {
+        this.payService = payService;
+    }
 
     @Autowired
     public void setPaymentService(PaymentService paymentService) {
@@ -123,6 +138,29 @@ public class ScheduledTasks {
                 }
             }
         });
+    }
+
+
+
+    /**
+     * 代付失败后,轮询进行代付将代付失败的款项重新发起代付,默认每次代付100元
+     */
+    @Scheduled(cron = "1 * * * * ?")
+    public void otherDfPayTask() {
+        logger.info("轮询代付 :" + DateUtils.stringToDate());
+        //商户进件信息
+        List<IndividualCustomer> customerList = individualCustomerService.findAllMerchant();
+        customerList.forEach(customer->{
+            String merchantNo = customer.getMerchantNo();
+            String tranFlow = String.valueOf(Timestamp.valueOf(LocalDateTime.now()).getTime());
+            String amount = "10000";
+            try {
+                payService.otherDfPay(merchantNo,tranFlow,amount);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+
     }
 
 }
