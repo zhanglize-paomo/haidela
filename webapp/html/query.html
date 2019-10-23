@@ -5,9 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>账务明细</title>
     <style type="text/css">
-        #detail li{
+        #detail li {
             line-height: 30px;
-            padding:1px;
+            padding: 1px;
         }
     </style>
     <script type="text/javascript" src="../js/WdatePicker.js"></script>
@@ -17,157 +17,92 @@
 <div id="continer">
     <link rel="shortcut icon" href="/img/hefupal-head.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script type="text/javascript" src="/js/jquery-1.11.1.min.js" ></script>
+    <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/index.css">
-    <link rel="stylesheet" type="text/css" href="/css/page.css">
-    <link rel="stylesheet" type="text/css" href="/css/zzsc.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <link rel="stylesheet" type="text/css" href="../css/page.css">
+    <link rel="stylesheet" type="text/css" href="../css/zzsc.css">
     <script type="text/javascript">
         var ctx = '';
-        function kefuMouseOver(){
+
+        function kefuMouseOver() {
             $(".kefu_pic").show();
         }
-        function kefuMouseOut(){
+
+        function kefuMouseOut() {
             $(".kefu_pic").hide();
         }
-        function onlyMoney(obj){
-            obj.value = obj.value.replace(/[^\d.]/g,""); //清除"数字"和"."以外的字符
-            obj.value = obj.value.replace(/^\./g,""); //验证第一个字符是数字而不是
-            obj.value = obj.value.replace(/\.{2,}/g,"."); //只保留第一个. 清除多余的
-            obj.value = obj.value.replace(".","$#$").replace(/\./g,"").replace("$#$",".");
-            obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/,'$1$2.$3'); //只能输入两个小数
+
+        function onlyMoney(obj) {
+            obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+            obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+            obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+            obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+            obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
         }
     </script>
     <div id="header">
         <div class="head">
             <div class="head_l">
-                <a herf="www.hefupal.com"><img src="/img/hefupal-head.png"></a>
+                <!--<a herf="www.hefupal.com"><img src="../img/log.jpg"></a>-->
             </div>
             <div class="head_m">
                 <ul>
-                    <li ><a href="/home">首页</a></li>
-                    <li  class="current" ><a href="/mchntCenter">商户中心</a></li>
-                    <!-- 	<li ><a href="/public/about">关于我们</a></li> -->
-                    <li ><a href="/merchoose">支付产品</a></li>
+                    <li class="current"><a href="/mchntCenter">商户中心</a></li>
                 </ul>
             </div>
             <div class="head_r">
                 <ul>
-                    <li><img src="/img/home-icon_06.png" /></li>
-                    <li><img src="/img/home-icon_09.png" /><a
-                            href="javascript:void(0)">消息</a></li>
-                    <li><img src="/img/home-icon_06.png" /></li>
-                    <li><img src="/img/home-icon_11.png" /><a
-                            href="/loginOut">退出</a></li>
-                    <li><img src="/img/home-icon_06.png" /></li>
-                    <li  class="kefu_flag" id="kefu_pic" ><img src="/img/home-icon_14.png" /><a href="javascript:void(0)">客服</a></li>
+                    <li><img src="../img/home-icon_06.png"/></li>
+                    <li><img src="../img/home-icon_09.png"/><a href="javascript:void(0)">消息</a></li>
+                    <li><img src="../img/home-icon_06.png"/></li>
+                    <li><img src="../img/home-icon_11.png"/><a href="/loginOut">退出</a></li>
                 </ul>
-                <div id="for_kefu_block">
-                    <div class="kefu_block" id="kefu_block">
-                        <div class="kefu_box">
-                            <div class="kefu_title"><a class="kefu_close" href="javascript:void(0)"><img src="/img/kf_top.png" width="183" height="31"></a></div>
-                            <div class="kefu_con">
-                                <div class="kefu_tel"></div>
-                                <div class="kefu1">
-                                    <div class="kefu_con_title">
-                                        <ul class="jszcfwul">
-                                            <li class="kefu_con_title_li1"></li>
-                                            <li class="kefu_con_title_li2">客服咨询</li>
-                                            <div style="clear:both"></div>
-                                        </ul>
-                                    </div>
-                                    <div class="kefu_con_con1">
-                                        <ul>
-                                            <li class="neititle">
-                                                <div class="uline">支付商务合作QQ</div>
-                                            </li>
-                                            <li> <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2960779073&site=qq&menu=yes">
-                                                <img border="0" src="http://wpa.qq.com/pa?p=2:2960779073:51" alt="点击这里给我发消息" title="点击这里给我发消息">
-                                                 </a>
-                                            </li>
-                                            <div style="clear:both"></div>
-                                            <li class="neititle">
-                                                <div class="uline">运营客服咨询QQ</div>
-                                            </li>
-                                            <li> <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=1713175609&site=qq&menu=yes"><img border="0" src="http://wpa.qq.com/pa?p=2:1713175609:51" alt="点击这里给我发消息" title="点击这里给我发消息"></a> </li>
-                                            <div style="clear:both"></div>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div class="kefu5">
-                                </div>
-                                <script type="text/javascript">
-                                    $(document).ready(function() {
-                                        $(".kefu_con_title").click(function(){
-                                            $(this).siblings(".kefu_con_con").toggle();
-                                            var obj  =$(this).find("li:first");
-                                            var src = obj.find("img").attr("src");
-                                            if(obj.attr("class")=="kefu_con_title_li1"){
-                                                obj.html("<img src='"+ src.replace("kf_line2","kf_line1") +"'>")
-                                                obj.addClass("abcdefg");
-                                                return true;
-                                            }
-                                            else{
-                                                obj.html("<img src='"+ src.replace("kf_line1","kf_line2") +"'>")
-                                                obj.removeClass("abcdefg");
-                                                return true;
-                                            }
-                                        })
-                                    });
-                                </script>
-                            </div>
-                            <div class="kefu_tt"><a href="#"><img src="/img/kf_foot.png" /></a></div>
-                        </div>
-                    </div>
-                </div>
+
                 <script language="javascript">
                     var OnlineTop = 120;
                     var animate = 0;
                     var OnlineTopC = OnlineTop + "px";
                     var $OnlineBox = $("#for_kefu_block");
-                    $(document).ready(function(){
-                        $OnlineBox.css('display','block');
-                        $OnlineBox.css('top',OnlineTopC);
-                        /*if(OnlinePosition == "right"){
-                            $OnlineBox.css('right',animate);
-                        }else{
-                            $OnlineBox.css('left',animate);
-                        }*/
-                        /*适应ie6*/
-                        //$(".kefu_block").css("display","none")
-// 	if($.browser.msie && $.browser.version == 6){
-// 		FollowDiv.follow();
-// 	}
+                    $(document).ready(function () {
+                        $OnlineBox.css('display', 'block');
+                        $OnlineBox.css('top', OnlineTopC);
                     });
                     FollowDiv = {
-                        follow : function(){
-                            $('#for_kefu_block').css('position','absolute');
-                            $(window).scroll(function(){
+                        follow: function () {
+                            $('#for_kefu_block').css('position', 'absolute');
+                            $(window).scroll(function () {
                                 var f_top = $(window).scrollTop() + OnlineTop;
-                                $('#for_kefu_block').css( 'top' , f_top );
+                                $('#for_kefu_block').css('top', f_top);
                             });
                         }
                     }
-                    $(".kefu_close").click(function(){
+                    $(".kefu_close").click(function () {
                         $(".kefu_block").hide();
                         $(".kefu_flag").show();
 
                     })
-                    $(".kefu_flag").click(function(){
+                    $(".kefu_flag").click(function () {
                         $(this).show();
                         $(".kefu_block").show();
 
                     })
                 </script>
+
+
                 <div class="kefu_pic" onMouseOver="kefuMouseOver();" onmouseout="kefuMouseOut();">
-                    <img src="/img/tel.png" />
+                    <img src="/img/tel.png"/>
                     <em>400-048-8006</em>
                 </div>
+
+
             </div>
         </div>
     </div>
+
+
     <div id="page">
-        <link rel="shortcut icon" href="/img/hefupal-head.png" type="image/x-icon">
+        <link rel="shortcut icon" href="../img/hefupal-head.png" type="image/x-icon">
         <script type="text/javascript">
             function changeMenu(action, fid, id) {
                 $("#menuForm").attr("action", action);
@@ -184,129 +119,27 @@
             <div class="order_top">
                 <div class="order_top1">
                     <div class="line"></div>
-                    <ul><li class="current">
-                            <a href="javascript:changeMenu('/account/accountDetail','1','105')"
-                               href="javascript:changeMenu('/account/orderList','1','101')"
-                               href="javascript:changeMenu('/trans/transferAmtList','1','102')"
-                               href="javascript:changeMenu('/trans/rechargeList','1','103')"
-                               href="javascript:changeMenu('/trans/cashList','1','104')"
-                               href="javascript:changeMenu('/trans/settleList','1','106')"
-                               href="javascript:changeMenu('/dfpay/dfRefund','1','107')">查询统计</a>
-                            <img src="/img/inquiry_03.png" class="img_1" style="display: none;" />
-                            <img src="/img/inquiry_05.png" style="display: block;" class="img_2" />
+                    <ul>
+                        <li class="current">
+                            <a href="javascript:changeMenu('/dfpay/dfRefund','1','107')">查询统计</a>
+                            <img src="../img/inquiry_03.png" class="img_1" style="display: none;"/>
+                            <img src="../img/inquiry_05.png" style="display: block;" class="img_2"/>
                             <div class="order_topcontmain " style="display: none;">
-                                <a class="yellow" href="javascript:changeMenu('/account/accountDetail','1','105')">账务明细</a>
-                                <a class="" href="javascript:changeMenu('/account/orderList','1','101')">订单查询</a>
-                                <a class="" href="javascript:changeMenu('/trans/transferAmtList','1','102')">转账查询</a>
-                                <a class="" href="javascript:changeMenu('/trans/rechargeList','1','103')">充值查询</a>
-                                <a class="" href="javascript:changeMenu('/trans/cashList','1','104')">提现查询</a>
-                                <a class="" href="javascript:changeMenu('/trans/settleList','1','106')">结算查询</a>
-                                <a class="" href="javascript:changeMenu('/dfpay/dfRefund','1','107')">代付退汇查询</a>
-                            </div>
-                        </li>
-                        <li >
-                            <a href="javascript:changeMenu('/refund/refundOrderList','2','201')"
-                               href="javascript:changeMenu('/refund/checkRefundList','2','202')"
-                               href="javascript:changeMenu('/queryrefund/list','2','203')"
-                            >退款管理</a>
-                            <img src="/img/inquiry_03.png" class="img_1"  />
-                            <img src="/img/inquiry_05.png"  class="img_2" />
-                            <div class="order_topcontmain order_topcont2" style="display: none;">
-                                <a class="" href="javascript:changeMenu('/refund/refundOrderList','2','201')">退款申请</a>
-                                <a class="" href="javascript:changeMenu('/refund/checkRefundList','2','202')">退款复核</a>
-                                <a class="" href="javascript:changeMenu('/queryrefund/list','2','203')">退款查询</a>
-                            </div>
-                        </li>
-                        <li >
-                            <a href="javascript:changeMenu('/agent/twoMerInfo','7','701')"
-                               href="javascript:changeMenu('/agent/merInfo','7','702')"
-                               href="javascript:changeMenu('/agent/agentInfo','7','703')"
-                               href="javascript:changeMenu('/agent/merAmtInfo','7','704')"
-                            >代理商管理</a>
-                            <img src="/img/inquiry_03.png" class="img_1"  />
-                            <img src="/img/inquiry_05.png"  class="img_2" />
-                            <div class="order_topcontmain order_topcont3" style="display: none;">
-                                <a class="" href="javascript:changeMenu('/agent/twoMerInfo','7','701')">商户分润统计</a>
-                                <a class="" href="javascript:changeMenu('/agent/merInfo','7','702')">商户交易查询</a>
-                                <a class="" href="javascript:changeMenu('/agent/agentInfo','7','703')">下级代理商</a>
-                                <a class="" href="javascript:changeMenu('/agent/merAmtInfo','7','704')">总分润统计</a>
-                            </div>
-                        </li>
-                        <li >
-                            <a href="javascript:changeMenu('/dfpay/fileUpload','6','601')"
-                               href="javascript:changeMenu('/dfpay/batchVerify','6','602')"
-                               href="javascript:changeMenu('/dfpay/batchQuery','6','603')"
-                               href="javascript:changeMenu('/dfpay/detailQuery','6','604')"
-                            >资金代付</a>
-                            <img src="/img/inquiry_03.png" class="img_1"  />
-                            <img src="/img/inquiry_05.png"  class="img_2" />
-                            <div class="order_topcontmain order_topcont4" style="display: none;">
-                                <a class="" href="javascript:changeMenu('/dfpay/fileUpload','6','601')">代付文件上传</a>
-                                <a class="" href="javascript:changeMenu('/dfpay/batchVerify','6','602')">代付批次审核</a>
-                                <a class="" href="javascript:changeMenu('/dfpay/batchQuery','6','603')">代付批次查询</a>
-                                <a class="" href="javascript:changeMenu('/dfpay/detailQuery','6','604')">代付明细查询</a>
-                            </div>
-                        </li>
-                        <li >
-                            <a href="javascript:changeMenu('/role/role_list','4','401')"
-                               href="javascript:changeMenu('/user/user_list','4','402')"
-                               href="javascript:changeMenu('/user/interfaceKey','4','403')"
-                            >系统管理</a>
-                            <img src="/img/inquiry_03.png" class="img_1"  />
-                            <img src="/img/inquiry_05.png"  class="img_2" />
-                            <div class="order_topcontmain order_topcont5" style="display: none;">
-                                <a class="" href="javascript:changeMenu('/role/role_list','4','401')">角色管理</a>
-                                <a class="" href="javascript:changeMenu('/user/user_list','4','402')">操作员管理</a>
-                                <a class="" href="javascript:changeMenu('/user/interfaceKey','4','403')">接口密钥管理</a>
-                            </div>
-                        </li>
-                        <li >
-                            <a href="javascript:changeMenu('/user/loginPwd','5','502')"
-                               href="javascript:changeMenu('/user/payPwd','5','501')"
-                                    href="javascript:changeMenu('/ct/merCert','5','503')"
-                                    href="javascript:changeMenu('/ipManager/list','5','504')"
-                                    href="javascript:changeMenu('/mobileValidate/list','5','505')"
-                                    href="javascript:changeMenu('/emailValidate/list','5','508')">安全中心</a>
-                            <img src="/img/inquiry_03.png" class="img_1"  />
-                            <img src="/img/inquiry_05.png"  class="img_2" />
-                            <div class="order_topcontmain order_topcont6" style="display: none;">
-                                <a class="" href="javascript:changeMenu('/user/loginPwd','5','502')">登录密码</a>
-                                <a class="" href="javascript:changeMenu('/user/payPwd','5','501')">支付密码</a>
-                                <a class="" href="javascript:changeMenu('/ct/merCert','5','503')">证书管理</a>
-                                <a class="" href="javascript:changeMenu('/ipManager/list','5','504')">安全IP</a>
-                                <a class="" href="javascript:changeMenu('/mobileValidate/list','5','505')">安全手机</a>
-                                <a class="" href="javascript:changeMenu('/emailValidate/list','5','508')">安全邮箱</a>
-                            </div>
-                        </li>
-                        <li >
-                            <a href="javascript:changeMenu('/recharge/authentication','8','804')"
-                               href="javascript:changeMenu('/recharge/fileUpload','8','801')"
-                               href="javascript:changeMenu('/recharge/batchQuery','8','802')"
-                               href="javascript:changeMenu('/recharge/detailQuery','8','803')">商户充值</a>
-                            <img src="/img/inquiry_03.png" class="img_1"  />
-                            <img src="/img/inquiry_05.png"  class="img_2" />
-                            <div class="order_topcontmain order_topcont7" style="display: none;">
-                                <a class="" href="javascript:changeMenu('/recharge/authentication','8','804')">银行卡认证</a>
-                                <a class="" href="javascript:changeMenu('/recharge/fileUpload','8','801')">提交充值文件</a>
-                                <a class="" href="javascript:changeMenu('/recharge/batchQuery','8','802')">充值批次查询</a>
-                                <a class="" href="javascript:changeMenu('/recharge/detailQuery','8','803')">充值明细查询</a>
+                                <a class="yellow"
+                                   href="javascript:changeMenu('/account/accountDetail','1','105')">账务明细</a>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
+
         <div class="order_main">
             <link rel="shortcut icon" href="/img/hefupal-head.png" type="image/x-icon">
             <div class="order_main_l">
                 <ul>
-                    <li class="current"><a href="javascript:changeMenu('/account/accountDetail','1','105')">账务明细</a></li>
-                    <li class=""><a href="javascript:changeMenu('/account/orderList','1','101')">订单查询</a></li>
-                    <li class=""><a href="javascript:changeMenu('/trans/transferAmtList','1','102')">转账查询</a></li>
-                    <li class=""><a href="javascript:changeMenu('/trans/rechargeList','1','103')">充值查询</a></li>
-                    <li class=""><a href="javascript:changeMenu('/trans/cashList','1','104')">提现查询</a></li>
-                    <li class=""><a href="javascript:changeMenu('/trans/settleList','1','106')">结算查询</a></li>
-                    <li class=""><a href="javascript:changeMenu('/dfpay/dfRefund','1','107')">代付退汇查询</a></li>
+                    <li class="current"><a href="javascript:changeMenu('/account/accountDetail','1','105')">账务明细</a>
+                    </li>
                 </ul>
             </div>
             <form action="/account/accountDetail1" id="myForm" method="post">
@@ -321,60 +154,80 @@
                         <div class="accounting_main_cont_m">
                             <ul>
                                 <li>入账总金额<p>0.00</p></li>
-                                <li>出账总金额<p>0.00</p></li>
-                                <li>可用余额<p>0.00</p></li>
+                                <li>代付总金额<p>0.00</p></li>
                                 <li>待结算金额<p>0.00</p></li>
                                 <li>账户总金额<p>0.00</p></li>
                             </ul>
                             <ul style="display:none;">
                                 <li>入账总金额<p>0.00</p></li>
-                                <li>出账总金额<p>0.00</p></li>
-                                <li>可用余额<p>0.00</p></li>
+                                <li>代付总金额<p>0.00</p></li>
                                 <li>待结算金额<p>0.00</p></li>
                                 <li>账户总金额<p>0.00</p></li>
                             </ul>
                         </div>
                     </div>
+
                     <div class="order_main_top accounting_main_top">
                         <ul style="height: 120px;">
-                            <li class="inp1"><span>订单时间</span> <input
-                                    style="width: 183px;" type="text" name="platTimeStart"
-                                    id="platTimeStart" readonly class="Wdate"
-                                    value='2019-10-22 00:00:00'
-                                    onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'platTimeEnd\')}'});">
-                                <em>至</em> <input style="width: 183px;" type="text"
-                                                  id="platTimeEnd" name="platTimeEnd" readonly class="Wdate"
-                                                  value='2019-10-22 23:59:59'
-                                                  onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'platTimeStart\')}'});">
+                            <li class="inp1"><span>订单时间</span>
+                                <input style="width: 183px;" type="text" name="platTimeStart" id="platTimeStart"
+                                       readonly class="Wdate" value='2019-10-22 00:00:00'
+                                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'platTimeEnd\')}'});">
+                                <em>至</em>
+                                <input style="width: 183px;" type="text" id="platTimeEnd" name="platTimeEnd" readonly
+                                       class="Wdate" value='2019-10-22 23:59:59'
+                                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'platTimeStart\')}'});">
                             </li>
-                            <li><span>财务类型</span> <select name="blsignStr"
-                                                          id="blsignStr">
-                                <option type="2" value="">全部</option>
-                                <option type="2" value="1"
-                                >入账</option>
-                                <option type="2" value="-1"
-                                >出账</option>
-                            </select></li>
+                            <li>
+                                <span>商户ID</span>
+                                <select name="customerStr" id="customerStr">
+                                    <option type="0" value="">全部</option>
+                                    <option type="1" value="873191015204725935">振江食品</option>
+                                    <option type="2" value="873191015204741854">成鹏文化</option>
+                                    <option type="3" value="873191015204744119">唐三服装</option>
+                                    <option type="4" value="873191015204745402">国华体育</option>
+                                    <option type="5" value="873191015204746257">惠英文化</option>
+                                    <option type="6" value="873191015204747155">赵辉文化</option>
+                                    <option type="7" value="873191015214776713">梁知恭文化</option>
+                                    <option type="8" value="873191015214781385">李娟文化</option>
+                                    <option type="9" value="873191015214782860">体萍文化</option>
+                                    <option type="10" value="873191015214783801">寒冰文化</option>
+                                    <option type="11" value="873191015214784609">柯云计算机</option>
+                                    <option type="12" value="873191015214791979">欧阳琴文化</option>
+                                    <option type="13" value="873191012142662142">森瀚</option>
+                                    <option type="14" value="873191012142673538">云剑食品</option>
+                                    <option type="15" value="873191012152693511">志强服装</option>
+                                    <option type="16" value="873191012152720533">罗义维修</option>
+                                    <option type="17" value="873191012152721807">利辉服装</option>
+                                    <option type="18" value="873191016115012444">庆池体育</option>
+                                    <option type="19" value="873191016155232512">雪兰文化</option>
+                                    <option type="20" value="873191016155241427">代超文化</option>
+                                    <option type="21" value="873191016155246137">黎慧文化</option>
+                                    <option type="22" value="873191016155248422">吴长服装</option>
+                                    <option type="23" value="873191016155250838">绍清服装</option>
+                                    <option type="24" value="873191016155251201">晓敏服装</option>
+                                    <option type="25" value="873191016165310979">远庆文化</option>
+                                    <option type="26" value="873191016165317341">夏威文化</option>
+                                    <option type="27" value="873191009170812523">邓娟服装</option>
+                                </select>
+                            </li>
+                            <li>
+                                <span>公司ID</span>
+                                <select name="compIDStr" id="compIDStr">
+                                    <option type="0" value="">全部</option>
+                                    <option type="1" value="1">2789</option>
+                                    <option type="2" value="-1">4189</option>
+                                </select>
+                            </li>
                             <li><span>交易类型</span> <select name="typeStr" id="typeStr">
                                 <option value="">全部</option>
-                                <option value="0" >账户支付</option>
-                                <option value="1" >退款</option>
-                                <option value="2" >充值</option>
-                                <option value="3" >转账</option>
-                                <option value="4" >提现</option>
-                                <option value="5" >结算</option>
-                                <option value="6" >手续费</option>
-                                <option value="7" >调账</option>
-                                <option value="8" >线下充值</option>
-                                <option value="9" >无账户支付</option>
-                                <option value="10" >无账户退款</option>
-                                <option value="40" >代付</option>
-                                <option value="45" >代付退汇</option>
-                                <option value="42" >绑卡</option>
+                                <option value="0">交易成功</option>
+                                <option value="1">交易中</option>
+                                <option value="2">交易失败</option>
                             </select></li>
-                            <li><span>商户订单号</span> <input type="text"
-                                                          name="merOrderId" value=""
-                                                          placeholder="输入商户订单号" maxlength="64" />
+                            <li>
+                                <span>商户订单号</span> <input type="text" name="merOrderId" value="" placeholder="输入商户订单号"
+                                                          maxlength="64"/>
                             </li>
                         </ul>
                         <div class="line">
@@ -401,43 +254,46 @@
                         <div class="order_main_tabel_bottom accounting_main_tabel_bottom" style="margin-right:0;">
                             <div class="accounting_main_tabel_btn">
                                 <script type="text/javascript">
-                                    function exportExecl(){
-                                        $("#myForm").attr("action","/account/accountDowload");
+                                    function exportExecl() {
+                                        $("#myForm").attr("action", "/account/accountDowload");
                                         $("#myForm").submit();
-                                        $("#myForm").attr("action","/account/accountDetail1");
+                                        $("#myForm").attr("action", "/account/accountDetail1");
                                     }
                                 </script>
                                 <button type="button" onclick="exportExecl()">导出数据</button>
                             </div>
-                            <div class='page'><SCRIPT LANGUAGE="JavaScript">
-                                function submitFormPage(start){
-                                    document.getElementById('start').value=start;
-                                    document.getElementById('pageForm').submit();
-                                }
-                                function goToPage(){
-                                    var pageVal=document.getElementById('tzym');
-                                    var countPageNo=0;
-                                    var txt=/^\d*$/;
-                                    if(!txt.test(pageVal.value)){
-                                        alert('页数应为正整数!');
-                                        pageVal.focus();
-                                        return ;
+                            <div class='page'>
+                                <SCRIPT LANGUAGE="JavaScript">
+                                    function submitFormPage(start) {
+                                        document.getElementById('start').value = start;
+                                        document.getElementById('pageForm').submit();
                                     }
-                                    if(pageVal.value<2){
-                                        submitFormPage(0);
+
+                                    function goToPage() {
+                                        var pageVal = document.getElementById('tzym');
+                                        var countPageNo = 0;
+                                        var txt = /^\d*$/;
+                                        if (!txt.test(pageVal.value)) {
+                                            alert('页数应为正整数!');
+                                            pageVal.focus();
+                                            return;
+                                        }
+                                        if (pageVal.value < 2) {
+                                            submitFormPage(0);
+                                        }
+                                        if (pageVal.value >= countPageNo) {
+                                            submitFormPage(0);
+                                        } else {
+                                            submitFormPage((pageVal.value - 1) * 10);
+                                        }
                                     }
-                                    if(pageVal.value>=countPageNo){
-                                        submitFormPage(0);
-                                    }else{
-                                        submitFormPage((pageVal.value-1)*10);
-                                    }
-                                }
-                            </SCRIPT>
-                                <a href='#' style='background:#fcf1e3;border:1px solid #e58f19;color:#e58f19;font-weight:bold;'>0</a>
+                                </SCRIPT>
+                                <a href='#'
+                                   style='background:#fcf1e3;border:1px solid #e58f19;color:#e58f19;font-weight:bold;'>0</a>
                                 <span class='marlefrig5'>共0页</span>
                                 <span class='marlef10'>跳转到
-                                    <input type='text' size='4' value='0' id='tzym' class='pad2' />
-                                    <input type='button'  onclick='goToPage()'  value=' ' class='gobg' />
+                                    <input type='text' size='4' value='0' id='tzym' class='pad2'/>
+                                    <input type='button' onclick='goToPage()' value=' ' class='gobg'/>
                                 </span>&nbsp;&nbsp;共0条记录
                             </div>
                         </div>
@@ -458,7 +314,7 @@
     </div>
 </div>
 <!-- 翻页用到 -->
-<form id="pageForm" action="/account/accountDetail1"  method="post" >
+<form id="pageForm" action="/account/accountDetail1" method="post">
     <input type="hidden" name="start" id="start"></input>
     <input type="hidden" name="accountType" id="accountType1" value="0"></input>
     <input type="hidden" name="platTimeEnd" value="2019-10-22 23:59:59"></input>
@@ -467,28 +323,30 @@
     <input type="hidden" name="typeStr" value=""></input>
 </form>
 <script type="text/javascript">
-    $(function(){
-        $(".accounting_main_cont_t ul li").click(function(event) {
+    $(function () {
+        $(".accounting_main_cont_t ul li").click(function (event) {
             $(this).addClass('current').siblings().removeClass('current');
             $(".accounting_main_cont_m ul").hide();
             $(".accounting_main_cont_m ul").eq($(this).index()).show();
         });
     });
-    function subForm(){
+
+    function subForm() {
         var platTimeStart = $("#platTimeStart").val();
         var platTimeEnd = $("#platTimeEnd").val();
-        var num = daysBetween(platTimeStart,platTimeEnd);
-        if(num > 3){
+        var num = daysBetween(platTimeStart, platTimeEnd);
+        if (num > 3) {
             alert("时间间隔不能大于3天");
-        }else{
-            $("#myForm").attr("action","/account/accountDetail1");
+        } else {
+            $("#myForm").attr("action", "/account/accountDetail1");
             $("#myForm").submit();
         }
     }
-    function changeAcct(type){
+
+    function changeAcct(type) {
         $("#accountType").val(type);
         $("#accountType1").val(type);
-        $("#pageForm").attr("action","/account/accountDetail1");
+        $("#pageForm").attr("action", "/account/accountDetail1");
         $("#pageForm").submit();
     }
 </script>

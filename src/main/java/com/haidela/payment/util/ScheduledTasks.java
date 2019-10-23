@@ -145,7 +145,7 @@ public class ScheduledTasks {
     /**
      * 代付失败后,轮询进行代付将代付失败的款项重新发起代付
      */
-    @Scheduled(cron = "0 0/5 * * * ?")
+//    @Scheduled(cron = "0 0/5 * * * ?")
 //    @Scheduled(cron = "5 * * * * ?")
     public void otherDfPayTask() {
         logger.info("轮询代付 :" + DateUtils.stringToDate());
