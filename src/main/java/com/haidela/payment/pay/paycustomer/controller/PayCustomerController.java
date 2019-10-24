@@ -93,7 +93,8 @@ public class PayCustomerController {
                                                    @RequestParam(required = false) String compID,
                                                    @RequestParam(required = false) String customerId,
                                                    @RequestParam(required = false) String typeStr,
-                                                   @RequestParam(required = false) String tranFlow){
+                                                   @RequestParam(required = false) String tranFlow
+                                                   ){
         return service.pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
     }
 
