@@ -59,28 +59,27 @@
         select * from lyx_pay_customer where status = #{status}
     </select>
 
-    <select id="pagePayCustomerDetail" resultType="com.haidela.payment.pay.paycustomer.domain.PayCustomer">
-        select * from lyx_pay_customer
-        <where>
-            <if test="startTime != null">
-                AND modify_time &gt; #{statTime}
-            </if>
-            <if test="endTime != null">
-                AND modify_time &lt; #{endTime}
-            </if>
-            <if test="compID != null">
-                AND comp_Id = #{compID}
-            </if>
-            <if test="customerId != null">
-                AND merchant_id = #{customerId}
-            </if>
-            <if test="typeStr != null">
-                AND pay_type = #{typeStr}
-            </if>
-            <if test="tranFlow != null">
-                AND tran_flow = #{tranFlow}
-            </if>
-        </where>
+    <select id="pagePayCustomerDetail" resultMap="resultMap">
+        select * from lyx_pay_customer WHERE
+        1=1
+        <if test="startTime != null">
+            AND modify_time &gt; #{startTime,jdbcType=CHAR}
+        </if>
+        <if test="endTime != null">
+            AND modify_time &lt; #{endTime,jdbcType=CHAR}
+        </if>
+        <if test="compID != null">
+            AND comp_Id = #{compID,jdbcType=CHAR}
+        </if>
+        <if test="customerId != null">
+            AND merchant_id = #{customerId,jdbcType=CHAR}
+        </if>
+        <if test="typeStr != null">
+            AND pay_type = #{typeStr,jdbcType=CHAR}
+        </if>
+        <if test="tranFlow != null">
+            AND tran_flow = #{tranFlow,jdbcType=CHAR}
+        </if>
     </select>
 
 </mapper>

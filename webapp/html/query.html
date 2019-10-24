@@ -17,19 +17,22 @@
 <div id="continer">
     <link rel="shortcut icon" href="/img/hefupal-head.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script type="text/javascript" src="/js/jquery-1.11.1.min.js"></script>
-    <script type="text/javascript" src="/js/index.js"></script>
+    <script type="text/javascript" src="../js/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="../js/index.js"></script>
     <link rel="stylesheet" type="text/css" href="../css/index.css">
     <link rel="stylesheet" type="text/css" href="../css/page.css">
     <link rel="stylesheet" type="text/css" href="../css/zzsc.css">
     <script type="text/javascript">
         var ctx = '';
+
         function kefuMouseOver() {
             $(".kefu_pic").show();
         }
+
         function kefuMouseOut() {
             $(".kefu_pic").hide();
         }
+
         function onlyMoney(obj) {
             obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
             obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
@@ -121,7 +124,8 @@
                             <img src="../img/inquiry_03.png" class="img_1" style="display: none;"/>
                             <img src="../img/inquiry_05.png" style="display: block;" class="img_2"/>
                             <div class="order_topcontmain " style="display: none;">
-                                <a class="yellow" href="javascript:changeMenu('/account/accountDetail','1','105')">账务明细</a>
+                                <a class="yellow"
+                                   href="javascript:changeMenu('http://localhost:8080/pay-customer/payCustomerDetail','1','105')">账务明细</a>
                             </div>
                         </li>
                     </ul>
@@ -132,7 +136,8 @@
         <div class="order_main">
             <div class="order_main_l">
                 <ul>
-                    <li class="current"><a href="javascript:changeMenu('/account/accountDetail','1','105')">账务明细</a></li>
+                    <li class="current"><a href="javascript:changeMenu('http://localhost:8080/pay-customer/payCustomerDetail','1','105')">账务明细</a>
+                    </li>
                 </ul>
             </div>
             <form action="/account/accountDetail1" id="myForm" method="post">
@@ -163,11 +168,12 @@
                     <div class="order_main_top accounting_main_top">
                         <ul style="height: 120px;">
                             <li class="inp1"><span>订单时间</span>
-                                <input class="Wdate" style="width: 183px;padding-right: 35px" type="text" name="startTime" id="platTimeStart"
-                                       placeholder=" —请选择— "
+                                <input class="Wdate" style="width: 183px;padding-right: 35px" type="text"
+                                       name="startTime" id="platTimeStart" placeholder=" —请选择— "
                                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'platTimeEnd\')}'});">
                                 <em>至</em>
-                                <input style="width: 183px;" type="text" id="platTimeEnd" placeholder=" —请选择— " name="endTime" class="Wdate"
+                                <input style="width: 183px;" type="text" id="platTimeEnd" placeholder=" —请选择— "
+                                       name="endTime" class="Wdate"
                                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'platTimeStart\')}'});">
                             </li>
                             <li>
@@ -218,7 +224,8 @@
                                 <option value="2">交易失败</option>
                             </select></li>
                             <li>
-                                <span>商户订单号</span> <input type="text" name="merOrderId" value="" placeholder="输入商户订单号" maxlength="64"/>
+                                <span>商户订单号</span> <input type="text" name="merOrderId" value="" placeholder="输入商户订单号"
+                                                          maxlength="64"/>
                             </li>
                         </ul>
                         <div class="line">
@@ -245,9 +252,9 @@
                             <div class="accounting_main_tabel_btn">
                                 <script type="text/javascript">
                                     function exportExecl() {
-                                        $("#myForm").attr("action", "/account/accountDowload");
+                                        $("#myForm").attr("action", "http://localhost:8080/pay-customer/payCustomerDetail");
                                         $("#myForm").submit();
-                                        $("#myForm").attr("action", "/account/accountDetail1");
+                                        $("#myForm").attr("action", "http://localhost:8080/pay-customer/payCustomerDetail");
                                     }
                                 </script>
                                 <button type="button" onclick="exportExecl()">导出数据</button>
@@ -302,7 +309,7 @@
 </div>
 
 <!-- 翻页用到 -->
-<form id="pageForm" action="/account/accountDetail1" method="post">
+<form id="pageForm" action="http://localhost:8080/pay-customer/payCustomerDetail" method="get">
     <input type="hidden" name="start" id="start"/>
     <input type="hidden" name="accountType" id="accountType1" value="0"/>
     <input type="hidden" name="endTime" value="2019-10-22 23:59:59"/>
@@ -324,12 +331,15 @@
 
     function subForm() {
         var platTimeStart = $("#platTimeStart").val();
+        alert(platTimeStart)
         var platTimeEnd = $("#platTimeEnd").val();
+        alert(platTimeEnd)
         var num = daysBetween(platTimeStart, platTimeEnd);
+        alert(num)
         if (num > 3) {
             alert("时间间隔不能大于3天");
         } else {
-            $("#myForm").attr("action", "");
+            $("#myForm").attr("action", "http://localhost:8080/pay-customer/payCustomerDetail");
             $("#myForm").submit();
         }
     }
@@ -337,7 +347,7 @@
     function changeAcct(type) {
         $("#accountType").val(type);
         $("#accountType1").val(type);
-        $("#pageForm").attr("action", "/account/accountDetail1");
+        $("#pageForm").attr("action", "http://localhost:8080/pay-customer/payCustomerDetail");
         $("#pageForm").submit();
     }
 </script>

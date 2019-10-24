@@ -88,8 +88,12 @@ public class PayCustomerController {
     }
 
     @RequestMapping(value = "payCustomerDetail",method = RequestMethod.GET)
-    public List<PayCustomer> pagePayCustomerDetail(@RequestParam String startTime, @RequestParam String endTime, @RequestParam String compID,
-                                                   @RequestParam String customerId, @RequestParam String typeStr, @RequestParam String tranFlow){
+    public List<PayCustomer> pagePayCustomerDetail(@RequestParam(required = false) String startTime,
+                                                   @RequestParam(required = false) String endTime,
+                                                   @RequestParam(required = false) String compID,
+                                                   @RequestParam(required = false) String customerId,
+                                                   @RequestParam(required = false) String typeStr,
+                                                   @RequestParam(required = false) String tranFlow){
         return service.pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
     }
 

@@ -91,5 +91,10 @@ public interface PayCustomerMapper {
      * @param tranFlow  订单流水号
      * @return
      */
-    List<PayCustomer> pagePayCustomerDetail(String startTime, String endTime, String compID, String customerId, String typeStr, String tranFlow);
+    List<PayCustomer> pagePayCustomerDetail(@Param(value = "startTime") String startTime,
+                                            @Param(value = "endTime") String endTime,
+                                            @Param(value = "compID") String compID,
+                                            @Param(value = "customerId") String customerId,
+                                            @Param(value = "typeStr") String typeStr,
+                                            @Param(value = "tranFlow") String tranFlow);
 }
