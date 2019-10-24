@@ -79,4 +79,17 @@ public interface PayCustomerMapper {
      * @return
      */
     List<PayCustomer> findByStatus(String status);
+
+    /**
+     * 根据某些条件查询到对应的客户交易流水信息
+     *
+     * @param startTime  开始时间
+     * @param endTime    结束时间
+     * @param compID    公司ID
+     * @param customerId  商户ID
+     * @param typeStr    交易类型
+     * @param tranFlow  订单流水号
+     * @return
+     */
+    List<PayCustomer> pagePayCustomerDetail(String startTime, String endTime, String compID, String customerId, String typeStr, String tranFlow);
 }

@@ -10,6 +10,8 @@ import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 客户交易流水信息
  *
@@ -84,5 +86,12 @@ public class PayCustomerController {
     public int updateByPaySerialNo(@PathVariable Long id,@PathVariable String paySerialNo){
         return service.updateByPaySerialNo(id,paySerialNo);
     }
+
+    @RequestMapping(value = "payCustomerDetail",method = RequestMethod.GET)
+    public List<PayCustomer> pagePayCustomerDetail(@RequestParam String startTime, @RequestParam String endTime, @RequestParam String compID,
+                                                   @RequestParam String customerId, @RequestParam String typeStr, @RequestParam String tranFlow){
+        return service.pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
+    }
+
 
 }

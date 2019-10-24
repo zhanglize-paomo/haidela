@@ -20,7 +20,8 @@
         <result column="pay_serial_no" jdbcType="VARCHAR" property="paySerialNo"/>
     </resultMap>
 
-    <insert id="add" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" useGeneratedKeys="true" keyProperty="id">
+    <insert id="add" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" useGeneratedKeys="true"
+            keyProperty="id">
         insert into
         lyx_pay_customer (id,tran_flow,amount,pay_type,merchant_id,merchant_no,buyer_id,modify_time,create_time,comp_iD,company_name,status,create_date,receive_messages)
         values ( #{id,jdbcType=BIGINT},
@@ -29,17 +30,18 @@
         #{companyName,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{createDate,jdbcType=CHAR},#{receiveMessages,jdbcType=CHAR})
     </insert>
 
-    <update id="updateStatus" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" >
+    <update id="updateStatus" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer">
         update lyx_pay_customer set status = #{status,jdbcType=CHAR} where tran_flow = #{tranFlow}
     </update>
 
-    <update id="updateReceiveMessages" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" >
+    <update id="updateReceiveMessages" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer">
         update lyx_pay_customer set receive_messages = #{receiveMessages,jdbcType=CHAR} where tran_flow = #{tranFlow}
     </update>
 
-    <update id="updateByPaySerialNo" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" >
+    <update id="updateByPaySerialNo" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer">
         update lyx_pay_customer set pay_serial_no = #{paySerialNo,jdbcType=CHAR} where  id = #{id}
     </update>
+
 
     <select id="findByTranFlow" resultMap="resultMap">
         select * from lyx_pay_customer where tran_flow = #{tranFlow}
@@ -55,6 +57,30 @@
 
     <select id="findByStatus" resultMap="resultMap">
         select * from lyx_pay_customer where status = #{status}
+    </select>
+
+    <select id="pagePayCustomerDetail" resultType="com.haidela.payment.pay.paycustomer.domain.PayCustomer">
+        select * from lyx_pay_customer
+        <where>
+            <if test="startTime != null">
+                AND modify_time &gt; #{statTime}
+            </if>
+            <if test="endTime != null">
+                AND modify_time &lt; #{endTime}
+            </if>
+            <if test="compID != null">
+                AND comp_Id = #{compID}
+            </if>
+            <if test="customerId != null">
+                AND merchant_id = #{customerId}
+            </if>
+            <if test="typeStr != null">
+                AND pay_type = #{typeStr}
+            </if>
+            <if test="tranFlow != null">
+                AND tran_flow = #{tranFlow}
+            </if>
+        </where>
     </select>
 
 </mapper>

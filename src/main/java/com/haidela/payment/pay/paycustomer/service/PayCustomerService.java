@@ -18,6 +18,7 @@ import java.util.List;
 public class PayCustomerService {
 
     PayCustomerMapper mapper;
+
     @Autowired
     public void setMapper(PayCustomerMapper mapper) {
         this.mapper = mapper;
@@ -38,12 +39,12 @@ public class PayCustomerService {
     /**
      * 根据交易流水号修改该条交易的交易状态
      *
-     * @param tranFlow  交易流水号
+     * @param tranFlow 交易流水号
      * @param status   交易状态
      * @return
      */
     public int updateStatus(String tranFlow, String status) {
-        return mapper.updateStatus(tranFlow,status);
+        return mapper.updateStatus(tranFlow, status);
     }
 
     /**
@@ -59,23 +60,23 @@ public class PayCustomerService {
     /**
      * 根据交易流水号修改该笔交易的异步消息接收的情况
      *
-     * @param tranFlow     交易流水号
-     * @param receiveMessages   消息
+     * @param tranFlow        交易流水号
+     * @param receiveMessages 消息
      * @return
      */
     public int updateReceiveMessages(String tranFlow, String receiveMessages) {
-        return mapper.updateReceiveMessages(tranFlow,receiveMessages);
+        return mapper.updateReceiveMessages(tranFlow, receiveMessages);
     }
 
     /**
      * 根据id修改该条商户信息的订单信息
      *
      * @param id
-     * @param paySerialNo  平台交易流水号
+     * @param paySerialNo 平台交易流水号
      * @return
      */
     public int updateByPaySerialNo(Long id, String paySerialNo) {
-        return mapper.updateByPaySerialNo(id,paySerialNo);
+        return mapper.updateByPaySerialNo(id, paySerialNo);
     }
 
     /**
@@ -106,5 +107,10 @@ public class PayCustomerService {
      */
     public List<PayCustomer> findByStatus(String status) {
         return mapper.findByStatus(status);
+    }
+
+
+    public List<PayCustomer> pagePayCustomerDetail(String startTime, String endTime, String compID, String customerId, String typeStr, String tranFlow) {
+        return mapper.pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
     }
 }
