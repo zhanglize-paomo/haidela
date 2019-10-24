@@ -176,7 +176,7 @@
                             <li>
                                 <span>商户ID</span>
                                 <select name="customerId" id="customerId">
-                                    <option type="0" value="">全部</option>
+                                    <option type="0" value= "">全部</option>
                                     <option type="1" value="873191015204725935">振江食品</option>
                                     <option type="2" value="873191015204741854">成鹏文化</option>
                                     <option type="3" value="873191015204744119">唐三服装</option>
@@ -208,7 +208,7 @@
                             </li>
                             <li>
                                 <span>公司ID</span>
-                                <select name="compIDStr" id="compIDStr">
+                                <select name="compID" id="compIDStr">
                                     <option type="0" value="">全部</option>
                                     <option type="1" value="1">2789</option>
                                     <option type="2" value="-1">4189</option>
@@ -221,8 +221,8 @@
                                 <option value="2">交易失败</option>
                             </select></li>
                             <li>
-                                <span>商户订单号</span> <input type="text" name="merOrderId" value="" placeholder="输入商户订单号"
-                                                          maxlength="64"/>
+                                <span>商户订单号</span>
+                                <input type="text" name="tranFlow" value="" placeholder="输入商户订单号" maxlength="64"/>
                             </li>
                         </ul>
                         <div class="line">
@@ -328,11 +328,8 @@
 
     function subForm() {
         var platTimeStart = $("#platTimeStart").val();
-        alert(platTimeStart)
         var platTimeEnd = $("#platTimeEnd").val();
-        alert(platTimeEnd)
         var num = daysBetween(platTimeStart, platTimeEnd);
-        alert(num)
         if (num > 3) {
             alert("时间间隔不能大于3天");
         } else {

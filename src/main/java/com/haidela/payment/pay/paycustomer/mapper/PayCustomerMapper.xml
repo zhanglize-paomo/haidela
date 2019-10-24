@@ -72,7 +72,7 @@
             AND comp_Id = #{compID,jdbcType=CHAR}
         </if>
         <if test="customerId != null">
-            AND merchant_id = #{customerId,jdbcType=CHAR}
+            AND merchant_no = #{customerId,jdbcType=CHAR}
         </if>
         <if test="typeStr != null">
             AND pay_type = #{typeStr,jdbcType=CHAR}

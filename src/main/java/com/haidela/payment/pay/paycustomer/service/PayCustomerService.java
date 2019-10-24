@@ -111,6 +111,24 @@ public class PayCustomerService {
 
 
     public List<PayCustomer> pagePayCustomerDetail(String startTime, String endTime, String compID, String customerId, String typeStr, String tranFlow) {
-        return mapper.pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
+        if (startTime.equals("")) {
+            startTime = null;
+        }
+        if (endTime.equals("")) {
+            endTime = null;
+        }
+        if (compID.equals("")) {
+            compID = null;
+        }
+        if (customerId.equals("")) {
+            customerId = null;
+        }
+        if (typeStr.equals("")) {
+            typeStr = null;
+        }
+        if (tranFlow.equals("")) {
+            tranFlow = null;
+        }
+        return mapper.pagePayCustomerDetail(startTime, endTime, compID, customerId, typeStr, tranFlow);
     }
 }
