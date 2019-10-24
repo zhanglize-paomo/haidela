@@ -10,7 +10,7 @@
             padding: 1px;
         }
     </style>
-    <script type="text/javascript" src="js/WdatePicker.js"></script>
+    <script type="text/javascript" src="../My97DatePicker/WdatePicker.js"></script>
     <script type="text/javascript" src="../js/date.js"></script>
 </head>
 <body>
@@ -163,18 +163,11 @@
                     <div class="order_main_top accounting_main_top">
                         <ul style="height: 120px;">
                             <li class="inp1"><span>订单时间</span>
-                                <!--<div style="position:relative;display: inline-block">-->
-                                    <!--<img style="position: absolute;right: 5px;top: 5px" src="../img/datePicker2.png">-->
-                                <!--</div>-->
-                                <input style="width: 183px;padding-right: 35px" type="text" name="startTime" id="platTimeStart"
-                                       readonly class="Wdate" value="<%=value%>"
+                                <input class="Wdate" style="width: 183px;padding-right: 35px" type="text" name="startTime" id="platTimeStart"
+                                       placeholder=" —请选择— "
                                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'platTimeEnd\')}'});">
                                 <em>至</em>
-                                <!--<div style="position:relative;display: inline-block">-->
-                                    <!--<img style="position: absolute;right: 5px;top: 5px" src="../img/datePicker2.png">-->
-                                <!--</div>-->
-                                <input style="width: 183px;" type="text" id="platTimeEnd" name="endTime" readonly
-                                       class="Wdate" value="<%=value%>"
+                                <input style="width: 183px;" type="text" id="platTimeEnd" placeholder=" —请选择— " name="endTime" class="Wdate"
                                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'platTimeStart\')}'});">
                             </li>
                             <li>
