@@ -8,6 +8,7 @@ package com.haidela.payment.pay.paycustomer.controller;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  * @author zhanglize
  * @create 2019/10/10
  */
-@RestController("payCustomerController")
+@Controller("payCustomerController")
 @RequestMapping("/pay-customer")
 public class PayCustomerController {
 
@@ -35,6 +36,7 @@ public class PayCustomerController {
      * @param customer
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "add",method = RequestMethod.POST)
     public int add(PayCustomer customer){
         return service.add(customer);
@@ -47,6 +49,7 @@ public class PayCustomerController {
      * @param status   交易状态
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "update-status/{tranFlow}/{status}",method = RequestMethod.POST)
     public int updateStatus(@PathVariable String tranFlow, @PathVariable String status){
         return service.updateStatus(tranFlow,status);
@@ -59,6 +62,7 @@ public class PayCustomerController {
      * @param receiveMessages   消息
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "update-receive-messages/{tranFlow}/{receiveMessages}",method = RequestMethod.POST)
     public int updateReceiveMessages(@PathVariable String tranFlow, @PathVariable String receiveMessages){
         return service.updateReceiveMessages(tranFlow,receiveMessages);
@@ -70,6 +74,7 @@ public class PayCustomerController {
      * @param tranFlow  交易流水号
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "find-tranflow/{tranFlow}",method = RequestMethod.POST)
     public PayCustomer findByTranFlow(@PathVariable String tranFlow){
         return service.findByTranFlow(tranFlow);
@@ -82,6 +87,7 @@ public class PayCustomerController {
      * @param paySerialNo  平台交易流水号
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "pay-serial-no/{id}/{paySerialNo}",method = RequestMethod.POST)
     public int updateByPaySerialNo(@PathVariable Long id,@PathVariable String paySerialNo){
         return service.updateByPaySerialNo(id,paySerialNo);
@@ -98,5 +104,10 @@ public class PayCustomerController {
         return service.pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
     }
 
+
+    @RequestMapping(value = "index",method = RequestMethod.GET)
+    public String index(){
+       return "/aa";
+    }
 
 }

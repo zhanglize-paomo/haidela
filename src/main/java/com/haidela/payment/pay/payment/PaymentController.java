@@ -5,10 +5,10 @@ import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.util.MD5;
 import com.haidela.payment.util.SecuritySHA1Utils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +21,7 @@ import java.util.Map;
  * @author zhanglize
  * @create 2019/9/29
  */
-@RestController
+@Controller
 public class PaymentController {
 
     private PaymentService paymentService;
@@ -37,6 +37,7 @@ public class PaymentController {
      *
      * @return
      */
+    @ResponseBody
     @RequestMapping(path = "/order-payment")
     public Map<String, String> orderPayment(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> result = new HashMap<String, String>();
@@ -106,6 +107,7 @@ public class PaymentController {
      * @param response
      * @return
      */
+    @ResponseBody
     @RequestMapping(path = "/md5")
     public String md5(HttpServletRequest request, HttpServletResponse response) {
         String tranFlow = request.getParameter("tranFlow");
@@ -337,6 +339,7 @@ public class PaymentController {
      *
      * @return
      */
+    @ResponseBody
     @RequestMapping(path = "/other-order-payment")
     public Map<String, String> otherOrderPayment(HttpServletRequest request, HttpServletResponse response) {
 
@@ -411,6 +414,7 @@ public class PaymentController {
      * @param compID  公司id
      * @return
      */
+    @ResponseBody
     @RequestMapping(path = "/get/{amount}/{compID}/{payType}")
     public Map<String, String> getMerchantNo(@PathVariable String amount,@PathVariable String compID,@PathVariable String payType) {
         return paymentService.getMerchantNo(amount,compID,payType);

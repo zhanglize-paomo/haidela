@@ -75,6 +75,6 @@ public class UserService {
         if(user.getPassword() != password){
             return "登陆密码不正确";
         }
-        return "登陆成功";
+        return "query";
     }
 }

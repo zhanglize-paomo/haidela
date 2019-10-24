@@ -4,10 +4,11 @@ package com.haidela.payment.pay.configure.controller;
 import com.haidela.payment.pay.configure.domain.MerchantConfigure;
 import com.haidela.payment.pay.configure.service.MerchantConfigureService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,7 @@ import java.util.Map;
  * @author zhanglize
  * @create 2019/10/10
  */
-@RestController("merchantConfigureController")
+@Controller("merchantConfigureController")
 @RequestMapping("/merchant-configure")
 public class MerchantConfigureController {
 
@@ -35,6 +36,7 @@ public class MerchantConfigureController {
      *
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "{status}",method = RequestMethod.GET)
     public List<MerchantConfigure> findByStstus(@PathVariable String status){
         return service.findByStstus(status);
@@ -47,6 +49,7 @@ public class MerchantConfigureController {
      * @param merchantId
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "merchantId/{merchantId}",method = RequestMethod.PUT)
     public int updateMerchantId(@PathVariable String merchantId){
         return service.updateMerchantId(merchantId);
@@ -58,6 +61,7 @@ public class MerchantConfigureController {
      * @param merchantId
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "merchantId/{merchantId}/{payType}",method = RequestMethod.GET)
     public MerchantConfigure findByMerchantNo(@PathVariable String merchantId,@PathVariable String payType){
         return service.findByMerchantNo(merchantId,payType);
@@ -68,6 +72,7 @@ public class MerchantConfigureController {
      *
      * @return
      */
+    @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
     public Map<String,String> findByCustomer(){
         return service.findByCustomer();

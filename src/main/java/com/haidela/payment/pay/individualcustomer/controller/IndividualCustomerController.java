@@ -3,7 +3,11 @@ package com.haidela.payment.pay.individualcustomer.controller;
 import com.haidela.payment.pay.individualcustomer.domain.IndividualCustomer;
 import com.haidela.payment.pay.individualcustomer.service.IndividualCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,7 +20,7 @@ import java.util.Map;
  * @author zhanglize
  * @create 2019/10/4
  */
-@RestController("individualCustomerController")
+@Controller("individualCustomerController")
 @RequestMapping("/individual-customer")
 public class IndividualCustomerController {
 
@@ -34,6 +38,7 @@ public class IndividualCustomerController {
      * @param response
      * @return
      */
+    @ResponseBody
     @RequestMapping(path = "/sign",method = RequestMethod.GET)
     public Map<String,String> getSign(HttpServletRequest request, HttpServletResponse response ) {
         return service.getSign(request,response);
@@ -45,6 +50,7 @@ public class IndividualCustomerController {
      * @param customer
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "add",method = RequestMethod.POST)
     public int add(IndividualCustomer customer){
         return service.add(customer);
@@ -57,6 +63,7 @@ public class IndividualCustomerController {
      * @param response
      * @return
      */
+    @ResponseBody
     @RequestMapping(path = "/other-sign",method = RequestMethod.GET)
     public Map<String,String> otherGetSign(HttpServletRequest request, HttpServletResponse response ) {
         return service.otherGetSign(request,response);
@@ -69,6 +76,7 @@ public class IndividualCustomerController {
      *
      * @return
      */
+    @ResponseBody
     @RequestMapping(path = "open-withdraw/{merchantNo}",method = RequestMethod.GET)
     public Map<String,String> openWithDraw(@PathVariable String merchantNo) {
         return service.openWithDraw(merchantNo);

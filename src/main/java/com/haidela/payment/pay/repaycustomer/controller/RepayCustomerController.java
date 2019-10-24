@@ -3,7 +3,11 @@ package com.haidela.payment.pay.repaycustomer.controller;
 import com.haidela.payment.pay.repaycustomer.domain.RepayCustomer;
 import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
 
@@ -14,7 +18,7 @@ import java.util.Map;
  * @author zhanglize
  * @create 2019/10/15
  */
-@RestController("RepayCustomerController")
+@Controller("RepayCustomerController")
 @RequestMapping("/repay-customer")
 public class RepayCustomerController {
 
@@ -31,6 +35,7 @@ public class RepayCustomerController {
      * @param customer
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "add",method = RequestMethod.POST)
     public int add(RepayCustomer customer){
         return service.add(customer);
@@ -42,6 +47,7 @@ public class RepayCustomerController {
      * @param tranFlow  交易流水号
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "findByTranFlow/{tranFlow}",method = RequestMethod.GET)
     public RepayCustomer findByTranFlow(@PathVariable String tranFlow) {
         return service.findByTranFlow(tranFlow);
@@ -55,6 +61,7 @@ public class RepayCustomerController {
      * @param status    交易状态
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "updateByStatus/{tranFlow}/{status}",method = RequestMethod.PUT)
     public int updateByStatus(@PathVariable String tranFlow,@PathVariable String status) {
         return service.updateByStatus(tranFlow,status);
@@ -65,6 +72,7 @@ public class RepayCustomerController {
      *
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "success",method = RequestMethod.GET)
     public Map<String,String> findRepayCustomer() {
         return service.findRepayCustomer();
@@ -75,6 +83,7 @@ public class RepayCustomerController {
      *
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "fail",method = RequestMethod.GET)
     public Map<String,String> findFailRepayCustomer() {
         return service.findFailRepayCustomer();
