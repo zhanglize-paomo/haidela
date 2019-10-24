@@ -24,15 +24,12 @@
     <link rel="stylesheet" type="text/css" href="../css/zzsc.css">
     <script type="text/javascript">
         var ctx = '';
-
         function kefuMouseOver() {
             $(".kefu_pic").show();
         }
-
         function kefuMouseOut() {
             $(".kefu_pic").hide();
         }
-
         function onlyMoney(obj) {
             obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
             obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
@@ -111,8 +108,7 @@
             }
         </script>
         <form id="menuForm" method="post">
-            <input type="hidden" name="leftfid" id="menuFid"> <input
-                type="hidden" name="leftid" id="menuId">
+            <input type="hidden" name="leftfid" id="menuFid"> <input type="hidden" name="leftid" id="menuId">
         </form>
         <div class="order_tops">
             <div class="order_top">
@@ -140,9 +136,10 @@
                     </li>
                 </ul>
             </div>
-            <form action="/account/accountDetail1" id="myForm" method="post">
+            <form action="http://localhost:8080/pay-customer/payCustomerDetail" id="myForm" method="get">
                 <div class="order_main_r">
                     <div class="accounting_main_cont">
+                        <!-- 基本子账户信息 -->
                         <div class="accounting_main_cont_t">
                             <ul>
                                 <li class="current" onclick="changeAcct(0)">基本子账户</li>
@@ -309,7 +306,7 @@
 </div>
 
 <!-- 翻页用到 -->
-<form id="pageForm" action="http://localhost:8080/pay-customer/payCustomerDetail" method="get">
+<form id="pageForm" action="/account/accountDetail1" method="post">
     <input type="hidden" name="start" id="start"/>
     <input type="hidden" name="accountType" id="accountType1" value="0"/>
     <input type="hidden" name="endTime" value="2019-10-22 23:59:59"/>
