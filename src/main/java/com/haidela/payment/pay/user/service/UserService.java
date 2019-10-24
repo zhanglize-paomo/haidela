@@ -72,9 +72,9 @@ public class UserService {
         if(user == null){
             return "用户不存在";
         }
-        if(user.getPassword() != password){
+        if(!user.getPassword().equals(password)){
             return "登陆密码不正确";
         }
-        return "query";
+        return "/query";
     }
 }

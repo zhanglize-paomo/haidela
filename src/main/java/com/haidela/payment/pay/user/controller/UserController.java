@@ -71,5 +71,4 @@ public class UserController {
         return service.login(compId,password);
     }
 
-
 }

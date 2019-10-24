@@ -18,7 +18,7 @@
         where id = #{id,jdbcType=DECIMAL}
     </select>
 
-    <select id="findByCompId" parameterType="com.haidela.payment.pay.user.domain.User" resultMap="BaseResultMap">
+    <select id="findByCompId" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />
         from lyx_user
