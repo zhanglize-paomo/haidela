@@ -80,6 +80,7 @@
         <if test="tranFlow != null">
             AND tran_flow = #{tranFlow,jdbcType=CHAR}
         </if>
+        ORDER BY modify_time DESC;
     </select>
 
 </mapper>
