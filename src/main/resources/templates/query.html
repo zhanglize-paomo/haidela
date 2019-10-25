@@ -237,35 +237,59 @@
                     </div>
 
                     <div class="accounting_main_foot">
-                        <div class="main_tabel">
-<!--                            <ul class="main_tabel_title">-->
-<!--                                <li style="width:40px" >序号</li>-->
-<!--                                <li style="width:100px">交易时间</li>-->
-<!--                                <li style="width:80px">交易类型</li>-->
-<!--                                <li style="width:110px;margin-left: 5px;">商户订单号</li>-->
-<!--                                <li style="width:100px">交易金额</li>-->
-<!--                                <li style="width:100px">买家ID</li>-->
-<!--                                <li style="width:100px">公司ID</li>-->
-<!--                                <li style="width:80px">交易状态</li>-->
-<!--                            </ul>-->
+                        <table>
+                            <thead>
+                            <tr>
+                                <th style="width:40px">序号</th>
+                                <th style="width:100px">交易时间</th>
+                                <th style="width:80px">交易类型</th>
+                                <th style="width:110px;margin-left: 5px;">商户订单号</th>
+                                <th style="width:100px">交易金额</th>
+                                <th style="width:100px">买家ID</th>
+                                <th style="width:100px">公司ID</th>
+                                <th style="width:80px">交易状态</th>
+                            </tr>
+                            <tr th:each="detail : ${detailList}">
+                                <td th:text="${detailStat.index+1}"></td>
+                                <td th:text="${detail.getModifyTime()}"></td>
+                                <td th:text="${detail.getPayType()}"></td>
+                                <td th:text="${detail.getTranFlow()}"></td>
+                                <td th:text="${detail.getAmount()}"></td>
+                                <td th:text="${detail.getBuyerId()}"></td>
+                                <td th:text="${detail.getCompID()}"></td>
+                                <td th:text="${detail.getStatus()}"></td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <!--                        <div class="main_tabel">-->
+                        <!--                            <ul class="main_tabel_title">-->
+                        <!--                                <li style="width:40px" >序号</li>-->
+                        <!--                                <li style="width:100px">交易时间</li>-->
+                        <!--                                <li style="width:80px">交易类型</li>-->
+                        <!--                                <li style="width:110px;margin-left: 5px;">商户订单号</li>-->
+                        <!--                                <li style="width:100px">交易金额</li>-->
+                        <!--                                <li style="width:100px">买家ID</li>-->
+                        <!--                                <li style="width:100px">公司ID</li>-->
+                        <!--                                <li style="width:80px">交易状态</li>-->
+                        <!--                            </ul>-->
 
-<!--                            <tr th:each="detail:${detailList}">-->
-<!--                                <td th:text="${emp.id}"></td>-->
-<!--                                <td>[[emp.lastName]]</td>-->
-<!--                                <td th:text="${emp.email}"></td>-->
-<!--                                <td th:text="${emp.gender}==0?'女':'男'"></td>-->
-<!--                                <td th:text="${emp.department.departmentName}"></td>-->
-<!--                                <td th:text="${#dates.format(emp.birth,'yyyy-MM-dd HH:mm')}"></td>-->
-<!--                                <td>-->
-<!--                                    <a  class="btn btn-sm btn-primary" th:href="@{/emp/}+${emp.id}">编辑</a>-->
-<!--                                    <button th:attr="del-uri=@{/emp/}+${emp.id} "  class="btn btn-sm btn-danger delete-btn">删除</button>-->
-<!--                                </td>-->
-<!--                            </tr>-->
+                        <!--                            <tr th:each="detail:${detailList}">-->
+                        <!--                                <td th:text="${emp.id}"></td>-->
+                        <!--                                <td>[[emp.lastName]]</td>-->
+                        <!--                                <td th:text="${emp.email}"></td>-->
+                        <!--                                <td th:text="${emp.gender}==0?'女':'男'"></td>-->
+                        <!--                                <td th:text="${emp.department.departmentName}"></td>-->
+                        <!--                                <td th:text="${#dates.format(emp.birth,'yyyy-MM-dd HH:mm')}"></td>-->
+                        <!--                                <td>-->
+                        <!--                                    <a  class="btn btn-sm btn-primary" th:href="@{/emp/}+${emp.id}">编辑</a>-->
+                        <!--                                    <button th:attr="del-uri=@{/emp/}+${emp.id} "  class="btn btn-sm btn-danger delete-btn">删除</button>-->
+                        <!--                                </td>-->
+                        <!--                            </tr>-->
 
-                            <ul>
-                                <li style="width: 100%;">暂无记录</li>
-                            </ul>
-                        </div>
+                        <ul>
+                            <li style="width: 100%;">暂无记录</li>
+                        </ul>
+                        <!--                        </div>-->
 
                         <div class="order_main_tabel_bottom accounting_main_tabel_bottom" style="margin-right:0;">
                             <div class="accounting_main_tabel_btn">
@@ -348,74 +372,6 @@
             $(".accounting_main_cont_m ul").eq($(this).index()).show();
         });
     });
-
-
-    // <!-- 使用AJAX提交数据到后台中 -->
-    // function subForm() {
-    //     var startTime = $("startTime").val();
-    //     var endTime = $("endTime").val();
-    //     var compID = $("compID").val();
-    //     var customerId = $("customerId").val();
-    //     var typeStr = $("typeStr").val();
-    //     var tranFlow = $("tranFlow").val();
-    //     $.ajax({
-    //         url: "http://localhost:8080/pay-customer/payCustomerDetail",
-    //         data: {
-    //             "startTime": startTime,
-    //             "endTime": endTime,
-    //             "compID": compID,
-    //             "customerId": customerId,
-    //             "typeStr": typeStr,
-    //             "tranFlow": tranFlow
-    //         },
-    //         dataType: "json",   //返回的数据是json 格式
-    //         type: "GET",
-    //         success: function (data) {
-    //             console.log(data.toString())
-    //             alert(data.toString())
-    //             debugger;
-    //
-    //             if(data.length != 0){
-    //                 // for循环创建动态li
-    //                 for(var i=0; i<data.length; i++ ){
-    //                     // 创建动态li标签
-    //                     var liElement = document.createElement('li');
-    //                     // 给li添加数据
-    //                     liElement.innerHTML = data[i].name;
-    //                     // 给li添加id
-    //                     liElement.id = data[i].id;
-    //
-    //                     // 把li追加到ul里面去
-    //                     listElement.appendChild(liElement);
-    //
-    //                     // 获取点击元素的数据
-    //                     liElement.addEventListener('click',function() {
-    //                         var xhr2 = new XMLHttpRequest();
-    //                         // 打开文件
-    //                         xhr2.open('GET', 'users.php?id=' + this.id);  //问号传参
-    //                         // 敲回车等响应
-    //                         xhr2.send();
-    //                         console.log(this.id);
-    //                         xhr2.onreadystatechange = function(){
-    //                             //判断请求题是不是我们想要的数据
-    //                             if(this.readyState !== 4) return;
-    //                             // 获取传过来的json数据
-    //                             var data2 = JSON.parse(this.responseText);
-    //                             //data ==> 数据
-    //                             console.log(data2);
-    //                         };
-    //                     });
-    //                 }
-    //             }
-    //         },
-    //         error : function(e) {//请求失败的回调函数
-    //             debugger;
-    //             console.log(e);
-    //         }
-    //     })
-    //     // var url = '/users';
-    //     // $("#resultsBlock").load(url);
-    // }
 
     function subForm() {
         var platTimeStart = $("#platTimeStart").val();

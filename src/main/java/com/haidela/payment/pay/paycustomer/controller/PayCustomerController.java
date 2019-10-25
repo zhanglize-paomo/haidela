@@ -12,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 /**
  * 客户交易流水信息
  *
@@ -93,9 +91,9 @@ public class PayCustomerController {
     public int updateByPaySerialNo(@PathVariable Long id,@PathVariable String paySerialNo){
         return service.updateByPaySerialNo(id,paySerialNo);
     }
-    @ResponseBody
+//    @ResponseBody
     @RequestMapping(value = "payCustomerDetail",method = RequestMethod.GET)
-    public List<PayCustomer> pagePayCustomerDetail(@RequestParam(required = false) String startTime,
+    public String pagePayCustomerDetail(@RequestParam(required = false) String startTime,
                                                    @RequestParam(required = false) String endTime,
                                                    @RequestParam(required = false) String compID,
                                                    @RequestParam(required = false) String customerId,
@@ -104,7 +102,7 @@ public class PayCustomerController {
                                                    Model model
                                                    ){
         model.addAttribute("detailList",service.pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow));
-        return service.pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
+        return "/query";
     }
 
 
