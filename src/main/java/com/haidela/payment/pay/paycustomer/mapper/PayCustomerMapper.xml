@@ -75,7 +75,7 @@
             AND merchant_no = #{customerId,jdbcType=CHAR}
         </if>
         <if test="typeStr != null">
-            AND pay_type = #{typeStr,jdbcType=CHAR}
+            AND status = #{typeStr,jdbcType=CHAR}
         </if>
         <if test="tranFlow != null">
             AND tran_flow = #{tranFlow,jdbcType=CHAR}
