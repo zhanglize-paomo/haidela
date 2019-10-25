@@ -2,10 +2,13 @@ package com.haidela.payment.pay.paycustomer.service;
 
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.mapper.PayCustomerMapper;
+import com.haidela.payment.util.DateUtils;
+import com.haidela.payment.util.ExcelUtil;
 import com.haidela.payment.util.SnowflakeIdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 /**
@@ -111,24 +114,45 @@ public class PayCustomerService {
 
 
     public List<PayCustomer> pagePayCustomerDetail(String startTime, String endTime, String compID, String customerId, String typeStr, String tranFlow) {
-        if (startTime.equals("")) {
+        if (("").equals(startTime)) {
             startTime = null;
         }
-        if (endTime.equals("")) {
+        if (("").equals(endTime)) {
             endTime = null;
         }
-        if (compID.equals("")) {
+        if (("").equals(compID) ) {
             compID = null;
         }
-        if (customerId.equals("")) {
+        if (("").equals(customerId)) {
             customerId = null;
         }
-        if (typeStr.equals("")) {
+        if (("").equals(typeStr)) {
             typeStr = null;
         }
-        if (tranFlow.equals("")) {
+        if (("").equals(tranFlow)) {
             tranFlow = null;
         }
         return mapper.pagePayCustomerDetail(startTime, endTime, compID, customerId, typeStr, tranFlow);
+    }
+
+    /**
+     * 导出Excel表格
+     *  @param startTime  开始时间
+     * @param endTime    结束时间
+     * @param compID     公司ID
+     * @param customerId
+     * @param typeStr
+     * @param tranFlow
+     * @param response
+     */
+    public void exportPayCustomerDetail(String startTime, String endTime, String compID, String customerId, String typeStr, String tranFlow, HttpServletResponse response) {
+        //获取到所有导出的数据信息
+        List<PayCustomer> customerList = pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
+        if(customerList.size() != 0){
+            String fileName = "客户交易流水-" + DateUtils.stringToDate() + ".xls";
+            String sheetName = "客户交易流水";
+            ExcelUtil.writeExcel(response,customerList,fileName,sheetName,new PayCustomer());
+        }
+
     }
 }

@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
+
 /**
  * 客户交易流水信息
  *
@@ -104,6 +106,29 @@ public class PayCustomerController {
         model.addAttribute("detailList",service.pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow));
         return "/query";
     }
+
+    /**
+     * 导出Excel表格
+     *
+     * @param startTime  开始时间
+     * @param endTime    结束时间
+     * @param compID     公司ID
+     * @param customerId
+     * @param typeStr
+     * @param tranFlow
+     */
+    @ResponseBody
+    @RequestMapping(value = "/pay/export",method = RequestMethod.GET)
+    public void exportPayCustomerDetail(@RequestParam(required = false) String startTime,
+                                        @RequestParam(required = false) String endTime,
+                                        @RequestParam(required = false) String compID,
+                                        @RequestParam(required = false) String customerId,
+                                        @RequestParam(required = false) String typeStr,
+                                        @RequestParam(required = false) String tranFlow, HttpServletResponse response
+                                        ){
+        service.exportPayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow,response);
+    }
+
 
 
     @RequestMapping(value = "index",method = RequestMethod.GET)

@@ -1,6 +1,7 @@
 package com.haidela.payment.pay.paycustomer.domain;
 
 import com.alibaba.excel.annotation.ExcelProperty;
+import com.alibaba.excel.metadata.BaseRowModel;
 
 /**
  * 客户交易流水信息
@@ -8,7 +9,7 @@ import com.alibaba.excel.annotation.ExcelProperty;
  * @author zhanglize
  * @create 2019/10/10
  */
-public class PayCustomer {
+public class PayCustomer extends BaseRowModel {
 
     /**
      * 主键
