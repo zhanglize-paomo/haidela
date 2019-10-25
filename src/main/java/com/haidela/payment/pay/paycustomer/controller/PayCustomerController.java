@@ -9,6 +9,7 @@ import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -92,15 +93,17 @@ public class PayCustomerController {
     public int updateByPaySerialNo(@PathVariable Long id,@PathVariable String paySerialNo){
         return service.updateByPaySerialNo(id,paySerialNo);
     }
-
+    @ResponseBody
     @RequestMapping(value = "payCustomerDetail",method = RequestMethod.GET)
     public List<PayCustomer> pagePayCustomerDetail(@RequestParam(required = false) String startTime,
                                                    @RequestParam(required = false) String endTime,
                                                    @RequestParam(required = false) String compID,
                                                    @RequestParam(required = false) String customerId,
                                                    @RequestParam(required = false) String typeStr,
-                                                   @RequestParam(required = false) String tranFlow
+                                                   @RequestParam(required = false) String tranFlow,
+                                                   Model model
                                                    ){
+        model.addAttribute("detailList",service.pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow));
         return service.pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
     }
 

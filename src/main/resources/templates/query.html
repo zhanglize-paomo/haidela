@@ -11,22 +11,22 @@
             padding: 1px;
         }
     </style>
-    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript" th:src="@{/My97DatePicker/WdatePicker.js}"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"
+            th:src="@{/My97DatePicker/WdatePicker.js}"></script>
     <script src="../static/js/date.js" type="text/javascript" th:src="@{/js/date.js}"></script>
 </head>
 <body>
 <div id="continer">
     <link rel="shortcut icon" href="/img/hefupal-head.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script src="../static/js/jquery-1.11.1.min.js" type="text/javascript" th:src="@{/js/jquery-1.11.1.min.js}"></script>
+    <script src="../static/js/jquery-1.11.1.min.js" type="text/javascript"
+            th:src="@{/js/jquery-1.11.1.min.js}"></script>
     <script src="../static/js/index.js" type="text/javascript" th:src="@{/js/index.js}"></script>
     <script src="../static/js/jquery.form.js" type="text/javascript" th:src="@{/js/jquery.form.js}"></script>
-    <!--    <link href="css/default/easyui.css" type="text/css" rel="stylesheet" th:href="@{/css/default/easyui.css}"/>-->
-    <!--    <script src="js/jquery.min.js" type="text/javascript" th:src="@{/js/jquery.min.js}" ></script>-->
-        <link href="../static/css/WdatePicker.css" th:href="@{/css/WdatePicker.css}" rel="stylesheet" type="text/css" />
-        <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" type="text/css" />
-        <link href="../static/css/page.css" th:href="@{/css/page.css}" rel="stylesheet" type="text/css" />
-        <link href="../static/css/zzsc.css" th:href="@{/css/zzsc.css}" rel="stylesheet" type="text/css" />
+    <link href="../static/css/WdatePicker.css" th:href="@{/css/WdatePicker.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/page.css" th:href="@{/css/page.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/zzsc.css" th:href="@{/css/zzsc.css}" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var ctx = '';
 
@@ -57,10 +57,10 @@
             </div>
             <div class="head_r">
                 <ul>
-                    <li><img src="../img/home-icon_06.png"/></li>
-                    <li><img src="../img/home-icon_09.png"/><a href="javascript:void(0)">消息</a></li>
-                    <li><img src="../img/home-icon_06.png"/></li>
-                    <li><img src="../img/home-icon_11.png"/><a href="/loginOut">退出</a></li>
+                    <li><img src="../static/img/home-icon_06.png"/></li>
+                    <li><img src="../static/img/home-icon_09.png"/><a href="javascript:void(0)">消息</a></li>
+                    <li><img src="../static/img/home-icon_06.png"/></li>
+                    <li><img src="../static/img/home-icon_11.png"/><a href="/loginOut">退出</a></li>
                 </ul>
                 <script language="javascript">
                     var OnlineTop = 120;
@@ -104,7 +104,7 @@
     </div>
 
     <div id="page">
-        <link rel="shortcut icon" href="../img/hefupal-head.png" type="image/x-icon">
+        <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
         <script type="text/javascript">
             function changeMenu(action, fid, id) {
                 $("#menuForm").attr("action", action);
@@ -123,8 +123,8 @@
                     <ul>
                         <li class="current">
                             <a href="javascript:changeMenu('/dfpay/dfRefund','1','107')">查询统计</a>
-                            <img src="../img/inquiry_03.png" class="img_1" style="display: none;"/>
-                            <img src="../img/inquiry_05.png" style="display: block;" class="img_2"/>
+                            <img src="../static/img/inquiry_03.png" class="img_1" style="display: none;"/>
+                            <img src="../static/img/inquiry_05.png" style="display: block;" class="img_2"/>
                             <div class="order_topcontmain " style="display: none;">
                                 <a class="yellow"
                                    href="javascript:changeMenu('http://localhost:8080/pay-customer/payCustomerDetail','1','105')">账务明细</a>
@@ -168,7 +168,6 @@
                             </ul>
                         </div>
                     </div>
-
                     <div class="order_main_top accounting_main_top">
                         <ul style="height: 120px;">
                             <li class="inp1"><span>订单时间</span>
@@ -237,24 +236,36 @@
                         </div>
                     </div>
 
-
                     <div class="accounting_main_foot">
                         <div class="main_tabel">
-                            <ul class="main_tabel_title">
-                                <li style="width:40px">序号</li>
-                                <li style="width:100px">交易时间</li>
-                                <li style="width:80px">交易类型</li>
-                                <li style="width:110px;margin-left: 5px;">商户订单号</li>
-                                <li style="width:100px">交易金额</li>
-                                <li style="width:100px">买家ID</li>
-                                <li style="width:100px">公司ID</li>
-                                <li style="width:80px">交易状态</li>
-                            </ul>
+<!--                            <ul class="main_tabel_title">-->
+<!--                                <li style="width:40px" >序号</li>-->
+<!--                                <li style="width:100px">交易时间</li>-->
+<!--                                <li style="width:80px">交易类型</li>-->
+<!--                                <li style="width:110px;margin-left: 5px;">商户订单号</li>-->
+<!--                                <li style="width:100px">交易金额</li>-->
+<!--                                <li style="width:100px">买家ID</li>-->
+<!--                                <li style="width:100px">公司ID</li>-->
+<!--                                <li style="width:80px">交易状态</li>-->
+<!--                            </ul>-->
+
+<!--                            <tr th:each="detail:${detailList}">-->
+<!--                                <td th:text="${emp.id}"></td>-->
+<!--                                <td>[[emp.lastName]]</td>-->
+<!--                                <td th:text="${emp.email}"></td>-->
+<!--                                <td th:text="${emp.gender}==0?'女':'男'"></td>-->
+<!--                                <td th:text="${emp.department.departmentName}"></td>-->
+<!--                                <td th:text="${#dates.format(emp.birth,'yyyy-MM-dd HH:mm')}"></td>-->
+<!--                                <td>-->
+<!--                                    <a  class="btn btn-sm btn-primary" th:href="@{/emp/}+${emp.id}">编辑</a>-->
+<!--                                    <button th:attr="del-uri=@{/emp/}+${emp.id} "  class="btn btn-sm btn-danger delete-btn">删除</button>-->
+<!--                                </td>-->
+<!--                            </tr>-->
+
                             <ul>
                                 <li style="width: 100%;">暂无记录</li>
                             </ul>
                         </div>
-
 
                         <div class="order_main_tabel_bottom accounting_main_tabel_bottom" style="margin-right:0;">
                             <div class="accounting_main_tabel_btn">
@@ -339,7 +350,73 @@
     });
 
 
-    <!-- 提交from表单获取到数据信息 -->
+    // <!-- 使用AJAX提交数据到后台中 -->
+    // function subForm() {
+    //     var startTime = $("startTime").val();
+    //     var endTime = $("endTime").val();
+    //     var compID = $("compID").val();
+    //     var customerId = $("customerId").val();
+    //     var typeStr = $("typeStr").val();
+    //     var tranFlow = $("tranFlow").val();
+    //     $.ajax({
+    //         url: "http://localhost:8080/pay-customer/payCustomerDetail",
+    //         data: {
+    //             "startTime": startTime,
+    //             "endTime": endTime,
+    //             "compID": compID,
+    //             "customerId": customerId,
+    //             "typeStr": typeStr,
+    //             "tranFlow": tranFlow
+    //         },
+    //         dataType: "json",   //返回的数据是json 格式
+    //         type: "GET",
+    //         success: function (data) {
+    //             console.log(data.toString())
+    //             alert(data.toString())
+    //             debugger;
+    //
+    //             if(data.length != 0){
+    //                 // for循环创建动态li
+    //                 for(var i=0; i<data.length; i++ ){
+    //                     // 创建动态li标签
+    //                     var liElement = document.createElement('li');
+    //                     // 给li添加数据
+    //                     liElement.innerHTML = data[i].name;
+    //                     // 给li添加id
+    //                     liElement.id = data[i].id;
+    //
+    //                     // 把li追加到ul里面去
+    //                     listElement.appendChild(liElement);
+    //
+    //                     // 获取点击元素的数据
+    //                     liElement.addEventListener('click',function() {
+    //                         var xhr2 = new XMLHttpRequest();
+    //                         // 打开文件
+    //                         xhr2.open('GET', 'users.php?id=' + this.id);  //问号传参
+    //                         // 敲回车等响应
+    //                         xhr2.send();
+    //                         console.log(this.id);
+    //                         xhr2.onreadystatechange = function(){
+    //                             //判断请求题是不是我们想要的数据
+    //                             if(this.readyState !== 4) return;
+    //                             // 获取传过来的json数据
+    //                             var data2 = JSON.parse(this.responseText);
+    //                             //data ==> 数据
+    //                             console.log(data2);
+    //                         };
+    //                     });
+    //                 }
+    //             }
+    //         },
+    //         error : function(e) {//请求失败的回调函数
+    //             debugger;
+    //             console.log(e);
+    //         }
+    //     })
+    //     // var url = '/users';
+    //     // $("#resultsBlock").load(url);
+    // }
+
     function subForm() {
         var platTimeStart = $("#platTimeStart").val();
         var platTimeEnd = $("#platTimeEnd").val();
@@ -351,14 +428,6 @@
             $("#myForm").submit();
         }
     }
-
-    <!-- from 表单通过submit提交的方式获取到后台的数据 -->
-    /* $(function(){
-         $("#myForm").ajaxForm(function(data){
-            alert(data.toString());
-            console.log("str:=======================" + JSON.stringify(data));
-         });
-     });*/
 
     function changeAcct(type) {
         $("#accountType").val(type);
