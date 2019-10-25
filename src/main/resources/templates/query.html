@@ -1,4 +1,5 @@
-<link rel="shortcut icon" href="/img/hefupal-head.png" type="image/x-icon">
+<link rel="shortcut icon" href="/img/hefupal-head.png" type="image/x-icon"
+      xmlns:text-align="http://www.w3.org/1999/xhtml">
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <html>
@@ -250,47 +251,18 @@
                                 <th style="width:80px">交易状态</th>
                             </tr>
                             <tr th:each="detail : ${detailList}">
-                                <td th:text="${detailStat.index+1}"></td>
-                                <td th:text="${detail.getModifyTime()}"></td>
-                                <td th:text="${detail.getPayType()}"></td>
-                                <td th:text="${detail.getTranFlow()}"></td>
-                                <td th:text="${detail.getAmount()}"></td>
-                                <td th:text="${detail.getBuyerId()}"></td>
-                                <td th:text="${detail.getCompID()}"></td>
-                                <td th:text="${detail.getStatus()}"></td>
+                                <!-- thymeleaf会默认给个“变量名+Stat"的状态变量,通过变量获取到每条数据的序列号 -->
+                                <th th:text="${detailStat.index+1}" style="text-align:center;"></th>
+                                <th th:text="${detail.getModifyTime()}" style="text-align:center;"></th>
+                                <th th:text="${detail.getPayType()}" style="text-align:center;"></th>
+                                <th th:text="${detail.getTranFlow()}" style="text-align:center;"></th>
+                                <th th:text="${detail.getAmount()}" style="text-align:center;"></th>
+                                <th th:text="${detail.getBuyerId()}" style="text-align:center;"></th>
+                                <th th:text="${detail.getCompID()}" style="text-align:center;"></th>
+                                <th th:text="${detail.getStatus()}" style="text-align:center;"></th>
                             </tr>
                             </thead>
                         </table>
-                        <!--                        <div class="main_tabel">-->
-                        <!--                            <ul class="main_tabel_title">-->
-                        <!--                                <li style="width:40px" >序号</li>-->
-                        <!--                                <li style="width:100px">交易时间</li>-->
-                        <!--                                <li style="width:80px">交易类型</li>-->
-                        <!--                                <li style="width:110px;margin-left: 5px;">商户订单号</li>-->
-                        <!--                                <li style="width:100px">交易金额</li>-->
-                        <!--                                <li style="width:100px">买家ID</li>-->
-                        <!--                                <li style="width:100px">公司ID</li>-->
-                        <!--                                <li style="width:80px">交易状态</li>-->
-                        <!--                            </ul>-->
-
-                        <!--                            <tr th:each="detail:${detailList}">-->
-                        <!--                                <td th:text="${emp.id}"></td>-->
-                        <!--                                <td>[[emp.lastName]]</td>-->
-                        <!--                                <td th:text="${emp.email}"></td>-->
-                        <!--                                <td th:text="${emp.gender}==0?'女':'男'"></td>-->
-                        <!--                                <td th:text="${emp.department.departmentName}"></td>-->
-                        <!--                                <td th:text="${#dates.format(emp.birth,'yyyy-MM-dd HH:mm')}"></td>-->
-                        <!--                                <td>-->
-                        <!--                                    <a  class="btn btn-sm btn-primary" th:href="@{/emp/}+${emp.id}">编辑</a>-->
-                        <!--                                    <button th:attr="del-uri=@{/emp/}+${emp.id} "  class="btn btn-sm btn-danger delete-btn">删除</button>-->
-                        <!--                                </td>-->
-                        <!--                            </tr>-->
-
-                        <ul>
-                            <li style="width: 100%;">暂无记录</li>
-                        </ul>
-                        <!--                        </div>-->
-
                         <div class="order_main_tabel_bottom accounting_main_tabel_bottom" style="margin-right:0;">
                             <div class="accounting_main_tabel_btn">
                                 <script type="text/javascript">
