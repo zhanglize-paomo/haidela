@@ -149,7 +149,7 @@ public class PayCustomerService {
         //获取到所有导出的数据信息
         List<PayCustomer> customerList = pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
         if(customerList.size() != 0){
-            String fileName = "客户交易流水-" + DateUtils.stringToDate() + ".xls";
+            String fileName = "客户交易流水-" + DateUtils.stringToDate();
             String sheetName = "客户交易流水";
             ExcelUtil.writeExcel(response,customerList,fileName,sheetName,new PayCustomer());
         }
