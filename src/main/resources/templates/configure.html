@@ -14,24 +14,26 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>商户ID</th>
-            <th>公司ID</th>
-            <th>公司名称</th>
-            <th>交易金额</th>
-            <th>支付类型</th>
-            <th>开始时间</th>
-            <th>结束时间</th>
-            <th>时间差</th>
-            <th>调用时间</th>
-            <th>状态</th>
-            <th>单日总额</th>
+            <th style="width:40px">序号</th>
+            <th style="width:100px">商户ID</th>
+            <th style="width:100px">公司ID</th>
+<!--            <th style="width:100px">公司名称</th>-->
+            <th style="width:100px">交易金额</th>
+            <th style="width:100px">支付类型</th>
+            <th style="width:100px">开始时间</th>
+            <th style="width:100px">结束时间</th>
+            <th style="width:100px">时间差</th>
+            <th style="width:100px">调用时间</th>
+            <th style="width:100px">状态</th>
+            <th style="width:100px">单日总额</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="configure : ${configureList}">
             <th scope="row" th:text="${configure.getMerchantId()}"></th>
+            <th th:text="${configureStat.index+1}" style="text-align:center;"></th>
             <td th:text="${configure.getCompID()}" style="text-align:center;"></td>
-            <td th:text="${configure.getCompanyName()}" style="text-align:center;"></td>
+<!--            <td th:text="${configure.getCompanyName()}" style="text-align:center;"></td>-->
             <td th:text="${configure.getAmountLimit()}" style="text-align:center;"></td>
             <td th:text="${configure.getPayType()}" style="text-align:center;"></td>
             <td th:text="${configure.getStartTime()}" style="text-align:center;"></td>

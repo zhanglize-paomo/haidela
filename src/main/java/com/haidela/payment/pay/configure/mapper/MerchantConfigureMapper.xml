@@ -51,7 +51,7 @@
     </select>
 
     <select id="finAllCustomer" resultMap="resultMap">
-        select * from lyx_merchant_configure
+        select * from lyx_merchant_configure ORDER BY modify_time DESC;
     </select>
     <select id="findById" resultType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
          select * from lyx_merchant_configure where id = #{id}
