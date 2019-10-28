@@ -274,58 +274,20 @@
 
                             <div align="center" style="margin-top:2%;">
                                 总共<a th:text="${pages}"/>页|
-                                第<a th:text="${pageNum}"/>页|
-                                <a th:href="@{/(page=${startRow})}" class="f">首页</a>|
-                                <a th:href="@{/(page=${prePage})}" class="f">上一页</a>|
-                                <a th:href="@{/(page=${nextPage})}" class="la">下一页</a>|
-                                <a th:href="@{/(page=${endPage})}" class="la">尾页</a>
+                                第<a th:text="${pageNum}"></a>页|
+                                <a th:href="'http://localhost:8080/pay-customer/payCustomerDetail?pageNum=' + ${startPage}"class="f">首页</a>|
+                                <a th:href="'http://localhost:8080/pay-customer/payCustomerDetail?pageNum=' + ${prePage}" class="f">上一页</a>|
+                                <a th:href="'http://localhost:8080/pay-customer/payCustomerDetail?pageNum=' + ${nextPage}" class="la">下一页</a>|
+                                <a th:href="'http://localhost:8080/pay-customer/payCustomerDetail?pageNum=' + ${endPage}" class="la">尾页</a>
                                 <input type="hidden" id="first" th:value="${pageNum}"/>
                                 <input type="hidden" id="last" th:value="${pages}"/>
                             </div>
-
-                            <!--                            <div class='page'>-->
-                            <!--                                <SCRIPT LANGUAGE="JavaScript">-->
-                            <!--                                    function submitFormPage(start) {-->
-                            <!--                                        document.getElementById('start').value = start;-->
-                            <!--                                        document.getElementById('pageForm').submit();-->
-                            <!--                                    }-->
-
-                            <!--                                    function goToPage() {-->
-                            <!--                                        var pageVal = document.getElementById('tzym');-->
-                            <!--                                        var countPageNo = 0;-->
-                            <!--                                        var txt = /^\d*$/;-->
-                            <!--                                        if (!txt.test(pageVal.value)) {-->
-                            <!--                                            alert('页数应为正整数!');-->
-                            <!--                                            pageVal.focus();-->
-                            <!--                                            return;-->
-                            <!--                                        }-->
-                            <!--                                        if (pageVal.value < 2) {-->
-                            <!--                                            submitFormPage(0);-->
-                            <!--                                        }-->
-                            <!--                                        if (pageVal.value >= countPageNo) {-->
-                            <!--                                            submitFormPage(0);-->
-                            <!--                                        } else {-->
-                            <!--                                            submitFormPage((pageVal.value - 1) * 10);-->
-                            <!--                                        }-->
-                            <!--                                    }-->
-                            <!--                                </SCRIPT>-->
-                            <!--                                <a href='#'-->
-                            <!--                                   style='background:#fcf1e3;border:1px solid #e58f19;color:#e58f19;font-weight:bold;'>0</a>-->
-                            <!--                                <span class='marlefrig5'>共0页</span>-->
-                            <!--                                <span class='marlef10'>跳转到-->
-                            <!--                                    <input type='text' size='4' value='0' id='tzym' class='pad2'/>-->
-                            <!--                                    <input type='button' onclick='goToPage()' value=' ' class='gobg'/>-->
-                            <!--                                </span>&nbsp;&nbsp;共0条记录-->
-                            <!--                            </div>-->
                         </div>
-
-
                     </div>
                 </div>
             </form>
         </div>
     </div>
-
     <div id="footer" class="footer2">
         <div class="foot foot2">
             <ul>

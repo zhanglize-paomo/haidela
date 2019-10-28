@@ -115,7 +115,7 @@ public class PayCustomerController {
         //使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
         PageInfo pageInfo = new PageInfo<PayCustomer>(customerList, 5);
         Integer startPage = 0;
-        Integer endPage = 0;
+        Integer endPage = Math.toIntExact(pageInfo.getTotal() - 1);
         model.addAttribute("pageInfo", pageInfo);
         //获得当前页
         model.addAttribute("pageNum", pageInfo.getPageNum());
