@@ -131,9 +131,9 @@ public class PayCustomerController {
 
 
 
-    @RequestMapping(value = "index",method = RequestMethod.GET)
+    @RequestMapping(value = "/index",method = RequestMethod.GET)
     public String index(){
-       return "/aa";
+       return "/index";
     }
 
 }
