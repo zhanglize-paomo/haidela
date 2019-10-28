@@ -1,55 +1,61 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8"/>
-        <title>userList</title>
-        <link  href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"></link>
-    </head>
-    <body class="container">
-        <br/>
-        <h1>个体商户配置</h1>
-        <br/>
-        <br/>
-        <div class="with:80%">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th>商户ID</th>
-                        <th>公司ID</th>
-                        <th>公司名称</th>
-                        <th>交易金额</th>
-                        <th>交易金额上限</th>
-                        <th>支付类型</th>
-                        <th>开始时间</th>
-                        <th>结束时间</th>
-                        <th>时间差</th>
-                        <th>调用时间</th>
-                        <th>状态</th>
-                        <th>单日总额</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="configure : ${configureList}">
-                        <th scope="row" th:text="${configure.getMerchantId()}"></th>
-                        <td th:text="${configure.getCmpID()}"></td>
-                        <td th:text="${configure.getCompanyName()}"></td>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>userList</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/css/bootstrap.css}"></link>
+</head>
+<body class="container">
+<br/>
+<h1>个体商户配置</h1>
+<br/>
+<br/>
+<div class="with:80%">
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th>商户ID</th>
+            <th>公司ID</th>
+            <th>公司名称</th>
+            <th>交易金额</th>
+            <th>支付类型</th>
+            <th>开始时间</th>
+            <th>结束时间</th>
+            <th>时间差</th>
+            <th>调用时间</th>
+            <th>状态</th>
+            <th>单日总额</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="configure : ${configureList}">
+            <th scope="row" th:text="${configure.getMerchantId()}"></th>
+            <td th:text="${configure.getCompID()}" style="text-align:center;"></td>
+            <td th:text="${configure.getCompanyName()}" style="text-align:center;"></td>
+            <td th:text="${configure.getAmountLimit()}" style="text-align:center;"></td>
+            <td th:text="${configure.getPayType()}" style="text-align:center;"></td>
+            <td th:text="${configure.getStartTime()}" style="text-align:center;"></td>
+            <td th:text="${configure.getEndTime()}" style="text-align:center;"></td>
+            <td th:text="${configure.getTimeDifference()}" style="text-align:center;"></td>
+            <td th:text="${configure.getCallTime()}" style="text-align:center;"></td>
+            <td th:text="${configure.getStatus()}" style="text-align:center;"></td>
+            <td th:text="${configure.getTotalOneAmount()}" style="text-align:center;"></td>
+            <td>
+                <a th:href="@{/toEdit(id=${configure.getId()})}">修改</a>
+            </td>
+            <td>
+                <a th:href="@{/delete(id=${configure.getId()})}">删除</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 
-                        <td th:text="${user.age}"></td>
-                        <td>
-                            <a th:href="@{/toEdit(id=${user.id})}">修改</a>
-                        </td>
-                        <td>
-                            <a th:href="@{/delete(id=${user.id})}">删除</a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-2 control-label">
-                <a href="/toAdd" th:href="@{/toAdd}" class="btn btn-info">新增</a>
-            </div>
-        </div>
-
-    </body>
+<div class="form-group">
+    <div class="col-sm-2 control-label">
+        <a href="/toAdd" th:href="@{/toAdd}" class="btn btn-info">新增</a>
+        <a href="http://localhost:8080/merchant-configure/all" th:href="@{http://localhost:8080/merchant-configure/all}" class="btn btn-info">搜索</a>
+    </div>
+</div>
+</body>
 </html>

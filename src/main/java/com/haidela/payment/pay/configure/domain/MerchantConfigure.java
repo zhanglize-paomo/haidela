@@ -126,6 +126,13 @@ public class MerchantConfigure {
         super();
     }
 
+    public String getCompID() {
+        return compID;
+    }
+
+    public void setCompID(String compID) {
+        this.compID = compID;
+    }
 
     public String getAmount() {
         return amount;
