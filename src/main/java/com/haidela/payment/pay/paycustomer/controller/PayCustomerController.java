@@ -108,6 +108,12 @@ public class PayCustomerController {
                                         @RequestParam(defaultValue = "10") Integer pageSize,
                                         Model model
     ) {
+        model.addAttribute("startTime",startTime);
+        model.addAttribute("endTime",endTime);
+        model.addAttribute("compID",compID);
+        model.addAttribute("customerId",customerId);
+        model.addAttribute("typeStr",typeStr);
+        model.addAttribute("tranFlow",tranFlow);
         //引入分页查询，使用PageHelper分页功能在查询之前传入当前页，然后多少记录
         PageHelper.startPage(pageNum, pageSize);
         //startPage后紧跟的这个查询就是分页查询
