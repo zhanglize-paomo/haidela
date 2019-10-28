@@ -93,4 +93,9 @@ public class MerchantConfigureController {
         model.addAttribute("configureList", configureList);
         return "/configure";
     }
+
+    @RequestMapping("/jump")
+    public String findByJump() {
+        return "/configure";
+    }
 }

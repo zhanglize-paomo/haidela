@@ -103,7 +103,7 @@
     <div id="page">
         <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
         <script type="text/javascript">
-            function changeMenu(action, fid, id) {
+            function changeMenuConfig(action) {
                 $("#menuForm").attr("action", action);
                 $("#menuFid").val(fid);
                 $("#menuId").val(id);
@@ -119,19 +119,13 @@
                     <div class="line"></div>
                     <ul>
                         <li class="current">
-                            <a href="javascript:changeMenu('/dfpay/dfRefund','1','107')">查询统计</a>
+                            <a>查询统计</a>
                             <img src="../static/img/inquiry_03.png" class="img_1" style="display: none;"/>
                             <img src="../static/img/inquiry_05.png" style="display: block;" class="img_2"/>
-                            <div class="order_topcontmain " style="display: none;">
-                                <a class="yellow"
-                                   href="javascript:changeMenu('http://localhost:8080/pay-customer/payCustomerDetail','1','105')">账务明细</a>
-                            </div>
                         </li>
-
                         <li class="current">
-                            <a href="configure.html">个体商户配置</a>
+                            <a href="http://localhost:8080/merchant-configure/jump">个体商户配置</a>
                         </li>
-
                     </ul>
                 </div>
             </div>
@@ -140,8 +134,8 @@
         <div class="order_main">
             <div class="order_main_l">
                 <ul>
-                    <li class="current"><a
-                            href="javascript:changeMenu('http://localhost:8080/pay-customer/payCustomerDetail','1','105')">账务明细</a>
+                    <li class="current">
+                        <a>账务明细</a>
                     </li>
                 </ul>
             </div>
