@@ -275,40 +275,40 @@
                                 </script>
                                 <button type="button" onclick="exportExecl()">导出数据</button>
                             </div>
-                            <div class='page'>
-                                <SCRIPT LANGUAGE="JavaScript">
-                                    function submitFormPage(start) {
-                                        document.getElementById('start').value = start;
-                                        document.getElementById('pageForm').submit();
-                                    }
+                            <!--                            <div class='page'>-->
+                            <!--                                <SCRIPT LANGUAGE="JavaScript">-->
+                            <!--                                    function submitFormPage(start) {-->
+                            <!--                                        document.getElementById('start').value = start;-->
+                            <!--                                        document.getElementById('pageForm').submit();-->
+                            <!--                                    }-->
 
-                                    function goToPage() {
-                                        var pageVal = document.getElementById('tzym');
-                                        var countPageNo = 0;
-                                        var txt = /^\d*$/;
-                                        if (!txt.test(pageVal.value)) {
-                                            alert('页数应为正整数!');
-                                            pageVal.focus();
-                                            return;
-                                        }
-                                        if (pageVal.value < 2) {
-                                            submitFormPage(0);
-                                        }
-                                        if (pageVal.value >= countPageNo) {
-                                            submitFormPage(0);
-                                        } else {
-                                            submitFormPage((pageVal.value - 1) * 10);
-                                        }
-                                    }
-                                </SCRIPT>
-                                <a href='#'
-                                   style='background:#fcf1e3;border:1px solid #e58f19;color:#e58f19;font-weight:bold;'>0</a>
-                                <span class='marlefrig5'>共0页</span>
-                                <span class='marlef10'>跳转到
-                                    <input type='text' size='4' value='0' id='tzym' class='pad2'/>
-                                    <input type='button' onclick='goToPage()' value=' ' class='gobg'/>
-                                </span>&nbsp;&nbsp;共0条记录
-                            </div>
+                            <!--                                    function goToPage() {-->
+                            <!--                                        var pageVal = document.getElementById('tzym');-->
+                            <!--                                        var countPageNo = 0;-->
+                            <!--                                        var txt = /^\d*$/;-->
+                            <!--                                        if (!txt.test(pageVal.value)) {-->
+                            <!--                                            alert('页数应为正整数!');-->
+                            <!--                                            pageVal.focus();-->
+                            <!--                                            return;-->
+                            <!--                                        }-->
+                            <!--                                        if (pageVal.value < 2) {-->
+                            <!--                                            submitFormPage(0);-->
+                            <!--                                        }-->
+                            <!--                                        if (pageVal.value >= countPageNo) {-->
+                            <!--                                            submitFormPage(0);-->
+                            <!--                                        } else {-->
+                            <!--                                            submitFormPage((pageVal.value - 1) * 10);-->
+                            <!--                                        }-->
+                            <!--                                    }-->
+                            <!--                                </SCRIPT>-->
+                            <!--                                <a href='#'-->
+                            <!--                                   style='background:#fcf1e3;border:1px solid #e58f19;color:#e58f19;font-weight:bold;'>0</a>-->
+                            <!--                                <span class='marlefrig5'>共0页</span>-->
+                            <!--                                <span class='marlef10'>跳转到-->
+                            <!--                                    <input type='text' size='4' value='0' id='tzym' class='pad2'/>-->
+                            <!--                                    <input type='button' onclick='goToPage()' value=' ' class='gobg'/>-->
+                            <!--                                </span>&nbsp;&nbsp;共0条记录-->
+                            <!--                            </div>-->
                         </div>
 
 
