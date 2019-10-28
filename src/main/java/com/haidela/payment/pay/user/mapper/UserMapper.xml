@@ -3,7 +3,7 @@
 <mapper namespace="com.haidela.payment.pay.user.mapper.UserMapper">
     <resultMap id="BaseResultMap" type="com.haidela.payment.pay.user.domain.User">
         <id column="id" jdbcType="DECIMAL" property="id" />
-        <result column="comp_iD" jdbcType="CHAR" property="compId" />
+        <result column="comp_iD" jdbcType="CHAR" property="compID" />
         <result column="company_name" jdbcType="CHAR" property="companyName" />
         <result column="password" jdbcType="CHAR" property="password" />
         <result column="type" jdbcType="CHAR" property="type" />
@@ -22,7 +22,7 @@
         select
         <include refid="Base_Column_List" />
         from lyx_user
-        where comp_iD = #{compId,jdbcType=CHAR}
+        where comp_iD = #{compID,jdbcType=CHAR}
     </select>
 
     <delete id="deleteByPrimaryKey" parameterType="java.math.BigDecimal">
@@ -31,7 +31,7 @@
 
     <insert id="insert" parameterType="com.haidela.payment.pay.user.domain.User">
         insert into lyx_user (id, comp_iD, company_name, password, type)
-        values (#{id,jdbcType=DECIMAL}, #{compId,jdbcType=CHAR}, #{companyName,jdbcType=CHAR},
+        values (#{id,jdbcType=DECIMAL}, #{compID,jdbcType=CHAR}, #{companyName,jdbcType=CHAR},
         #{password,jdbcType=CHAR}, #{type,jdbcType=CHAR})
     </insert>
 
@@ -58,7 +58,7 @@
             <if test="id != null">
                 #{id,jdbcType=DECIMAL},
             </if>
-            <if test="compId != null">
+            <if test="compID != null">
                 #{compId,jdbcType=CHAR},
             </if>
             <if test="companyName != null">
@@ -77,7 +77,7 @@
     <update id="updateByPrimaryKeySelective" parameterType="com.haidela.payment.pay.user.domain.User">
         update lyx_user
         <set>
-            <if test="compId != null">
+            <if test="compID != null">
                 comp_iD = #{compId,jdbcType=CHAR},
             </if>
             <if test="companyName != null">
@@ -95,7 +95,7 @@
 
     <update id="updateByPrimaryKey" parameterType="com.haidela.payment.pay.user.domain.User">
         update lyx_user
-        set comp_iD = #{compId,jdbcType=CHAR},
+        set comp_iD = #{compID,jdbcType=CHAR},
         company_name = #{companyName,jdbcType=CHAR},
         password = #{password,jdbcType=CHAR},
         type = #{type,jdbcType=CHAR}

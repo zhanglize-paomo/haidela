@@ -12,7 +12,7 @@ public class User {
     /**
      * 公司ID
      */
-    private String compId;
+    private String compID;
     /**
      * 公司名称
      */
@@ -35,13 +35,18 @@ public class User {
         this.id = id;
     }
 
-    public String getCompId() {
-        return compId;
+    public String getCompID() {
+        return compID;
     }
 
-    public void setCompId(String compId) {
-        this.compId = compId == null ? null : compId.trim();
+    public void setCompID(String compID) {
+        this.compID = compID == null ? null : compID.trim();
     }
+
+//
+//    public void setCompId(String compId) {
+//        this.compID = compId == null ? null : compId.trim();
+//    }
 
     public String getCompanyName() {
         return companyName;
