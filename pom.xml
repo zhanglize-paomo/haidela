@@ -36,6 +36,13 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+        <!-- mybatis分页功能 -->
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper</artifactId>
+            <version>4.1.6</version>
+        </dependency>
+
         <!-- SpringBoot整合easyexcel实现Excel的导出 -->
         <dependency>
             <groupId>com.alibaba</groupId>
