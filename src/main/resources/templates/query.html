@@ -263,46 +263,12 @@
                             <div class="accounting_main_tabel_btn">
                                 <script type="text/javascript">
                                     function exportExecl() {
-                                        $("#myForm").attr("action", "http://localhost:8080/pay-customer/payCustomerDetail");
+                                        $("#myForm").attr("action", "http://localhost:8080/pay-customer/pay/export");
                                         $("#myForm").submit();
-                                        $("#myForm").attr("action", "http://localhost:8080/pay-customer/payCustomerDetail");
                                     }
                                 </script>
                                 <button type="button" onclick="exportExecl()">导出数据</button>
                             </div>
-
-<!--                            <nav>-->
-<!--                                <ul class="pagination">-->
-<!--                                    <li>-->
-<!--                                        <a th:if="${not isFirstPage}" th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${pageNum - 1},pageSize=${pageSize})}" aria-label="Previous">-->
-<!--                                            <span aria-hidden="true">&laquo;</span>-->
-<!--                                        </a>-->
-<!--                                        <a th:if="${isFirstPage}" href="javascript:void(0);" aria-label="Previous">-->
-<!--                                            <span aria-hidden="true">&laquo;</span>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-
-<!--                                    <li th:each="pageNo : ${#numbers.sequence(1, totalPages)}">-->
-<!--                                        <a th:if="${pageNum eq pageNo}" href="javascript:void(0);">-->
-<!--                                            <span th:text="${pageNo}"></span>-->
-<!--                                        </a>-->
-
-<!--                                        <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${pageNo},pageSize=${pageSize})}">-->
-<!--                                            <span th:text="${pageNo}"></span>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-
-<!--                                    <li>-->
-<!--                                        <a th:if="${not isLastPage}" th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${pageNum+1},pageSize=${pageSize})}" aria-label="Next">-->
-<!--                                            <span aria-hidden="true">&raquo;</span>-->
-<!--                                        </a>-->
-<!--                                        <a th:if="${isLastPage}" href="javascript:void(0);" aria-label="Next">-->
-<!--                                            <span aria-hidden="true">&raquo;</span>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-<!--                                </ul>-->
-<!--                            </nav>-->
-
 
                             <div align="center" style="margin-top:2%;">
                                 总共<a th:text="${pages}"/>页|

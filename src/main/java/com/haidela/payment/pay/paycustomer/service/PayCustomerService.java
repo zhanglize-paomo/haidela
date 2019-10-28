@@ -147,7 +147,7 @@ public class PayCustomerService {
      */
     public void exportPayCustomerDetail(String startTime, String endTime, String compID, String customerId, String typeStr, String tranFlow, HttpServletResponse response) {
         //获取到所有导出的数据信息
-        List<PayCustomer> customerList = pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow, 0, 0);
+        List<PayCustomer> customerList = pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow, null, null);
         if(customerList.size() != 0){
             String fileName = "客户交易流水-" + DateUtils.stringToDate();
             String sheetName = "客户交易流水";
