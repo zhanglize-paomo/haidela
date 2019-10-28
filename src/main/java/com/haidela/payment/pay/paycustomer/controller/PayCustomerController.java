@@ -108,16 +108,16 @@ public class PayCustomerController {
                                         @RequestParam(defaultValue = "10") Integer pageSize,
                                         Model model
     ) {
-        model.addAttribute("startTime",startTime);
-        model.addAttribute("endTime",endTime);
-        model.addAttribute("compID",compID);
-        model.addAttribute("customerId",customerId);
-        model.addAttribute("typeStr",typeStr);
-        model.addAttribute("tranFlow",tranFlow);
+//        model.addAttribute("startTime",startTime);
+//        model.addAttribute("endTime",endTime);
+//        model.addAttribute("compID",compID);
+//        model.addAttribute("customerId",customerId);
+//        model.addAttribute("typeStr",typeStr);
+//        model.addAttribute("tranFlow",tranFlow);
         //引入分页查询，使用PageHelper分页功能在查询之前传入当前页，然后多少记录
         PageHelper.startPage(pageNum, pageSize);
         //startPage后紧跟的这个查询就是分页查询
-        List<PayCustomer> customerList =  service.pagePayCustomerDetail(startTime, endTime, compID, customerId, typeStr, tranFlow);
+        List<PayCustomer> customerList =  service.pagePayCustomerDetail(startTime, endTime, compID, customerId, typeStr, tranFlow,pageNum,pageSize);
         //使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
         PageInfo pageInfo = new PageInfo<PayCustomer>(customerList, 5);
         Integer startPage = 0;
@@ -140,7 +140,6 @@ public class PayCustomerController {
         model.addAttribute("pages", pageInfo.getPages());
         model.addAttribute("prePage", pageInfo.getPrePage());
         model.addAttribute("nextPage", pageInfo.getNextPage());
-        model.addAttribute("isLastPage", pageInfo.isIsLastPage());
         model.addAttribute("hasPreviousPage", pageInfo.isHasPreviousPage());
         model.addAttribute("hasNextPage", pageInfo.isHasNextPage());
         model.addAttribute("startPage", startPage);

@@ -80,7 +80,10 @@
         <if test="tranFlow != null">
             AND tran_flow = #{tranFlow,jdbcType=CHAR}
         </if>
-        ORDER BY modify_time DESC;
+        ORDER BY modify_time DESC
+        <if test="pageNum != null &amp; pageSize != null">
+            LIMIT #{pageNum},#{pageSize};
+        </if>
     </select>
 
 </mapper>

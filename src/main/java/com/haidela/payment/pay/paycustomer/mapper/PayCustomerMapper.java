@@ -89,6 +89,8 @@ public interface PayCustomerMapper {
      * @param customerId  商户ID
      * @param typeStr    交易类型
      * @param tranFlow  订单流水号
+     * @param pageNum
+     * @param pageSize
      * @return
      */
     List<PayCustomer> pagePayCustomerDetail(@Param(value = "startTime") String startTime,
@@ -96,5 +98,7 @@ public interface PayCustomerMapper {
                                             @Param(value = "compID") String compID,
                                             @Param(value = "customerId") String customerId,
                                             @Param(value = "typeStr") String typeStr,
-                                            @Param(value = "tranFlow") String tranFlow);
+                                            @Param(value = "tranFlow") String tranFlow,
+                                            @Param(value = "pageNum")  Integer pageNum,
+                                            @Param(value = "pageSize") Integer pageSize);
 }

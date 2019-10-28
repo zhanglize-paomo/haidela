@@ -259,7 +259,6 @@
                             </tr>
                             </thead>
                         </table>
-
                         <div class="order_main_tabel_bottom accounting_main_tabel_bottom" style="margin-right:0;">
                             <div class="accounting_main_tabel_btn">
                                 <script type="text/javascript">
@@ -272,16 +271,50 @@
                                 <button type="button" onclick="exportExecl()">导出数据</button>
                             </div>
 
+<!--                            <nav>-->
+<!--                                <ul class="pagination">-->
+<!--                                    <li>-->
+<!--                                        <a th:if="${not isFirstPage}" th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${pageNum - 1},pageSize=${pageSize})}" aria-label="Previous">-->
+<!--                                            <span aria-hidden="true">&laquo;</span>-->
+<!--                                        </a>-->
+<!--                                        <a th:if="${isFirstPage}" href="javascript:void(0);" aria-label="Previous">-->
+<!--                                            <span aria-hidden="true">&laquo;</span>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+
+<!--                                    <li th:each="pageNo : ${#numbers.sequence(1, totalPages)}">-->
+<!--                                        <a th:if="${pageNum eq pageNo}" href="javascript:void(0);">-->
+<!--                                            <span th:text="${pageNo}"></span>-->
+<!--                                        </a>-->
+
+<!--                                        <a th:if="${not (pageNum eq pageNo)}" th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${pageNo},pageSize=${pageSize})}">-->
+<!--                                            <span th:text="${pageNo}"></span>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+
+<!--                                    <li>-->
+<!--                                        <a th:if="${not isLastPage}" th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${pageNum+1},pageSize=${pageSize})}" aria-label="Next">-->
+<!--                                            <span aria-hidden="true">&raquo;</span>-->
+<!--                                        </a>-->
+<!--                                        <a th:if="${isLastPage}" href="javascript:void(0);" aria-label="Next">-->
+<!--                                            <span aria-hidden="true">&raquo;</span>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+<!--                                </ul>-->
+<!--                            </nav>-->
+
+
                             <div align="center" style="margin-top:2%;">
                                 总共<a th:text="${pages}"/>页|
                                 第<a th:text="${pageNum}"></a>页|
-                                <a th:href="'http://localhost:8080/pay-customer/payCustomerDetail?pageNum=' + ${startPage}"class="f">首页</a>|
-                                <a th:href="'http://localhost:8080/pay-customer/payCustomerDetail?pageNum=' + ${prePage}" class="f">上一页</a>|
-                                <a th:href="'http://localhost:8080/pay-customer/payCustomerDetail?pageNum=' + ${nextPage}" class="la">下一页</a>|
-                                <a th:href="'http://localhost:8080/pay-customer/payCustomerDetail?pageNum=' + ${endPage}" class="la">尾页</a>
+                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${startPage})}"class="f">首页</a>|
+                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${prePage})}" class="f">上一页</a>|
+                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${nextPage})}" class="la">下一页</a>|
+                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${endPage})}" class="la">尾页</a>
                                 <input type="hidden" id="first" th:value="${pageNum}"/>
                                 <input type="hidden" id="last" th:value="${pages}"/>
                             </div>
+
                         </div>
                     </div>
                 </div>

@@ -113,7 +113,7 @@ public class PayCustomerService {
     }
 
 
-    public List<PayCustomer> pagePayCustomerDetail(String startTime, String endTime, String compID, String customerId, String typeStr, String tranFlow) {
+    public List<PayCustomer> pagePayCustomerDetail(String startTime, String endTime, String compID, String customerId, String typeStr, String tranFlow, Integer pageNum, Integer pageSize) {
         if (("").equals(startTime)) {
             startTime = null;
         }
@@ -132,7 +132,7 @@ public class PayCustomerService {
         if (("").equals(tranFlow)) {
             tranFlow = null;
         }
-        return mapper.pagePayCustomerDetail(startTime, endTime, compID, customerId, typeStr, tranFlow);
+        return mapper.pagePayCustomerDetail(startTime, endTime, compID, customerId, typeStr, tranFlow,pageNum,pageSize);
     }
 
     /**
@@ -147,7 +147,7 @@ public class PayCustomerService {
      */
     public void exportPayCustomerDetail(String startTime, String endTime, String compID, String customerId, String typeStr, String tranFlow, HttpServletResponse response) {
         //获取到所有导出的数据信息
-        List<PayCustomer> customerList = pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
+        List<PayCustomer> customerList = pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow, 0, 0);
         if(customerList.size() != 0){
             String fileName = "客户交易流水-" + DateUtils.stringToDate();
             String sheetName = "客户交易流水";
