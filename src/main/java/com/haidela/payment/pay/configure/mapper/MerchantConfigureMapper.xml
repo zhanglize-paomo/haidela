@@ -16,7 +16,7 @@
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="total_one_amount" jdbcType="VARCHAR" property="totalOneAmount"/>
         <result column="call_time" jdbcType="VARCHAR" property="callTime"/>
-        <result column="omp_iD" jdbcType="VARCHAR" property="ompID"/>
+        <result column="cmp_iD" jdbcType="VARCHAR" property="cmpID"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
     </resultMap>
 
@@ -52,6 +52,9 @@
 
     <select id="finAllCustomer" resultMap="resultMap">
         select * from lyx_merchant_configure
+    </select>
+    <select id="findById" resultType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
+         select * from lyx_merchant_configure where id = #{id}
     </select>
 
 </mapper>

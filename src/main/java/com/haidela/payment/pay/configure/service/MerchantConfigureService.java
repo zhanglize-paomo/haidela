@@ -155,5 +155,15 @@ public class MerchantConfigureService {
         return mapper.finAllCustomer();
     }
 
+    /**
+     * 根据id查询出对应的配置信息
+     *
+     * @param id
+     * @return
+     */
+    public MerchantConfigure findById(Long id) {
+        return mapper.findById(id);
+    }
+
 
 }

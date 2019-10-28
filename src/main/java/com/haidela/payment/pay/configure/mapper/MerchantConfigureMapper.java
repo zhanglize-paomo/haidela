@@ -86,4 +86,11 @@ public interface MerchantConfigureMapper {
      * @return
      */
     List<MerchantConfigure> finAllCustomer();
+    /**
+     * 根据id查询出对应的配置信息
+     *
+     * @param id
+     * @return
+     */
+    MerchantConfigure findById(Long id);
 }

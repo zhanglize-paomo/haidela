@@ -275,6 +275,17 @@
                                 </script>
                                 <button type="button" onclick="exportExecl()">导出数据</button>
                             </div>
+
+                            <div align="center" style="margin-top:2%;">
+                                总共<a th:text="${pages}"/>页|
+                                第<a th:text="${pageNum}"/>页|
+                                <a th:href="@{/(page=${startRow})}" class="f">首页</a>|
+                                <a th:href="@{/(page=${prePage})}" class="f">上一页</a>|
+                                <a th:href="@{/(page=${nextPage})}" class="la">下一页</a>|
+                                <a th:href="@{/(page=${endPage})}" class="la">尾页</a>
+                                <input type="hidden" id="first" th:value="${pageNum}"/>
+                                <input type="hidden" id="last" th:value="${pages}"/>
+                            </div>
                             <!--                            <div class='page'>-->
                             <!--                                <SCRIPT LANGUAGE="JavaScript">-->
                             <!--                                    function submitFormPage(start) {-->
