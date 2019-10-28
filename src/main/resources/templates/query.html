@@ -19,21 +19,25 @@
 <div id="continer">
     <link rel="shortcut icon" href="/img/hefupal-head.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script src="../static/js/jquery-1.11.1.min.js" type="text/javascript" th:src="@{/js/jquery-1.11.1.min.js}"></script>
+    <script src="../static/js/jquery-1.11.1.min.js" type="text/javascript"
+            th:src="@{/js/jquery-1.11.1.min.js}"></script>
     <script src="../static/js/index.js" type="text/javascript" th:src="@{/js/index.js}"></script>
     <script src="../static/js/jquery.form.js" type="text/javascript" th:src="@{/js/jquery.form.js}"></script>
-    <link href="../static/css/WdatePicker.css" th:href="@{~/css/WdatePicker.css}" rel="stylesheet" type="text/css"/>
-    <link href="../static/css/index.css" th:href="@{~/css/index.css}" rel="stylesheet" type="text/css"/>
-    <link href="../static/css/page.css" th:href="@{~/css/page.css}" rel="stylesheet" type="text/css"/>
-    <link href="../static/css/zzsc.css" th:href="@{~/css/zzsc.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/WdatePicker.css" th:href="@{/css/WdatePicker.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/page.css" th:href="@{/css/page.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/zzsc.css" th:href="@{/css/zzsc.css}" rel="stylesheet" type="text/css"/>
     <script type="text/javascript">
         var ctx = '';
+
         function kefuMouseOver() {
             $(".kefu_pic").show();
         }
+
         function kefuMouseOut() {
             $(".kefu_pic").hide();
         }
+
         function onlyMoney(obj) {
             obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
             obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
@@ -268,16 +272,17 @@
                                 <button type="button" onclick="exportExecl()">导出数据</button>
                             </div>
 
-<!--                            <div align="center" style="margin-top:2%;">-->
-<!--                                总共<a th:text="${pages}"/>页|-->
-<!--                                第<a th:text="${pageNum}"/>页|-->
-<!--                                <a th:href="@{/(page=${startRow})}" class="f">首页</a>|-->
-<!--                                <a th:href="@{/(page=${prePage})}" class="f">上一页</a>|-->
-<!--                                <a th:href="@{/(page=${nextPage})}" class="la">下一页</a>|-->
-<!--                                <a th:href="@{/(page=${endPage})}" class="la">尾页</a>-->
-<!--                                <input type="hidden" id="first" th:value="${pageNum}"/>-->
-<!--                                <input type="hidden" id="last" th:value="${pages}"/>-->
-<!--                            </div>-->
+                            <div align="center" style="margin-top:2%;">
+                                总共<a th:text="${pages}"/>页|
+                                第<a th:text="${pageNum}"/>页|
+                                <a th:href="@{/(page=${startRow})}" class="f">首页</a>|
+                                <a th:href="@{/(page=${prePage})}" class="f">上一页</a>|
+                                <a th:href="@{/(page=${nextPage})}" class="la">下一页</a>|
+                                <a th:href="@{/(page=${endPage})}" class="la">尾页</a>
+                                <input type="hidden" id="first" th:value="${pageNum}"/>
+                                <input type="hidden" id="last" th:value="${pages}"/>
+                            </div>
+
                             <!--                            <div class='page'>-->
                             <!--                                <SCRIPT LANGUAGE="JavaScript">-->
                             <!--                                    function submitFormPage(start) {-->
