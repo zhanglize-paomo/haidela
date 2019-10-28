@@ -30,10 +30,11 @@
                 </thead>
                 <tbody>
                     <tr th:each="configure : ${configureList}">
-                        <th scope="row" th:text="${configure.getMerchantId()}">1</th>
-                        <td th:text="${configure.getCompanyName()}">neo</td>
-                        <td th:text="${user.password}">Otto</td>
-                        <td th:text="${user.age}">6</td>
+                        <th scope="row" th:text="${configure.getMerchantId()}"></th>
+                        <td th:text="${configure.getCmpID()}"></td>
+                        <td th:text="${configure.getCompanyName()}"></td>
+
+                        <td th:text="${user.age}"></td>
                         <td>
                             <a th:href="@{/toEdit(id=${user.id})}">修改</a>
                         </td>

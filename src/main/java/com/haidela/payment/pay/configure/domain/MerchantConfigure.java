@@ -80,7 +80,7 @@ public class MerchantConfigure {
      * 公司ID
      *
      */
-    private String cmpID;
+    private String compID;
 
     /**
      * 公司名称
@@ -88,7 +88,7 @@ public class MerchantConfigure {
      */
     private String companyName;
 
-    public MerchantConfigure(Long id, String amount, String amountLimit, String payType, String merchantId, String startTime, String endTime, String createTime, String timeDifference, String modifyTime, String callTime, String status, String totalOneAmount, String cmpID, String companyName) {
+    public MerchantConfigure(Long id, String amount, String amountLimit, String payType, String merchantId, String startTime, String endTime, String createTime, String timeDifference, String modifyTime, String callTime, String status, String totalOneAmount, String compID, String companyName) {
         this.id = id;
         this.amount = amount;
         this.amountLimit = amountLimit;
@@ -102,16 +102,8 @@ public class MerchantConfigure {
         this.callTime = callTime;
         this.status = status;
         this.totalOneAmount = totalOneAmount;
-        this.cmpID = cmpID;
+        this.compID = compID;
         this.companyName = companyName;
-    }
-
-    public String getCmpID() {
-        return cmpID;
-    }
-
-    public void setCmpID(String cmpID) {
-        this.cmpID = cmpID;
     }
 
     public String getCompanyName() {
