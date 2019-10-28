@@ -43,11 +43,6 @@ public class User {
         this.compID = compID == null ? null : compID.trim();
     }
 
-//
-//    public void setCompId(String compId) {
-//        this.compID = compId == null ? null : compId.trim();
-//    }
-
     public String getCompanyName() {
         return companyName;
     }
