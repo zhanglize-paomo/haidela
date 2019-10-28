@@ -19,6 +19,14 @@
         <result column="comp_iD" jdbcType="VARCHAR" property="compID"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
     </resultMap>
+    <insert id="insert">
+          insert into lyx_merchant_configure (id,amount,amount_limit,pay_type,merchant_id,start_time,end_time,
+         create_time,time_difference,modify_time,status,total_one_amount,call_time,comp_iD,company_name)
+        values (#{id,jdbcType=DECIMAL},#{amount,jdbcType=CHAR},#{amountLimit,jdbcType=CHAR}, #{payType,jdbcType=CHAR},
+         #{merchantId,jdbcType=CHAR},#{startTime,jdbcType=CHAR}, #{endTime,jdbcType=CHAR},#{createTime,jdbcType=CHAR},
+         #{timeDifference,jdbcType=CHAR},#{modifyTime,jdbcType=CHAR},#{status,jdbcType=CHAR},#{totalOneAmount,jdbcType=CHAR},
+          #{callTime,jdbcType=CHAR},#{compID,jdbcType=CHAR},#{companyName,jdbcType=CHAR})
+    </insert>
 
     <update id="updateMerchantId" parameterType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
          UPDATE lyx_merchant_configure SET call_time=now() WHERE merchant_id = #{merchant_id};

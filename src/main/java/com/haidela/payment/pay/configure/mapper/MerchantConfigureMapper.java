@@ -93,4 +93,12 @@ public interface MerchantConfigureMapper {
      * @return
      */
     MerchantConfigure findById(Long id);
+
+    /**
+     * 新增个体商户配置信息
+     *
+     * @param configure
+     * @return
+     */
+    int insert(MerchantConfigure configure);
 }

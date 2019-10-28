@@ -14,23 +14,23 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th style="width: 50px;">序号</th>
-            <th style="width:100px">商户ID</th>
-            <th style="width:100px">公司ID</th>
-            <th style="width:100px">交易金额上限</th>
-            <th style="width:80px">支付类型</th>
-            <th style="width:100px">开始时间</th>
-            <th style="width:100px">结束时间</th>
-            <th style="width:80px">时间差</th>
-            <th style="width:100px">调用时间</th>
-            <th style="width:100px">状态</th>
-            <th style="width:100px">单日总额</th>
+            <th style="width: 50px;text-align:center;">序号</th>
+            <th style="width:100px;text-align:center;">商户ID</th>
+            <th style="width:100px;text-align:center;">公司ID</th>
+            <th style="width:100px;text-align:center;">交易金额上限</th>
+            <th style="width:80px;text-align:center;">支付类型</th>
+            <th style="width:100px;text-align:center;">开始时间</th>
+            <th style="width:100px;text-align:center;">结束时间</th>
+            <th style="width:80px;text-align:center;">时间差</th>
+            <th style="width:100px;text-align:center;">调用时间</th>
+            <th style="width:100px;text-align:center;">状态</th>
+            <th style="width:100px;text-align:center;">单日总额</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="configure : ${configureList}">
-            <th scope="row" th:text="${configure.getMerchantId()}"></th>
             <th th:text="${configureStat.index+1}" style="text-align:center;"></th>
+            <td th:text="${configure.getMerchantId()}" style="text-align:center;"></td>
             <td th:text="${configure.getCompID()}" style="text-align:center;"></td>
             <td th:text="${configure.getAmountLimit()}" style="text-align:center;"></td>
             <td th:text="${configure.getPayType()}" style="text-align:center;"></td>
@@ -53,7 +53,7 @@
 
 <div class="form-group">
     <div class="col-sm-2 control-label">
-        <a href="/toAdd" th:href="@{/toAdd}" class="btn btn-info">新增</a>
+        <a href="/toAdd" th:href="@{http://localhost:8080/merchant-configure/configure/insert}" class="btn btn-info">新增</a>
         <a href="http://localhost:8080/merchant-configure/all" th:href="@{http://localhost:8080/merchant-configure/all}" class="btn btn-info">搜索</a>
     </div>
 </div>

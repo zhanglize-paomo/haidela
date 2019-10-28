@@ -6,6 +6,8 @@ import com.haidela.payment.pay.individualcustomer.domain.IndividualCustomer;
 import com.haidela.payment.pay.individualcustomer.service.IndividualCustomerService;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
+import com.haidela.payment.util.DateUtils;
+import com.haidela.payment.util.SnowflakeIdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,19 +25,19 @@ import java.util.Map;
 public class MerchantConfigureService {
 
     private PayCustomerService payCustomerService;
+    private IndividualCustomerService individualCustomerService;
+    @Autowired
+    private MerchantConfigureMapper mapper;
+
     @Autowired
     public void setPayCustomerService(PayCustomerService payCustomerService) {
         this.payCustomerService = payCustomerService;
     }
 
-    private IndividualCustomerService individualCustomerService;
     @Autowired
     public void setIndividualCustomerService(IndividualCustomerService individualCustomerService) {
         this.individualCustomerService = individualCustomerService;
     }
-
-    @Autowired
-    private MerchantConfigureMapper mapper;
 
     /**
      * 根据id修改个体工商户配置的基本信息
@@ -121,28 +123,28 @@ public class MerchantConfigureService {
      *
      * @return
      */
-    public Map<String,String> findByCustomer() {
-        Map<String,String> map = new HashMap<>();
+    public Map<String, String> findByCustomer() {
+        Map<String, String> map = new HashMap<>();
         //查询所有的商户信息
         List<MerchantConfigure> configureList = finAllCustomer();
         //获取到每个商户交易成功的数据信息
         configureList.forEach(configure -> {
             List<PayCustomer> payCustomerList = payCustomerService.findByMerchantNo(configure.getMerchantId());
             Integer amount = 0;
-            for(int i = 0 ; i< payCustomerList.size() ; i++){
-                if(payCustomerList.get(i).getStatus().equals("交易完成")){
+            for (int i = 0; i < payCustomerList.size(); i++) {
+                if (payCustomerList.get(i).getStatus().equals("交易完成")) {
                     amount += Integer.parseInt(payCustomerList.get(i).getAmount());
                 }
             }
             IndividualCustomer customer = individualCustomerService.findMerchantNo(configure.getMerchantId());
-            map.put(configure.getMerchantId() + ":" + customer.getAccountName(),amount.toString());
+            map.put(configure.getMerchantId() + ":" + customer.getAccountName(), amount.toString());
         });
         Integer total = 0;
-        for (Map.Entry<String,String> entry : map.entrySet()) {
+        for (Map.Entry<String, String> entry : map.entrySet()) {
             System.out.println("key = " + entry.getKey() + ", value = " + entry.getValue());
             total += Integer.parseInt(entry.getValue());
         }
-        map.put("total",total.toString());
+        map.put("total", total.toString());
         return map;
     }
 
@@ -165,5 +167,18 @@ public class MerchantConfigureService {
         return mapper.findById(id);
     }
 
-
+    /**
+     * 新增个体商户配置信息
+     *
+     * @param configure
+     * @return
+     */
+    public int insert(MerchantConfigure configure) {
+        configure.setId(new SnowflakeIdUtils().nextId());
+        configure.setTotalOneAmount("0");
+        configure.setCallTime(DateUtils.stringToDate());
+        configure.setCreateTime(DateUtils.stringToDate());
+        configure.setModifyTime(DateUtils.stringToDate());
+        return mapper.insert(configure);
+    }
 }
