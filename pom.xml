@@ -39,8 +39,8 @@
         <!-- mybatis分页功能 -->
         <dependency>
             <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-            <version>4.1.6</version>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.5</version>
         </dependency>
 
         <!-- SpringBoot整合easyexcel实现Excel的导出 -->

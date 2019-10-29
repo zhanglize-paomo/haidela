@@ -104,41 +104,44 @@ public class PayCustomerController {
                                         @RequestParam(required = false) String customerId,
                                         @RequestParam(required = false) String typeStr,
                                         @RequestParam(required = false) String tranFlow,
-                                        @RequestParam(defaultValue = "0") Integer pageNum,
+                                        @RequestParam(defaultValue = "1") Integer pageNum,
                                         @RequestParam(defaultValue = "10") Integer pageSize,
                                         Model model
     ) {
-        //引入分页查询，使用PageHelper分页功能在查询之前传入当前页，然后多少记录
+        //使用pageHelper设置分页
         PageHelper.startPage(pageNum, pageSize);
         //startPage后紧跟的这个查询就是分页查询
-        List<PayCustomer> customerList =  service.pagePayCustomerDetail(startTime, endTime, compID, customerId, typeStr, tranFlow,pageNum,pageSize);
+        List<PayCustomer> customerList = service.pagePayCustomerDetail(startTime, endTime, compID, customerId, typeStr, tranFlow);
         //使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
-        PageInfo pageInfo = new PageInfo<PayCustomer>(customerList, 5);
-        Integer startPage = 0;
-        Integer endPage = Math.toIntExact(pageInfo.getTotal() - 1);
+        PageInfo pageInfo = new PageInfo<>(customerList);
         model.addAttribute("pageInfo", pageInfo);
-        //获得当前页
+        Integer startPage = 1;
+        model.addAttribute("pageInfo", pageInfo);
+        //获得当前页码
         model.addAttribute("pageNum", pageInfo.getPageNum());
-        //获得一页显示的条数
+        //获得当前页面显示的数据条目
         model.addAttribute("pageSize", pageInfo.getPageSize());
-        model.addAttribute("size", pageInfo.getSize());
-        model.addAttribute("startRow", pageInfo.getStartRow());
-        model.addAttribute("endRow", pageInfo.getEndRow());
-        //获得总页数
-        model.addAttribute("totalPages", pageInfo.getPages());
+        //总共多少页
+        model.addAttribute("pages", pageInfo.getPages());
+        //数据的总条目数
+        model.addAttribute("total", pageInfo.getTotal());
+        //上一页
+        model.addAttribute("prePage", pageInfo.getPrePage());
+        //下一页
+        model.addAttribute("nextPage", pageInfo.getNextPage());
         //是否是第一页
         model.addAttribute("isFirstPage", pageInfo.isIsFirstPage());
         //是否是最后一页
         model.addAttribute("isLastPage", pageInfo.isIsLastPage());
-        //总共多少页
-        model.addAttribute("pages", pageInfo.getPages());
-        model.addAttribute("prePage", pageInfo.getPrePage());
-        model.addAttribute("nextPage", pageInfo.getNextPage());
+        //是否有上一页
         model.addAttribute("hasPreviousPage", pageInfo.isHasPreviousPage());
+        //是否有下一页
         model.addAttribute("hasNextPage", pageInfo.isHasNextPage());
+        //首页
         model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
-        model.addAttribute("detailList",customerList);
+        //尾页
+        model.addAttribute("endPage",pageInfo.getPages());
+        model.addAttribute("detailList", pageInfo.getList());
         return "/query";
     }
 

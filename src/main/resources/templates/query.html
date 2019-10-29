@@ -4,8 +4,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>账务明细</title>
     <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
-    <link rel="shortcut icon" href="/img/hefupal-head.png" type="image/x-icon">
-    <link rel="shortcut icon" href="/img/hefupal-head.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <link href="../static/css/WdatePicker.css" th:href="@{/static/css/WdatePicker.css}" rel="stylesheet" type="text/css"/>
     <link href="../static/css/index.css" th:href="@{/static/css/index.css}" rel="stylesheet" type="text/css"/>
@@ -208,8 +208,8 @@
                                 <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${prePage})}" class="f">上一页</a>|
                                 <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${nextPage})}" class="la">下一页</a>|
                                 <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${endPage})}" class="la">尾页</a>
-                                <input type="hidden" id="first" th:value="${pageNum}"/>
-                                <input type="hidden" id="last" th:value="${pages}"/>
+<!--                                <input type="hidden" id="first" th:value="${pageNum}"/>-->
+<!--                                <input type="hidden" id="last" th:value="${pages}"/>-->
                             </div>
 
                         </div>
