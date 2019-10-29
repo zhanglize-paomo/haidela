@@ -68,14 +68,14 @@
          select * from lyx_merchant_configure where id = #{id}
     </select>
 
-    <select id="findByAll" resultType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
+    <select id="findByAll" resultMap="resultMap">
         select * from lyx_merchant_configure WHERE
         1=1
         <if test="merchantId != null">
             AND merchant_id = #{merchantId,jdbcType=CHAR}
         </if>
         <if test="compID != null">
-            AND comp_Id = #{compID,jdbcType=CHAR}
+            AND comp_iD = #{compID,jdbcType=CHAR}
         </if>
         <if test="payType != null">
             AND pay_type = #{payType,jdbcType=CHAR}
