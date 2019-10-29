@@ -104,7 +104,7 @@ public class PayCustomerController {
                                         @RequestParam(required = false) String customerId,
                                         @RequestParam(required = false) String typeStr,
                                         @RequestParam(required = false) String tranFlow,
-                                        @RequestParam(defaultValue = "1") Integer pageNum,
+                                        @RequestParam(defaultValue = "0") Integer pageNum,
                                         @RequestParam(defaultValue = "10") Integer pageSize,
                                         Model model
     ) {
