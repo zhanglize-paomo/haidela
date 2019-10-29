@@ -101,4 +101,11 @@ public interface MerchantConfigureMapper {
      * @return
      */
     int insert(MerchantConfigure configure);
+    /**
+     * 根据id删除对应的数据信息
+     *
+     * @param id
+     * @return
+     */
+    int toDelete(Long id);
 }

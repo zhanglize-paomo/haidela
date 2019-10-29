@@ -84,6 +84,14 @@ public class MerchantConfigureController {
         return "user/userEdit";
     }
 
+
+    @RequestMapping(value = "/toDelete")
+    public String toDelete(Long id) {
+        service.toDelete(id);
+        return "/configure";
+    }
+
+
     @RequestMapping("/all")
     public String findByAll(Model model) {
         List<MerchantConfigure> configureList = service.finAllCustomer();

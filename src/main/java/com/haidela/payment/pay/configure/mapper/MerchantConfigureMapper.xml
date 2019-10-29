@@ -45,6 +45,9 @@
     <update id="updateMerchantIdPayType" parameterType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
         UPDATE lyx_merchant_configure SET status = #{status,jdbcType=VARCHAR} WHERE merchant_id = #{merchantNo} AND pay_type = #{payType}
     </update>
+    <delete id="toDelete">
+        delete from lyx_merchant_configure where id = #{id}
+    </delete>
 
     <select id="findByStstus" resultMap="resultMap">
         select * from lyx_merchant_configure where status = #{status}

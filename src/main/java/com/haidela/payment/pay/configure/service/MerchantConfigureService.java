@@ -181,4 +181,14 @@ public class MerchantConfigureService {
         configure.setModifyTime(DateUtils.stringToDate());
         return mapper.insert(configure);
     }
+
+    /**
+     * 根据id删除对应的数据信息
+     *
+     * @param id
+     * @return
+     */
+    public int toDelete(Long id) {
+        return mapper.toDelete(id);
+    }
 }
