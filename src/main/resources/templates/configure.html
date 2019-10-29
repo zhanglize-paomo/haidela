@@ -1,61 +1,289 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>个体商户配置</title>
-    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/static/css/bootstrap.css}"></link>
+    <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
+    <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <link href="../static/css/WdatePicker.css" th:href="@{/static/css/WdatePicker.css}" rel="stylesheet"
+          type="text/css"/>
+    <link href="../static/css/index.css" th:href="@{/static/css/index.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/page.css" th:href="@{/static/css/page.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/zzsc.css" th:href="@{/static/css/zzsc.css}" rel="stylesheet" type="text/css"/>
+    <style type="text/css">
+        #detail li {
+            line-height: 30px;
+            padding: 1px;
+        }
+    </style>
 </head>
-<body class="container">
-<br/>
-<h1>个体商户配置</h1>
-<br/>
-<br/>
-<div class="with:80%">
-    <table class="table table-hover">
-        <thead>
-        <tr>
-            <th style="width: 50px;text-align:center;">序号</th>
-            <th style="width:100px;text-align:center;">商户ID</th>
-            <th style="width:100px;text-align:center;">公司ID</th>
-            <th style="width:100px;text-align:center;">交易金额上限</th>
-            <th style="width:80px;text-align:center;">支付类型</th>
-            <th style="width:100px;text-align:center;">开始时间</th>
-            <th style="width:100px;text-align:center;">结束时间</th>
-            <th style="width:80px;text-align:center;">时间差</th>
-            <th style="width:100px;text-align:center;">调用时间</th>
-            <th style="width:100px;text-align:center;">状态</th>
-            <th style="width:100px;text-align:center;">单日总额</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="configure : ${configureList}">
-            <th th:text="${configureStat.index+1}" style="text-align:center;"></th>
-            <td th:text="${configure.getMerchantId()}" style="text-align:center;"></td>
-            <td th:text="${configure.getCompID()}" style="text-align:center;"></td>
-            <td th:text="${configure.getAmountLimit()}" style="text-align:center;"></td>
-            <td th:text="${configure.getPayType()}" style="text-align:center;"></td>
-            <td th:text="${configure.getStartTime()}" style="text-align:center;"></td>
-            <td th:text="${configure.getEndTime()}" style="text-align:center;"></td>
-            <td th:text="${configure.getTimeDifference()}" style="text-align:center;"></td>
-            <td th:text="${configure.getCallTime()}" style="text-align:center;"></td>
-            <td th:text="${configure.getStatus()}" style="text-align:center;"></td>
-            <td th:text="${configure.getTotalOneAmount()}" style="text-align:center;"></td>
-            <td>
-                <a th:href="@{/merchant-configure/edit}">修改</a>
-            </td>
-            <td>
-                <a href="configure.html" th:href="@{/merchant-configure/toDelete(id=${configure.getId()})}">删除</a>
-            </td>
-        </tr>
-        </tbody>
-    </table>
-</div>
-
-<div class="form-group">
-    <div class="col-sm-2 control-label">
-        <a href="http://localhost:8080/merchant-configure/configure/insert" th:href="@{http://localhost:8080/merchant-configure/configure/insert}" class="btn btn-info">新增</a>
-        <a href="http://localhost:8080/merchant-configure/all" th:href="@{http://localhost:8080/merchant-configure/all}" class="btn btn-info">搜索</a>
+<body>
+<div id="continer">
+    <div id="header">
+        <div class="head">
+            <div class="head_l">
+            </div>
+            <div class="head_m">
+                <ul>
+                    <li class="current"><a href="/mchntCenter">商户配置</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div id="page">
+        <form id="menuForm" method="post">
+            <input type="hidden" name="leftfid" id="menuFid"> <input type="hidden" name="leftid" id="menuId">
+        </form>
+        <div class="order_tops">
+            <div class="order_top">
+                <div class="order_top1">
+                    <div class="line"></div>
+                    <ul>
+                        <li class="current">
+                            <a>查询统计</a>
+                            <img src="../static/img/inquiry_03.png" class="img_1" style="display: none;"/>
+                            <img src="../static/img/inquiry_05.png" style="display: block;" class="img_2"/>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="order_main">
+            <div class="order_main_l">
+                <ul>
+                    <li class="current">
+                        <a>商户配置信息</a>
+                    </li>
+                </ul>
+            </div>
+            <form action="http://localhost:8080/merchant-configure/all" id="myForm" method="get">
+                <div class="order_main_r">
+                    <div class="order_main_top accounting_main_top">
+                        <ul style="height: 50px;">
+                            <li>
+                                <span>商户ID</span>
+                                <select name="merchantId" id="merchantId">
+                                    <option type="0" value="">全部</option>
+                                    <option type="1" value="873191015204725935">振江食品</option>
+                                    <option type="2" value="873191015204741854">成鹏文化</option>
+                                    <option type="3" value="873191015204744119">唐三服装</option>
+                                    <option type="4" value="873191015204745402">国华体育</option>
+                                    <option type="5" value="873191015204746257">惠英文化</option>
+                                    <option type="6" value="873191015204747155">赵辉文化</option>
+                                    <option type="7" value="873191015214776713">梁知恭文化</option>
+                                    <option type="8" value="873191015214781385">李娟文化</option>
+                                    <option type="9" value="873191015214782860">体萍文化</option>
+                                    <option type="10" value="873191015214783801">寒冰文化</option>
+                                    <option type="11" value="873191015214784609">柯云计算机</option>
+                                    <option type="12" value="873191015214791979">欧阳琴文化</option>
+                                    <option type="13" value="873191012142662142">森瀚</option>
+                                    <option type="14" value="873191012142673538">云剑食品</option>
+                                    <option type="15" value="873191012152693511">志强服装</option>
+                                    <option type="16" value="873191012152720533">罗义维修</option>
+                                    <option type="17" value="873191012152721807">利辉服装</option>
+                                    <option type="18" value="873191016115012444">庆池体育</option>
+                                    <option type="19" value="873191016155232512">雪兰文化</option>
+                                    <option type="20" value="873191016155241427">代超文化</option>
+                                    <option type="21" value="873191016155246137">黎慧文化</option>
+                                    <option type="22" value="873191016155248422">吴长服装</option>
+                                    <option type="23" value="873191016155250838">绍清服装</option>
+                                    <option type="24" value="873191016155251201">晓敏服装</option>
+                                    <option type="25" value="873191016165310979">远庆文化</option>
+                                    <option type="26" value="873191016165317341">夏威文化</option>
+                                    <option type="27" value="873191009170812523">邓娟服装</option>
+                                </select>
+                            </li>
+                            <li>
+                                <span>公司ID</span>
+                                <select name="compID" id="compID">
+                                    <option type="0" value="">全部</option>
+                                    <option type="1" value="2789">2789</option>
+                                    <option type="2" value="4189">4189</option>
+                                </select>
+                            </li>
+                            <li>
+                                <span>交易类型</span>
+                                <select name="payType" id="payType">
+                                    <option typeof="0" value="">全部</option>
+                                    <option typeof="1" value="1">微信</option>
+                                    <option typeof="2" value="2">支付宝</option>
+                                    <option typeof="3" value="15">银联扫码</option>
+                                </select>
+                            </li>
+                            <li>
+                                <span>交易状态</span>
+                                <select name="status" id="status">
+                                    <option typeof="0" value="">全部</option>
+                                    <option typeof="1" value="0">可用</option>
+                                    <option typeof="2" value="1">当日额度</option>
+                                    <option typeof="3" value="2">禁用</option>
+                                </select>
+                            </li>
+                        </ul>
+                        <div class="line">
+                            <button type="button" onclick="subForm()">搜索</button>
+                        </div>
+                    </div>
+                    <div class="accounting_main_foot">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th style="width: 50px;text-align:center;">序号</th>
+                                <th style="width:100px;text-align:center;">商户ID</th>
+                                <th style="width:100px;text-align:center;">公司ID</th>
+                                <th style="width:100px;text-align:center;">交易金额上限</th>
+                                <th style="width:80px;text-align:center;">支付类型</th>
+                                <th style="width:100px;text-align:center;">开始时间</th>
+                                <th style="width:100px;text-align:center;">结束时间</th>
+                                <th style="width:80px;text-align:center;">时间差</th>
+                                <th style="width:100px;text-align:center;">调用时间</th>
+                                <th style="width:100px;text-align:center;">状态</th>
+                                <th style="width:100px;text-align:center;">单日总额</th>
+                            </tr>
+                            <tr th:each="configure : ${configureList}">
+                                <th th:text="${configureStat.index+1}" style="text-align:center;"></th>
+                                <td th:text="${configure.getMerchantId()}" style="text-align:center;"></td>
+                                <td th:text="${configure.getCompID()}" style="text-align:center;"></td>
+                                <td th:text="${configure.getAmountLimit()}" style="text-align:center;"></td>
+                                <td th:text="${configure.getPayType()}" style="text-align:center;"></td>
+                                <td th:text="${configure.getStartTime()}" style="text-align:center;"></td>
+                                <td th:text="${configure.getEndTime()}" style="text-align:center;"></td>
+                                <td th:text="${configure.getTimeDifference()}" style="text-align:center;"></td>
+                                <td th:text="${configure.getCallTime()}" style="text-align:center;"></td>
+                                <td th:text="${configure.getStatus()}" style="text-align:center;"></td>
+                                <td th:text="${configure.getTotalOneAmount()}" style="text-align:center;"></td>
+                                <td>
+                                    <a th:href="@{/merchant-configure/edit}">修改</a>
+                                </td>
+                                <td>
+                                    <a href="configure.html" th:href="@{/merchant-configure/toDelete(id=${configure.getId()})}">删除</a>
+                                </td>
+                            </tr>
+                            </thead>
+                        </table>
+                        <div class="order_main_tabel_bottom accounting_main_tabel_bottom" style="margin-right:0;">
+                            <div class="accounting_main_tabel_btn">
+                                <button type="button" onclick="exportExecl()">新增</button>
+                            </div>
+                            <div align="center" style="margin-top:2%;">
+                                总共<a th:text="${pages}"/>页|
+                                第<a th:text="${pageNum}"></a>页|
+                                <a th:href="@{${'http://localhost:8080/merchant-configure/all'}(pageNum=${startPage})}"
+                                   class="f">首页</a>|
+                                <a th:href="@{${'http://localhost:8080/merchant-configure/all'}(pageNum=${prePage})}"
+                                   class="f">上一页</a>|
+                                <a th:href="@{${'http://localhost:8080/merchant-configure/all'}(pageNum=${nextPage})}"
+                                   class="la">下一页</a>|
+                                <a th:href="@{${'http://localhost:8080/merchant-configure/all'}(pageNum=${endPage})}"
+                                   class="la">尾页</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div id="footer" class="footer2">
+        <div class="foot foot2">
+            <ul>
+            </ul>
+            <p>欢迎使用支付后台管理系统,祝您生活愉快</p>
+        </div>
     </div>
 </div>
+<!-- 翻页用到 -->
+<form id="pageForm" action="/account/accountDetail1" method="post">
+    <input type="hidden" name="start" id="start"/>
+    <input type="hidden" name="accountType" id="accountType1" value="0"/>
+    <input type="hidden" name="endTime" value="2019-10-22 23:59:59"/>
+    <input type="hidden" name="startTime" value="2019-10-22 00:00:00">
+    <input type="hidden" name="blsignStr" value="">
+    <input type="hidden" name="typeStr" value="">
+    <input type="hidden" name="customerId" value="">
+    <input type="hidden" name="compIDStr" value="">
+</form>
+
 </body>
+<script src="../static/js/jquery-1.11.1.min.js" type="text/javascript"
+        th:src="@{/static/js/jquery-1.11.1.min.js}"></script>
+<script src="../static/js/index.js" type="text/javascript" th:src="@{/static/js/index.js}"></script>
+<script src="../static/js/jquery.form.js" type="text/javascript" th:src="@{/static/js/jquery.form.js}"></script>
+<script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"
+        th:src="@{/static/My97DatePicker/WdatePicker.js}"></script>
+<script src="../static/js/date.js" type="text/javascript" th:src="@{/static/js/date.js}"></script>
+<script type="text/javascript">
+    var ctx = '';
+    function kefuMouseOver() {
+        $(".kefu_pic").show();
+    }
+    function kefuMouseOut() {
+        $(".kefu_pic").hide();
+    }
+    function onlyMoney(obj) {
+        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
+        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
+        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
+        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
+        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
+    }
+    var OnlineTop = 120;
+    var animate = 0;
+    var OnlineTopC = OnlineTop + "px";
+    var $OnlineBox = $("#for_kefu_block");
+    $(document).ready(function () {
+        $OnlineBox.css('display', 'block');
+        $OnlineBox.css('top', OnlineTopC);
+    });
+    FollowDiv = {
+        follow: function () {
+            $('#for_kefu_block').css('position', 'absolute');
+            $(window).scroll(function () {
+                var f_top = $(window).scrollTop() + OnlineTop;
+                $('#for_kefu_block').css('top', f_top);
+            });
+        }
+    }
+    $(".kefu_close").click(function () {
+        $(".kefu_block").hide();
+        $(".kefu_flag").show();
+
+    })
+    $(".kefu_flag").click(function () {
+        $(this).show();
+        $(".kefu_block").show();
+
+    })
+    $(function () {
+        $(".accounting_main_cont_t ul li").click(function (event) {
+            $(this).addClass('current').siblings().removeClass('current');
+            $(".accounting_main_cont_m ul").hide();
+            $(".accounting_main_cont_m ul").eq($(this).index()).show();
+        });
+    });
+    function subForm() {
+        var platTimeStart = $("#platTimeStart").val();
+        var platTimeEnd = $("#platTimeEnd").val();
+        var num = daysBetween(platTimeStart, platTimeEnd);
+        $("#myForm").attr("action", "http://localhost:8080/merchant-configure/all");
+        $("#myForm").submit();
+    }
+    function changeAcct(type) {
+        $("#accountType").val(type);
+        $("#accountType1").val(type);
+        $("#pageForm").attr("action", "http://localhost:8080/pay-customer/payCustomerDetail");
+        $("#pageForm").submit();
+    }
+    function exportExecl() {
+        $("#myForm").attr("action", "http://localhost:8080/pay-customer/pay/export");
+        $("#myForm").submit();
+    }
+    function changeMenuConfig(action) {
+        $("#menuForm").attr("action", action);
+        $("#menuFid").val(fid);
+        $("#menuId").val(id);
+        $("#menuForm").submit();
+    }
+</script>
 </html>

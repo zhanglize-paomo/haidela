@@ -108,4 +108,18 @@ public interface MerchantConfigureMapper {
      * @return
      */
     int toDelete(Long id);
+
+    /**
+     * 根据条件查询对应的商户配置信息
+     *
+     * @param merchantId  商户ID
+     * @param compID      公司ID
+     * @param payType     交易类型
+     * @param status     交易状态
+     * @return
+     */
+    List<MerchantConfigure> findByAll(@Param(value = "merchantId") String merchantId,
+                                      @Param(value = "compID") String compID,
+                                      @Param(value = "payType") String payType,
+                                      @Param(value = "status") String status);
 }

@@ -1,6 +1,8 @@
 package com.haidela.payment.pay.configure.controller;
 
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.haidela.payment.pay.configure.domain.MerchantConfigure;
 import com.haidela.payment.pay.configure.service.MerchantConfigureService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,10 +99,47 @@ public class MerchantConfigureController {
     }
 
 
-    @RequestMapping("/all")
-    public String findByAll(Model model) {
-        List<MerchantConfigure> configureList = service.finAllCustomer();
-        model.addAttribute("configureList", configureList);
+    /**
+     * 根据条件查询对应的商户配置信息
+     *
+     * @param merchantId  商户ID
+     * @param compID      公司ID
+     * @param payType     交易类型
+     * @param status     交易状态
+     * @param pageNum
+     * @param pageSize
+     * @param model
+     * @return
+     */
+    @RequestMapping(value = "/all",method = RequestMethod.GET)
+    public String findByAll(@RequestParam(required = false) String merchantId,
+                            @RequestParam(required = false) String compID,
+                            @RequestParam(required = false) String payType,
+                            @RequestParam(required = false) String status,
+                            @RequestParam(defaultValue = "1") Integer pageNum,
+                            @RequestParam(defaultValue = "10") Integer pageSize,
+                            Model model) {
+        //使用pageHelper设置分页
+        PageHelper.startPage(pageNum, pageSize);
+        //startPage后紧跟的这个查询就是分页查询
+        List<MerchantConfigure> configureList = service.findByAll(merchantId,compID,payType,status);
+        //使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
+        PageInfo pageInfo = new PageInfo<>(configureList);
+        Integer startPage = 1;
+        model.addAttribute("pageInfo", pageInfo);
+        //获得当前页码8
+        model.addAttribute("pageNum", pageInfo.getPageNum());
+        //总共多少页
+        model.addAttribute("pages", pageInfo.getPages());
+        //上一页
+        model.addAttribute("prePage", pageInfo.getPrePage());
+        //下一页
+        model.addAttribute("nextPage", pageInfo.getNextPage());
+        //首页
+        model.addAttribute("startPage", startPage);
+        //尾页
+        model.addAttribute("endPage",pageInfo.getPages());
+        model.addAttribute("configureList", pageInfo.getList());
         return "/configure";
     }
 

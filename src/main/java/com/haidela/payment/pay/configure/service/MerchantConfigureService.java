@@ -191,4 +191,32 @@ public class MerchantConfigureService {
     public int toDelete(Long id) {
         return mapper.toDelete(id);
     }
+
+    /**
+     * 根据条件查询对应的商户配置信息
+     *
+     * @param merchantId  商户ID
+     * @param compID      公司ID
+     * @param payType     交易类型
+     * @param status     交易状态
+     * @return
+     */
+    public List<MerchantConfigure> findByAll(String merchantId, String compID, String payType, String status) {
+        if (("").equals(merchantId)) {
+            merchantId = null;
+        }
+        if (("").equals(compID)) {
+            compID = null;
+        }
+        if (("").equals(compID) ) {
+            compID = null;
+        }
+        if (("").equals(payType)) {
+            payType = null;
+        }
+        if (("").equals(status)) {
+            status = null;
+        }
+        return mapper.findByAll(merchantId,compID,payType,status);
+    }
 }
