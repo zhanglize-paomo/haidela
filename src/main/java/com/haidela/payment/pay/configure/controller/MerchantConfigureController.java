@@ -81,7 +81,12 @@ public class MerchantConfigureController {
     public String toEdit(Model model, Long id) {
         MerchantConfigure  configure = service.findById(id);
         model.addAttribute("configure", configure);
-        return "user/userEdit";
+        return "/configure";
+    }
+
+    @RequestMapping("/edit")
+    public String edit() {
+        return "/configureEdit";
     }
 
 

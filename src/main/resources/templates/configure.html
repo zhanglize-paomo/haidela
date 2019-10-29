@@ -41,7 +41,7 @@
             <td th:text="${configure.getStatus()}" style="text-align:center;"></td>
             <td th:text="${configure.getTotalOneAmount()}" style="text-align:center;"></td>
             <td>
-                <a th:href="@{/toEdit(id=${configure.getId()})}">修改</a>
+                <a th:href="@{/merchant-configure/edit}">修改</a>
             </td>
             <td>
                 <a href="configure.html" th:href="@{/merchant-configure/toDelete(id=${configure.getId()})}">删除</a>
