@@ -97,6 +97,20 @@ public class PayCustomerController {
         return service.updateByPaySerialNo(id, paySerialNo);
     }
 
+    /**
+     * 根据条件查询对应的数据信息并支持分页查询
+     *
+     * @param startTime  开始时间
+     * @param endTime    结束时间
+     * @param compID     公司ID
+     * @param customerId 商户ID
+     * @param typeStr    交易类型
+     * @param tranFlow   交易流水号
+     * @param pageNum
+     * @param pageSize
+     * @param model
+     * @return
+     */
     @RequestMapping(value = "payCustomerDetail", method = RequestMethod.GET)
     public String pagePayCustomerDetail(@RequestParam(required = false) String startTime,
                                         @RequestParam(required = false) String endTime,
@@ -114,10 +128,9 @@ public class PayCustomerController {
         List<PayCustomer> customerList = service.pagePayCustomerDetail(startTime, endTime, compID, customerId, typeStr, tranFlow);
         //使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
         PageInfo pageInfo = new PageInfo<>(customerList);
-        model.addAttribute("pageInfo", pageInfo);
         Integer startPage = 1;
         model.addAttribute("pageInfo", pageInfo);
-        //获得当前页码
+        //获得当前页码8
         model.addAttribute("pageNum", pageInfo.getPageNum());
         //获得当前页面显示的数据条目
         model.addAttribute("pageSize", pageInfo.getPageSize());
@@ -168,9 +181,9 @@ public class PayCustomerController {
     }
 
 
-    @RequestMapping(value = "/index", method = RequestMethod.GET)
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String index() {
-        return "/index";
+        return "/login";
     }
 
 }
