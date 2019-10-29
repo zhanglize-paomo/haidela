@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>user</title>
+    <link href="../static/css/bootstrap.css" rel="stylesheet" th:href="@{/static/css/bootstrap.css}">
+    <script src="../static/My97DatePicker/WdatePicker.js"></script>
+</head>
+<body class="container">
+<br/>
+<h1 style="text-align:center;">添加个体商户配置</h1>
+<br/><br/>
+<div class="with:80%">
+    <form class="form-horizontal" th:action="@{http://localhost:8080/merchant-configure/insert}" method="post">
+        <!-- 商户id -->
+        <div class="form-group">
+            <label for="merchantId" class="col-sm-2 control-label">商户ID</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="merchantId" id="merchantId" placeholder=" - 请输入- "/>
+            </div>
+        </div>
+        <!-- 公司id -->
+        <div class="form-group">
+            <label for="compID" class="col-sm-2 control-label">公司ID</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="compID" id="compID" placeholder=" - 请输入- "/>
+            </div>
+        </div>
+        <!-- 公司名称 -->
+        <div class="form-group">
+            <label for="compName" class="col-sm-2 control-label">公司名称</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="compName" id="compName" placeholder=" - 请输入- "/>
+            </div>
+        </div>
+        <!-- 交易金额上限 -->
+        <div class="form-group">
+            <label for="amountLimit" class="col-sm-2 control-label">交易金额上限</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="amountLimit" id="amountLimit" placeholder=" - 请输入- "/>
+            </div>
+        </div>
+        <!-- 支付类型 -->
+        <div class="form-group">
+            <label for="payType" class="col-sm-2 control-label">支付类型</label>
+            <div class="col-sm-10">
+                <select id="payType">
+                    <option value="1">请选择</option>
+                    <option value="1">微信</option>
+                    <option value="2">支付宝</option>
+                    <option value="15">银联扫码</option>
+                </select>
+            </div>
+        </div>
+        <!-- 开始时间 -->
+        <div class="form-group">
+            <label class="col-sm-2 control-label">订单时间</label>
+            <div class="col-sm-10">
+                <input autocomplete="off" class="Wdate" style="width: 183px;padding-right: 100px" type="text"
+                       name="startTime" id="platTimeStart" placeholder=" —请选择— "
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'platTimeEnd\')}'});">
+                <em>至</em>
+                <input autocomplete="off" style="width: 183px;" type="text" id="platTimeEnd" placeholder=" —请选择— "
+                       name="endTime" class="Wdate"
+                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'platTimeStart\')}'});">
+            </div>
+        </div>
+        <!-- 时间差 -->
+        <div class="form-group">
+            <label for="timeDifference" class="col-sm-2 control-label">时间差</label>
+            <div class="col-sm-10">
+                <input type="timeDifference" class="form-control" name="timeDifference" id="timeDifference"
+                       placeholder=" - 请输入- "/>
+            </div>
+        </div>
+        <!-- 状态 -->
+        <div class="form-group">
+            <label for="status" class="col-sm-2 control-label">状态</label>
+            <div class="col-sm-10">
+                <select id="status" th:style="120px">
+                    <option value="0">请选择</option>
+                    <option value="0">可用</option>
+                    <option value="1">当日已完额度</option>
+                    <option value="2">禁用</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input type="submit" value="提交" class="btn btn-info"/>
+                &nbsp; &nbsp; &nbsp;
+                <input type="reset" value="重置" class="btn btn-info"/>
+            </div>
+        </div>
+
+    </form>
+</div>
+</body>
+</html>
