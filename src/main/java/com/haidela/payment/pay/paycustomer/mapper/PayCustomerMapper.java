@@ -65,6 +65,14 @@ public interface PayCustomerMapper {
     List<PayCustomer> findByThree(String merchantNo);
 
     /**
+     * 根据日期查询当天的交易流水信息
+     *
+     * @param todayDate
+     * @return
+     */
+    List<PayCustomer> findByTodayDate(String todayDate);
+
+    /**
      * 根据商户号查询到对应的支付信息
      *
      * @param merchantId
@@ -97,4 +105,5 @@ public interface PayCustomerMapper {
                                             @Param(value = "customerId") String customerId,
                                             @Param(value = "typeStr") String typeStr,
                                             @Param(value = "tranFlow") String tranFlow);
+
 }

@@ -8,7 +8,6 @@ import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
 import com.haidela.payment.pay.payment.PaymentService;
 import com.haidela.payment.pay.repaycustomer.PayService;
-import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +32,6 @@ import java.util.Map;
 public class ScheduledTasks {
 
     private MerchantConfigureService configureService;
-    private RepayCustomerService repayCustomerService;
     private PayCustomerService payCustomerService;
     private PaymentService paymentService;
     private IndividualCustomerService individualCustomerService;
@@ -51,11 +49,6 @@ public class ScheduledTasks {
     @Autowired
     public void setPaymentService(PaymentService paymentService) {
         this.paymentService = paymentService;
-    }
-
-    @Autowired
-    public void setRepayCustomerService(RepayCustomerService repayCustomerService) {
-        this.repayCustomerService = repayCustomerService;
     }
 
     @Autowired
@@ -121,8 +114,9 @@ public class ScheduledTasks {
             }
             if (minutes != 0L) {
                 if (minutes > 5) {
-                    //将该笔客户交易流水信息置为交易失败
-                    payCustomerService.updateStatus(payCustomer.getTranFlow(), "交易失败");
+                    //请求后台接口,将该笔客户交易流水信息置为交易失败
+                    payCustomerService.LocalDoPost(payCustomer.getTranFlow(),"交易失败");
+//                    payCustomerService.updateStatus(payCustomer.getTranFlow(), "交易失败");
                     //并发送消息给下游客户
                     String pathUrl = IpUtil.getCustomerUrl(payCustomer);
                     if (pathUrl != null || pathUrl.equals("")) {

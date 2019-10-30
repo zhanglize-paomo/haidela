@@ -24,7 +24,7 @@ public class DateUtils {
     public static final String DEFAULT_TIME_PATTERN = "HH:mm";
 
     public static final SimpleDateFormat YEAR_FORMAT = new SimpleDateFormat("yyyy");//年份格式
-    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd");//日期格式
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("yyyyMMdd");//日期格式
     public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");//时间时间
     public static final SimpleDateFormat DATE_AND_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//完整日期加时间格式
     public static final long WEEK_NOW_CHINESE = getChieseWhicthDay(new Date()); //今天星期几,中国习惯的
@@ -125,19 +125,13 @@ public class DateUtils {
     }
 
     /**
-     * yyyy-MM-dd HH:mm:ss --->yyyy-MM-dd
+     * yyyy-MM-dd HH:mm:ss --->yyyyMMdd
      *
      * @param date
      * @return
      */
-    public static Date timeToDate(Date date) {
-        String s = DATE_FORMAT.format(date);
-        try {
-            return DATE_FORMAT.parse(s);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static String timeToDate(Date date) {
+        return DATE_FORMAT.format(date);
     }
 
     /**

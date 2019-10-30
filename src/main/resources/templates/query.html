@@ -7,11 +7,13 @@
     <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
     <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link href="../static/css/WdatePicker.css" th:href="@{/static/css/WdatePicker.css}" rel="stylesheet" type="text/css"/>
+    <link href="../static/css/WdatePicker.css" th:href="@{/static/css/WdatePicker.css}" rel="stylesheet"
+          type="text/css"/>
     <link href="../static/css/index.css" th:href="@{/static/css/index.css}" rel="stylesheet" type="text/css"/>
     <link href="../static/css/page.css" th:href="@{/static/css/page.css}" rel="stylesheet" type="text/css"/>
     <link href="../static/css/zzsc.css" th:href="@{/static/css/zzsc.css}" rel="stylesheet" type="text/css"/>
-    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript" th:src="@{/static/My97DatePicker/WdatePicker.js}"></script>
+    <script src="../static/My97DatePicker/WdatePicker.js" type="text/javascript"
+            th:src="@{/static/My97DatePicker/WdatePicker.js}"></script>
     <style type="text/css">
         #detail li {
             line-height: 30px;
@@ -89,29 +91,24 @@
                         </div>
                         <div class="accounting_main_cont_m">
                             <ul>
-                                <li>入账总金额<p>0.00</p></li>
+                                <li>入账总金额<p><th th:text="${amount}"></th></p></li>
                                 <li>代付总金额<p>0.00</p></li>
                                 <li>待结算金额<p>0.00</p></li>
-                                <li>账户总金额<p>0.00</p></li>
-                            </ul>
-                            <ul style="display:none;">
-                                <li>入账总金额<p>0.00</p></li>
-                                <li>代付总金额<p>0.00</p></li>
-                                <li>待结算金额<p>0.00</p></li>
-                                <li>账户总金额<p>0.00</p></li>
+                                <li>账户总金额<p><th th:text="${amount}"></th></p></li>
                             </ul>
                         </div>
                     </div>
                     <div class="order_main_top accounting_main_top">
                         <ul style="height: 120px;">
                             <li class="inp1"><span>订单时间</span>
-                                <input autocomplete="off" class="Wdate" style="width: 183px;padding-right: 35px" type="text"
+                                <input class="Wdate" autocomplete="off" style="width: 183px;padding-right: 35px"
+                                       type="text"
                                        name="startTime" id="platTimeStart" placeholder=" —请选择— "
-                                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'platTimeEnd\')}'});">
-                                <em>至</em>
-                                <input autocomplete="off" style="width: 183px;" type="text" id="platTimeEnd" placeholder=" —请选择— "
-                                       name="endTime" class="Wdate"
                                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'platTimeStart\')}'});">
+                                <em>至</em>
+                                <input class="Wdate" autocomplete="off" style="width: 183px;" type="text"
+                                       id="platTimeEnd" placeholder=" —请选择— " name="endTime"
+                                       onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'platTimeEnd\')}'});">
                             </li>
                             <li>
                                 <span>商户ID</span>
@@ -204,12 +201,16 @@
                             <div align="center" style="margin-top:2%;">
                                 总共<a th:text="${pages}"/>页|
                                 第<a th:text="${pageNum}"></a>页|
-                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${startPage})}"class="f">首页</a>|
-                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${prePage})}" class="f">上一页</a>|
-                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${nextPage})}" class="la">下一页</a>|
-                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${endPage})}" class="la">尾页</a>
-<!--                                <input type="hidden" id="first" th:value="${pageNum}"/>-->
-<!--                                <input type="hidden" id="last" th:value="${pages}"/>-->
+                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${startPage})}"
+                                   class="f">首页</a>|
+                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${prePage})}"
+                                   class="f">上一页</a>|
+                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${nextPage})}"
+                                   class="la">下一页</a>|
+                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${endPage})}"
+                                   class="la">尾页</a>
+                                <!--                                <input type="hidden" id="first" th:value="${pageNum}"/>-->
+                                <!--                                <input type="hidden" id="last" th:value="${pages}"/>-->
                             </div>
 
                         </div>
@@ -241,7 +242,8 @@
 
 
 </body>
-<script src="../static/js/jquery-1.11.1.min.js" type="text/javascript" th:src="@{/static/js/jquery-1.11.1.min.js}"></script>
+<script src="../static/js/jquery-1.11.1.min.js" type="text/javascript"
+        th:src="@{/static/js/jquery-1.11.1.min.js}"></script>
 <script src="../static/js/index.js" type="text/javascript" th:src="@{/static/js/index.js}"></script>
 <script src="../static/js/jquery.form.js" type="text/javascript" th:src="@{/static/js/jquery.form.js}"></script>
 <script src="../static/js/date.js" type="text/javascript" th:src="@{/static/js/date.js}"></script>
@@ -263,6 +265,7 @@
         obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
         obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
     }
+
     var OnlineTop = 120;
     var animate = 0;
     var OnlineTopC = OnlineTop + "px";
@@ -309,16 +312,19 @@
             $("#myForm").submit();
         }
     }
+
     function changeAcct(type) {
         $("#accountType").val(type);
         $("#accountType1").val(type);
         $("#pageForm").attr("action", "http://localhost:8080/pay-customer/payCustomerDetail");
         $("#pageForm").submit();
     }
+
     function exportExecl() {
         $("#myForm").attr("action", "http://localhost:8080/pay-customer/pay/export");
         $("#myForm").submit();
     }
+
     function changeMenuConfig(action) {
         $("#menuForm").attr("action", action);
         $("#menuFid").val(fid);

@@ -458,7 +458,9 @@ public class PaymentService extends HttpServlet {
                 if (("0000").equals(rtnCode)) { //成功
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易完成";
-                    customerService.updateStatus(request.getParameter("tranFlow"), status);
+                    //请求后台接口
+                    customerService.LocalDoPost(request.getParameter("tranFlow"),status);
+//                    customerService.updateStatus(request.getParameter("tranFlow"), status);
                     //根据订单号获取到客户交易流水信息
                     PayCustomer payCustomer = customerService.findByTranFlow(request.getParameter("tranFlow"));
                     //TODO 将该订单的平台流水号存入到数据库中
@@ -485,7 +487,9 @@ public class PaymentService extends HttpServlet {
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易失败";
-                    customerService.updateStatus(request.getParameter("tranFlow"), status);
+                    //请求后台接口
+                    customerService.LocalDoPost(request.getParameter("tranFlow"),status);
+//                    customerService.updateStatus(request.getParameter("tranFlow"), status);
                     //TODO 根据请求地址向我们的下游客户发送报文请求信息,交易失败的信息
                     if (customerUrl != null || !customerUrl.equals("")) {
                         int num = 0;
@@ -683,7 +687,9 @@ public class PaymentService extends HttpServlet {
                 if (("0000").equals(rtnCode)) { //成功
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易完成";
-                    customerService.updateStatus(request.getParameter("tranFlow"), status);
+                    //请求后台接口
+                    customerService.LocalDoPost(request.getParameter("tranFlow"),status);
+//                    customerService.updateStatus(request.getParameter("tranFlow"), status);
                     //根据订单号获取到客户交易流水信息
                     PayCustomer payCustomer = customerService.findByTranFlow(request.getParameter("tranFlow"));
                     //TODO 将该订单的平台流水号存入到数据库中
@@ -710,7 +716,9 @@ public class PaymentService extends HttpServlet {
                 } else {
                     //根据客户流水单号信息,修改该笔交易的状态为完成交易完成的状态
                     String status = "交易失败";
-                    customerService.updateStatus(request.getParameter("tranFlow"), status);
+                    //请求后台接口
+                    customerService.LocalDoPost(request.getParameter("tranFlow"),status);
+//                    customerService.updateStatus(request.getParameter("tranFlow"), status);
                     //TODO 根据请求地址向我们的下游客户发送报文请求信息,交易失败的信息
                     if (customerUrl != null || !customerUrl.equals("")) {
                         int num = 0;

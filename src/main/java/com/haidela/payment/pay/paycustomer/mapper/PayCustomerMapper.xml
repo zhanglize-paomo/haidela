@@ -59,6 +59,10 @@
         select * from lyx_pay_customer where status = #{status}
     </select>
 
+    <select id="findByTodayDate" resultMap="resultMap">
+        select * from lyx_pay_customer where create_date = #{todayDate,jdbcType=CHAR}
+    </select>
+
     <select id="pagePayCustomerDetail" resultMap="resultMap">
         select * from lyx_pay_customer WHERE
         1=1

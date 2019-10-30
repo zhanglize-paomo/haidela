@@ -4,12 +4,15 @@ import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.mapper.PayCustomerMapper;
 import com.haidela.payment.util.DateUtils;
 import com.haidela.payment.util.ExcelUtil;
+import com.haidela.payment.util.HttpUtil2;
 import com.haidela.payment.util.SnowflakeIdUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 客户交易流水信息业务
@@ -48,6 +51,20 @@ public class PayCustomerService {
      */
     public int updateStatus(String tranFlow, String status) {
         return mapper.updateStatus(tranFlow, status);
+    }
+
+    /**
+     * 根据交易请求后台接口并刷新页面数据信息
+     *
+     * @param tranFlow
+     * @param status
+     */
+    public void LocalDoPost(String tranFlow, String status) {
+        String url = "http://localhost:8080/pay-customer/update-status";
+        Map<String,String> stringMap = new HashMap<>();
+        stringMap.put("tranFlow",tranFlow);
+        stringMap.put("status",status);
+        HttpUtil2.doPost(url,stringMap,"utf-8");
     }
 
     /**
@@ -154,5 +171,15 @@ public class PayCustomerService {
             ExcelUtil.writeExcel(response,customerList,fileName,sheetName,new PayCustomer());
         }
 
+    }
+
+    /**
+     * 根据日期查询当天的交易流水信息
+     *
+     * @param todayDate
+     * @return
+     */
+    public List<PayCustomer> findByTodayDate(String todayDate) {
+        return mapper.findByTodayDate(todayDate);
     }
 }
