@@ -122,4 +122,13 @@ public interface MerchantConfigureMapper {
                                       @Param(value = "compID") String compID,
                                       @Param(value = "payType") String payType,
                                       @Param(value = "status") String status);
+
+    /**
+     * 根据id修改对应的数据信息
+     *
+     * @param id
+     * @param configure
+     * @return
+     */
+    int toEdit(@Param(value = "id") Long id, @Param(value = "configure")  MerchantConfigure configure);
 }

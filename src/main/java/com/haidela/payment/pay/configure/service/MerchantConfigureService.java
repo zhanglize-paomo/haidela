@@ -196,9 +196,9 @@ public class MerchantConfigureService {
     /**
      * 根据条件查询对应的商户配置信息
      *
-     * @param merchantId  商户ID
-     * @param compID      公司ID
-     * @param payType     交易类型
+     * @param merchantId 商户ID
+     * @param compID     公司ID
+     * @param payType    交易类型
      * @param status     交易状态
      * @return
      */
@@ -209,7 +209,7 @@ public class MerchantConfigureService {
         if (("").equals(compID)) {
             compID = null;
         }
-        if (("").equals(compID) ) {
+        if (("").equals(compID)) {
             compID = null;
         }
         if (("").equals(payType)) {
@@ -218,6 +218,17 @@ public class MerchantConfigureService {
         if (("").equals(status)) {
             status = null;
         }
-        return mapper.findByAll(merchantId,compID,payType,status);
+        return mapper.findByAll(merchantId, compID, payType, status);
+    }
+
+    /**
+     * 根据id修改对应的数据信息
+     *
+     * @param id
+     * @param configure
+     * @return
+     */
+    public int toEdit(Long id, MerchantConfigure configure) {
+        return mapper.toEdit(id, configure);
     }
 }

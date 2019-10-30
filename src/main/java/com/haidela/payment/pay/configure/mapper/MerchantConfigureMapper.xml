@@ -45,6 +45,14 @@
     <update id="updateMerchantIdPayType" parameterType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
         UPDATE lyx_merchant_configure SET status = #{status,jdbcType=VARCHAR} WHERE merchant_id = #{merchantNo} AND pay_type = #{payType}
     </update>
+
+    <update id="toEdit" parameterType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
+        UPDATE lyx_merchant_configure SET amount_limit = #{configure.amountLimit,jdbcType=VARCHAR},start_time = #{configure.startTime,jdbcType=VARCHAR},
+        end_time = #{configure.endTime,jdbcType=VARCHAR},time_difference = #{configure.timeDifference,jdbcType=VARCHAR},status = #{configure.status,jdbcType=VARCHAR},
+        modify_time = now()
+        WHERE  id = #{id}
+    </update>
+
     <delete id="toDelete">
         delete from lyx_merchant_configure where id = #{id}
     </delete>
@@ -64,7 +72,7 @@
     <select id="finAllCustomer" resultMap="resultMap">
         select * from lyx_merchant_configure ORDER BY modify_time DESC;
     </select>
-    <select id="findById" resultType="com.haidela.payment.pay.configure.domain.MerchantConfigure">
+    <select id="findById" resultMap="resultMap">
          select * from lyx_merchant_configure where id = #{id}
     </select>
 

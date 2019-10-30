@@ -79,16 +79,23 @@ public class MerchantConfigureController {
         return service.findByCustomer();
     }
 
-
+    /**
+     * 根据id修改对应的数据信息
+     *
+     * @param id
+     * @param configure
+     * @return
+     */
     @RequestMapping("/toEdit")
-    public String toEdit(Model model, Long id) {
-        MerchantConfigure  configure = service.findById(id);
-        model.addAttribute("configure", configure);
+    public String toEdit(Long id,MerchantConfigure configure) {
+        service.toEdit(id,configure);
         return "/configure";
     }
 
     @RequestMapping("/edit")
-    public String edit() {
+    public String edit(Model model, Long id) {
+        MerchantConfigure configure = service.findById(id);
+        model.addAttribute("configure", configure);
         return "/configureEdit";
     }
 
