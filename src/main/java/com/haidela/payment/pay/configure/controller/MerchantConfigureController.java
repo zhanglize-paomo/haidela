@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.haidela.payment.pay.configure.domain.MerchantConfigure;
 import com.haidela.payment.pay.configure.service.MerchantConfigureService;
+import com.haidela.payment.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -145,6 +146,13 @@ public class MerchantConfigureController {
 
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
     public String insert(MerchantConfigure configure) {
+        //根据商户ID以及支付类型判断是否存在
+        if(service.findByMerchantNo(configure.getMerchantId(),configure.getPayType()) != null){
+            return "商户的支付类型已经存在";
+        }
+        //将开始时间以及结束时间进行截取
+        configure.setStartTime(DateUtils.dateToOnlyTime(DateUtils.stringToDate(configure.getStartTime())));
+        configure.setEndTime(DateUtils.dateToOnlyTime(DateUtils.stringToDate(configure.getEndTime())));
         service.insert(configure);
         return "/configure";
     }

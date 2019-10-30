@@ -16,35 +16,35 @@
         <div class="form-group">
             <label for="merchantId" class="col-sm-2 control-label">商户ID</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="merchantId" id="merchantId" placeholder=" - 请输入- "/>
+                <input type="text" style="width: 183px;padding-right: 100px;height:30px;min-width: 25%;"  class="form-control" name="merchantId" id="merchantId" placeholder=" - 请输入- "/>
             </div>
         </div>
         <!-- 公司id -->
         <div class="form-group">
             <label for="compID" class="col-sm-2 control-label">公司ID</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="compID" id="compID" placeholder=" - 请输入- "/>
+                <input type="text" class="form-control" name="compID" style="width: 183px;padding-right: 100px;height:30px;min-width: 25%;" id="compID" placeholder=" - 请输入- "/>
             </div>
         </div>
         <!-- 公司名称 -->
         <div class="form-group">
-            <label for="compName" class="col-sm-2 control-label">公司名称</label>
+            <label for="companyName" class="col-sm-2 control-label">公司名称</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="compName" id="compName" placeholder=" - 请输入- "/>
+                <input type="text" class="form-control" style="width: 183px;padding-right: 100px;height:30px;min-width: 25%;" id="companyName" name="companyName" placeholder=" - 请输入- "/>
             </div>
         </div>
         <!-- 交易金额上限 -->
         <div class="form-group">
             <label for="amountLimit" class="col-sm-2 control-label">交易金额上限</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" name="amountLimit" id="amountLimit" placeholder=" - 请输入- "/>
+                <input type="text" class="form-control" name="amountLimit" id="amountLimit" style="width: 183px;padding-right: 100px;height:30px;min-width: 25%;" placeholder=" - 请输入- "/>
             </div>
         </div>
         <!-- 支付类型 -->
         <div class="form-group">
             <label for="payType" class="col-sm-2 control-label">支付类型</label>
             <div class="col-sm-10">
-                <select id="payType" style="width: 183px;padding-right: 100px;height:30px;">
+                <select id="payType" name="payType" style="width: 183px;padding-right: 100px;height:30px;">
                     <option value="1">请选择</option>
                     <option value="1">微信</option>
                     <option value="2">支付宝</option>
@@ -56,11 +56,11 @@
         <div class="form-group" >
             <label class="col-sm-2 control-label">订单时间</label>
             <div class="col-sm-10">
-                <input autocomplete="off" class="Wdate" style="width: 183px;padding-right: 100px;height:30px;" type="text"
+                <input autocomplete="off" class="Wdate" style="width: 183px;padding-right: 100px;height:30px;min-width: 25%;" type="text"
                        name="startTime" id="platTimeStart" placeholder=" —请选择— "
                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',maxDate:'#F{$dp.$D(\'platTimeEnd\')}'});">
                 <em>至</em>
-                <input autocomplete="off" style="width: 183px;height:30px;" type="text" id="platTimeEnd" placeholder=" —请选择— "
+                <input autocomplete="off" style="width: 183px;height:30px;min-width: 25%;" type="text" id="platTimeEnd" placeholder=" —请选择— "
                        name="endTime" class="Wdate"
                        onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',minDate:'#F{$dp.$D(\'platTimeStart\')}'});">
             </div>
@@ -70,14 +70,14 @@
             <label for="timeDifference" class="col-sm-2 control-label">时间差</label>
             <div class="col-sm-10">
                 <input type="timeDifference" class="form-control" name="timeDifference" id="timeDifference"
-                       placeholder=" - 请输入- "/>
+                       style="width: 183px;padding-right: 100px;height:30px;min-width: 25%;"  placeholder=" - 请输入- "/>
             </div>
         </div>
         <!-- 状态 -->
         <div class="form-group">
             <label for="status" class="col-sm-2 control-label">状态</label>
             <div class="col-sm-10">
-                <select id="status" style="width: 183px;padding-right: 100px;height:30px;">
+                <select id="status" name="status" style="width: 183px;padding-right: 100px;height:30px;min-width: 25%;">
                     <option value="0">请选择</option>
                     <option value="0">可用</option>
                     <option value="1">当日已完额度</option>

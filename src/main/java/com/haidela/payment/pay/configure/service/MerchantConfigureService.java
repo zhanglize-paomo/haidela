@@ -175,6 +175,7 @@ public class MerchantConfigureService {
      */
     public int insert(MerchantConfigure configure) {
         configure.setId(new SnowflakeIdUtils().nextId());
+        configure.setAmount("0");
         configure.setTotalOneAmount("0");
         configure.setCallTime(DateUtils.stringToDate());
         configure.setCreateTime(DateUtils.stringToDate());
