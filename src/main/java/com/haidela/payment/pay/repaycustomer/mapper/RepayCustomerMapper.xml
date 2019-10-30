@@ -10,6 +10,7 @@
         <result column="pay_type" jdbcType="VARCHAR" property="payType"/>
         <result column="merchant_no" jdbcType="VARCHAR" property="merchantNo"/>
         <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
         <result column="status" jdbcType="VARCHAR" property="status"/>
         <result column="comp_iD" jdbcType="VARCHAR" property="compID"/>
         <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
@@ -19,9 +20,9 @@
 
     <insert id="add" parameterType="com.haidela.payment.pay.repaycustomer.domain.RepayCustomer" useGeneratedKeys="true" keyProperty="id">
         insert into
-        lyx_repay_customer (id,tran_flow, repay_tran_flow,amount,pay_type,merchant_no,create_time,modify_time,status,comp_iD,company_name,pay_serial_no)
+        lyx_repay_customer (id,tran_flow, repay_tran_flow,amount,pay_type,merchant_no,create_time,create_date,modify_time,status,comp_iD,company_name,pay_serial_no)
         values ( #{id,jdbcType=BIGINT},#{tranFlow,jdbcType=CHAR},#{repayTranFlow,jdbcType=CHAR},#{amount,jdbcType=CHAR},
-         #{payType,jdbcType=CHAR},#{merchantNo,jdbcType=CHAR},#{createTime,jdbcType=CHAR},#{modifyTime,jdbcType=CHAR}, #{status,jdbcType=CHAR},
+         #{payType,jdbcType=CHAR},#{merchantNo,jdbcType=CHAR},#{createTime,jdbcType=CHAR},#{createDate,jdbcType=CHAR},#{modifyTime,jdbcType=CHAR}, #{status,jdbcType=CHAR},
          #{compID,jdbcType=CHAR},#{companyName,jdbcType=CHAR}, #{paySerialNo,jdbcType=CHAR})
     </insert>
 
@@ -35,6 +36,9 @@
 
     <select id="findByAll" resultMap="resultMap">
         select * from lyx_repay_customer
+    </select>
+    <select id="findByTodayDate" resultMap="resultMap">
+        select * from lyx_repay_customer where create_date = #{date,jdbcType=CHAR}
     </select>
 
     <update id="updateByStatus" parameterType="com.haidela.payment.pay.repaycustomer.domain.RepayCustomer" >

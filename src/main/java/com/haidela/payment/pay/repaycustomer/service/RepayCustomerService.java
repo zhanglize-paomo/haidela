@@ -7,7 +7,9 @@ import com.haidela.payment.pay.individualcustomer.service.IndividualCustomerServ
 import com.haidela.payment.pay.repaycustomer.domain.RepayCustomer;
 import com.haidela.payment.pay.repaycustomer.mapper.RepayCustomerMapper;
 import com.haidela.payment.util.DateUtils;
+import com.haidela.payment.util.HttpUtil2;
 import com.haidela.payment.util.SnowflakeIdUtils;
+import com.hfb.merchant.pay.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,8 +54,16 @@ public class RepayCustomerService {
         customer.setModifyTime(DateUtils.stringToDate());
         customer.setCreateTime(DateUtils.stringToDate());
         customer.setRepayTranFlow(TRAN_FLOW + customer.getTranFlow());
+        customer.setCreateDate( DateUtil.getDate());
         customer.setId(new SnowflakeIdUtils().nextId());
         return mapper.add(customer);
+    }
+
+    public void localRepayPost(RepayCustomer repayCustomer) {
+        String url = "http://localhost:8080/repay-customer/repay-add";
+        Map<String,String> stringMap = new HashMap<>();
+        stringMap.put("customer",repayCustomer.toString());
+        HttpUtil2.doPost(url,stringMap,"utf-8");
     }
 
     /**
@@ -155,4 +165,13 @@ public class RepayCustomerService {
         return mapper.findByAll();
     }
 
+    /**
+     * 根据日期(年月日)查询到当天的代付记录
+     *
+     * @param date
+     * @return
+     */
+    public List<RepayCustomer> findByTodayDate(String date) {
+        return mapper.findByTodayDate(date);
+    }
 }

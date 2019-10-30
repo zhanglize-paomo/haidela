@@ -55,4 +55,12 @@ public interface RepayCustomerMapper {
      * @return
      */
     List<RepayCustomer> findByMerchantNo(String merchantNo);
+
+    /**
+     * 根据日期(年月日)查询到当天的代付记录
+     *
+     * @param date
+     * @return
+     */
+    List<RepayCustomer> findByTodayDate(String date);
 }

@@ -45,6 +45,11 @@ public class RepayCustomer {
     private String createTime;
 
     /**
+     * 创建日期(年月日)
+     */
+    private String createDate;
+
+    /**
      * 修改时间
      */
     private String modifyTime;
@@ -67,7 +72,8 @@ public class RepayCustomer {
      */
     private String paySerialNo;
 
-    public RepayCustomer(Long id, String tranFlow, String repayTranFlow, String amount, String payType, String merchantNo, String createTime, String modifyTime, String status, String compID, String companyName, String paySerialNo) {
+
+    public RepayCustomer(Long id, String tranFlow, String repayTranFlow, String amount, String payType, String merchantNo, String createTime, String createDate, String modifyTime, String status, String compID, String companyName, String paySerialNo) {
         this.id = id;
         this.tranFlow = tranFlow;
         this.repayTranFlow = repayTranFlow;
@@ -75,6 +81,7 @@ public class RepayCustomer {
         this.payType = payType;
         this.merchantNo = merchantNo;
         this.createTime = createTime;
+        this.createDate = createDate;
         this.modifyTime = modifyTime;
         this.status = status;
         this.compID = compID;
@@ -88,6 +95,14 @@ public class RepayCustomer {
 
     public void setModifyTime(String modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 
     public RepayCustomer() {
@@ -179,5 +194,24 @@ public class RepayCustomer {
 
     public void setPaySerialNo(String paySerialNo) {
         this.paySerialNo = paySerialNo;
+    }
+
+    @Override
+    public String toString() {
+        return "RepayCustomer{" +
+                "id=" + id +
+                ", tranFlow='" + tranFlow + '\'' +
+                ", repayTranFlow='" + repayTranFlow + '\'' +
+                ", amount='" + amount + '\'' +
+                ", payType='" + payType + '\'' +
+                ", merchantNo='" + merchantNo + '\'' +
+                ", createTime='" + createTime + '\'' +
+                ", createDate='" + createDate + '\'' +
+                ", modifyTime='" + modifyTime + '\'' +
+                ", status='" + status + '\'' +
+                ", compID='" + compID + '\'' +
+                ", companyName='" + companyName + '\'' +
+                ", paySerialNo='" + paySerialNo + '\'' +
+                '}';
     }
 }

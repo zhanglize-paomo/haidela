@@ -173,11 +173,15 @@ public class PayService {
                 repayCustomer.setCompanyName(payCustomer.getCompanyName());
                 repayCustomer.setAmount(amount);
                 repayCustomer.setCreateTime(DateUtils.stringToDate());
-                customerService.add(repayCustomer);
+                //代付成功或者失败后清算代付金额
+                customerService.localRepayPost(repayCustomer);
+//                customerService.add(repayCustomer);
             }
         }
         boolean flag = false;
+        //代付成功
         if (map.get("rtnCode").equals("0000")) {
+            //如果代付成功
             flag = true;
         }
         return flag;
