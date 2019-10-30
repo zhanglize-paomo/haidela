@@ -7,8 +7,7 @@
     <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
     <link rel="shortcut icon" href="../static/img/hefupal-head.png" type="image/x-icon">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <link href="../static/css/WdatePicker.css" th:href="@{/static/css/WdatePicker.css}" rel="stylesheet"
-          type="text/css"/>
+    <link href="../static/css/WdatePicker.css" th:href="@{/static/css/WdatePicker.css}" rel="stylesheet" type="text/css"/>
     <link href="../static/css/index.css" th:href="@{/static/css/index.css}" rel="stylesheet" type="text/css"/>
     <link href="../static/css/page.css" th:href="@{/static/css/page.css}" rel="stylesheet" type="text/css"/>
     <link href="../static/css/zzsc.css" th:href="@{/static/css/zzsc.css}" rel="stylesheet" type="text/css"/>
@@ -158,14 +157,15 @@
                                     <a th:href="@{/merchant-configure/edit}">修改</a>
                                 </td>
                                 <td>
-                                    <a href="configure.html" th:href="@{/merchant-configure/toDelete(id=${configure.getId()})}">删除</a>
+                                    <a href="configure.html"
+                                       th:href="@{/merchant-configure/toDelete(id=${configure.getId()})}">删除</a>
                                 </td>
                             </tr>
                             </thead>
                         </table>
                         <div class="order_main_tabel_bottom accounting_main_tabel_bottom" style="margin-right:0;">
                             <div class="accounting_main_tabel_btn">
-                                <button type="button" onclick="exportExecl()">新增</button>
+                                <button type="button" onclick="insert()">新增</button>
                             </div>
                             <div align="center" style="margin-top:2%;">
                                 总共<a th:text="${pages}"/>页|
@@ -215,19 +215,6 @@
 <script src="../static/js/date.js" type="text/javascript" th:src="@{/static/js/date.js}"></script>
 <script type="text/javascript">
     var ctx = '';
-    function kefuMouseOver() {
-        $(".kefu_pic").show();
-    }
-    function kefuMouseOut() {
-        $(".kefu_pic").hide();
-    }
-    function onlyMoney(obj) {
-        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
-        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
-        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
-        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
-        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
-    }
     var OnlineTop = 120;
     var animate = 0;
     var OnlineTopC = OnlineTop + "px";
@@ -262,28 +249,15 @@
             $(".accounting_main_cont_m ul").eq($(this).index()).show();
         });
     });
+
     function subForm() {
-        var platTimeStart = $("#platTimeStart").val();
-        var platTimeEnd = $("#platTimeEnd").val();
-        var num = daysBetween(platTimeStart, platTimeEnd);
         $("#myForm").attr("action", "http://localhost:8080/merchant-configure/all");
         $("#myForm").submit();
     }
-    function changeAcct(type) {
-        $("#accountType").val(type);
-        $("#accountType1").val(type);
-        $("#pageForm").attr("action", "http://localhost:8080/pay-customer/payCustomerDetail");
-        $("#pageForm").submit();
-    }
-    function exportExecl() {
-        $("#myForm").attr("action", "http://localhost:8080/pay-customer/pay/export");
+
+    function insert() {
+        $("#myForm").attr("action", "http://localhost:8080/merchant-configure/configure/insert");
         $("#myForm").submit();
-    }
-    function changeMenuConfig(action) {
-        $("#menuForm").attr("action", action);
-        $("#menuFid").val(fid);
-        $("#menuId").val(id);
-        $("#menuForm").submit();
     }
 </script>
 </html>
