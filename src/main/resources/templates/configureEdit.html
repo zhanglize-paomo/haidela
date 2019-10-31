@@ -11,7 +11,7 @@
 <h1 style="text-align:center;">修改个体商户配置</h1>
 <br/><br/>
 <div class="with:80%">
-    <form class="form-horizontal" th:action="@{http://localhost:8080/merchant-configure/toEdit(id = ${configure.getId()})}" method="post">
+    <form class="form-horizontal" th:action="@{/merchant-configure/toEdit(id = ${configure.getId()})}" method="post">
         <!-- 商户id -->
         <div class="form-group">
             <label for="merchantId" class="col-sm-2 control-label">商户ID</label>

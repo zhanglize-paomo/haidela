@@ -38,7 +38,7 @@
                     <li><img src="../static/img/home-icon_06.png"/></li>
                     <li><img src="../static/img/home-icon_09.png"/><a href="javascript:void(0)">消息</a></li>
                     <li><img src="../static/img/home-icon_06.png"/></li>
-                    <li><img src="../static/img/home-icon_11.png"/><a href="/pay-customer/login">退出</a></li>
+                    <li><img src="../static/img/home-icon_11.png"/><a href="/user/login">退出</a></li>
                 </ul>
                 <div class="kefu_pic" onMouseOver="kefuMouseOver();" onmouseout="kefuMouseOut();">
                     <img src="../static/img/tel.png"/>
@@ -64,7 +64,7 @@
                             <img src="../static/img/inquiry_05.png" style="display: block;" class="img_2"/>
                         </li>
                         <li class="current">
-                            <a href="http://localhost:8080/merchant-configure/all">商户配置</a>
+                            <a href="/merchant-configure/all">商户配置</a>
                         </li>
                     </ul>
                 </div>
@@ -79,7 +79,7 @@
                     </li>
                 </ul>
             </div>
-            <form action="http://localhost:8080/pay-customer/payCustomerDetail" id="myForm" method="get">
+            <form action="/pay-customer/payCustomerDetail" id="myForm" method="get">
                 <div class="order_main_r">
                     <div class="accounting_main_cont">
                         <!-- 基本子账户信息 -->
@@ -209,13 +209,13 @@
                             <div align="center" style="margin-top:2%;">
                                 总共<a th:text="${pages}"/>页|
                                 第<a th:text="${pageNum}"></a>页|
-                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${startPage})}"
+                                <a th:href="@{${'/pay-customer/payCustomerDetail'}(pageNum=${startPage})}"
                                    class="f">首页</a>|
-                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${prePage})}"
+                                <a th:href="@{${'/pay-customer/payCustomerDetail'}(pageNum=${prePage})}"
                                    class="f">上一页</a>|
-                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${nextPage})}"
+                                <a th:href="@{${'/pay-customer/payCustomerDetail'}(pageNum=${nextPage})}"
                                    class="la">下一页</a>|
-                                <a th:href="@{${'http://localhost:8080/pay-customer/payCustomerDetail'}(pageNum=${endPage})}"
+                                <a th:href="@{${'/pay-customer/payCustomerDetail'}(pageNum=${endPage})}"
                                    class="la">尾页</a>
                                 <!--                                <input type="hidden" id="first" th:value="${pageNum}"/>-->
                                 <!--                                <input type="hidden" id="last" th:value="${pages}"/>-->
@@ -308,7 +308,7 @@
         if (num > 3) {
             alert("时间间隔不能大于3天");
         } else {
-            $("#myForm").attr("action", "http://localhost:8080/pay-customer/payCustomerDetail");
+            $("#myForm").attr("action", "/pay-customer/payCustomerDetail");
             $("#myForm").submit();
         }
     }
@@ -316,12 +316,12 @@
     function changeAcct(type) {
         $("#accountType").val(type);
         $("#accountType1").val(type);
-        $("#pageForm").attr("action", "http://localhost:8080/pay-customer/payCustomerDetail");
+        $("#pageForm").attr("action", "/pay-customer/payCustomerDetail");
         $("#pageForm").submit();
     }
 
     function exportExecl() {
-        $("#myForm").attr("action", "http://localhost:8080/pay-customer/pay/export");
+        $("#myForm").attr("action", "/pay-customer/pay/export");
         $("#myForm").submit();
     }
 

@@ -66,9 +66,14 @@ public class UserController {
      * @param password  密码
      * @return
      */
-    @RequestMapping(value = "/login",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public String login(@RequestParam String compId, @RequestParam String password){
         return service.login(compId,password);
+    }
+
+    @RequestMapping(value = "/login",method = RequestMethod.GET)
+    public String login() {
+        return "/login";
     }
 
 }

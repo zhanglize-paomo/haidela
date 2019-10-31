@@ -42,7 +42,7 @@
                     <div class="line"></div>
                     <ul>
                         <li class="current">
-                            <a href="http://localhost:8080/pay-customer/payCustomerDetail">查询统计</a>
+                            <a href="/pay-customer/payCustomerDetail">查询统计</a>
                         </li>
                         <li class="current">
                             <a>商户配置</a>
@@ -61,7 +61,7 @@
                     </li>
                 </ul>
             </div>
-            <form action="http://localhost:8080/merchant-configure/all" id="myForm" method="get">
+            <form action="/merchant-configure/all" id="myForm" method="get">
                 <div class="order_main_r">
                     <div class="order_main_top accounting_main_top">
                         <ul style="height: 50px;">
@@ -174,13 +174,13 @@
                             <div align="center" style="margin-top:2%;">
                                 总共<a th:text="${pages}"/>页|
                                 第<a th:text="${pageNum}"></a>页|
-                                <a th:href="@{${'http://localhost:8080/merchant-configure/all'}(pageNum=${startPage})}"
+                                <a th:href="@{${'/merchant-configure/all'}(pageNum=${startPage})}"
                                    class="f">首页</a>|
-                                <a th:href="@{${'http://localhost:8080/merchant-configure/all'}(pageNum=${prePage})}"
+                                <a th:href="@{${'/merchant-configure/all'}(pageNum=${prePage})}"
                                    class="f">上一页</a>|
-                                <a th:href="@{${'http://localhost:8080/merchant-configure/all'}(pageNum=${nextPage})}"
+                                <a th:href="@{${'/merchant-configure/all'}(pageNum=${nextPage})}"
                                    class="la">下一页</a>|
-                                <a th:href="@{${'http://localhost:8080/merchant-configure/all'}(pageNum=${endPage})}"
+                                <a th:href="@{${'/merchant-configure/all'}(pageNum=${endPage})}"
                                    class="la">尾页</a>
                             </div>
                         </div>
@@ -197,18 +197,6 @@
         </div>
     </div>
 </div>
-<!-- 翻页用到 -->
-<form id="pageForm" action="/account/accountDetail1" method="post">
-    <input type="hidden" name="start" id="start"/>
-    <input type="hidden" name="accountType" id="accountType1" value="0"/>
-    <input type="hidden" name="endTime" value="2019-10-22 23:59:59"/>
-    <input type="hidden" name="startTime" value="2019-10-22 00:00:00">
-    <input type="hidden" name="blsignStr" value="">
-    <input type="hidden" name="typeStr" value="">
-    <input type="hidden" name="customerId" value="">
-    <input type="hidden" name="compIDStr" value="">
-</form>
-
 </body>
 <script src="../static/js/jquery-1.11.1.min.js" type="text/javascript"
         th:src="@{/static/js/jquery-1.11.1.min.js}"></script>
@@ -255,12 +243,12 @@
     });
 
     function subForm() {
-        $("#myForm").attr("action", "http://localhost:8080/merchant-configure/all");
+        $("#myForm").attr("action", "/merchant-configure/all");
         $("#myForm").submit();
     }
 
     function insert() {
-        $("#myForm").attr("action", "http://localhost:8080/merchant-configure/configure/insert");
+        $("#myForm").attr("action", "/merchant-configure/configure/insert");
         $("#myForm").submit();
     }
 </script>
