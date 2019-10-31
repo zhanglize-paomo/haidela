@@ -75,6 +75,7 @@ public class UserService {
         if(!user.getPassword().equals(password)){
             return "登陆密码不正确";
         }
-        return "/query";
+        //重定向到指定的数据信息中
+        return "redirect:/pay-customer/payCustomerDetail";
     }
 }

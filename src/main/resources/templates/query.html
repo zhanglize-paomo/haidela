@@ -41,7 +41,7 @@
                     <li><img src="../static/img/home-icon_11.png"/><a href="/pay-customer/login">退出</a></li>
                 </ul>
                 <div class="kefu_pic" onMouseOver="kefuMouseOver();" onmouseout="kefuMouseOut();">
-                    <img src="/img/tel.png"/>
+                    <img src="../static/img/tel.png"/>
                     <em>400-048-8006</em>
                 </div>
             </div>
@@ -91,10 +91,18 @@
                         </div>
                         <div class="accounting_main_cont_m">
                             <ul>
-                                <li>入账总金额<p><th th:text="${amount}"></th></p></li>
-                                <li>代付总金额<p><th th:text="${sucessAmount}"></p></li>
-                                <li>待结算金额<p><th th:text="${failRmb}"></p></li>
-                                <li>账户总金额<p><th th:text="${amount}"></th></p></li>
+                                <li>入账总金额<p>
+                                    <th th:text="${amount}"></th>
+                                    </p></li>
+                                <li>代付总金额<p>
+                                    <th th:text="${sucessAmount}">
+                                    </p></li>
+                                <li>待结算金额<p>
+                                    <th th:text="${failRmb}">
+                                    </p></li>
+                                <li>账户总金额<p>
+                                    <th th:text="${amount}"></th>
+                                    </p></li>
                             </ul>
                         </div>
                     </div>
@@ -162,7 +170,7 @@
                                 <input type="text" name="tranFlow" value="" placeholder="输入商户订单号" maxlength="64"/>
                             </li>
                         </ul>
-                        <div class="line">
+                        <div id="subForm" class="line">
                             <button type="button" onclick="subForm()">搜索</button>
                         </div>
                     </div>
@@ -258,14 +266,6 @@
         $(".kefu_pic").hide();
     }
 
-    function onlyMoney(obj) {
-        obj.value = obj.value.replace(/[^\d.]/g, ""); //清除"数字"和"."以外的字符
-        obj.value = obj.value.replace(/^\./g, ""); //验证第一个字符是数字而不是
-        obj.value = obj.value.replace(/\.{2,}/g, "."); //只保留第一个. 清除多余的
-        obj.value = obj.value.replace(".", "$#$").replace(/\./g, "").replace("$#$", ".");
-        obj.value = obj.value.replace(/^(\-)*(\d+)\.(\d\d).*$/, '$1$2.$3'); //只能输入两个小数
-    }
-
     var OnlineTop = 120;
     var animate = 0;
     var OnlineTopC = OnlineTop + "px";
@@ -325,11 +325,23 @@
         $("#myForm").submit();
     }
 
-    function changeMenuConfig(action) {
-        $("#menuForm").attr("action", action);
-        $("#menuFid").val(fid);
-        $("#menuId").val(id);
-        $("#menuForm").submit();
-    }
+    <!-- 页面启动自动使用jquery实现自动加载方法 -->
+    // window.onload = function() {
+    //     $('#subForm button').click();
+    //     // $('#subForm button').click();
+    // }
+
+    // $(document).ready(function () {
+    //     // $('.line button').click();
+    //     // $('#subForm button').click();
+    //     // $("#myForm").click();
+    //     // $('.line').on("click",function(){
+    //     // });
+    //     //$("#subForm").click();
+    //     // ${'#line'}.subForm();
+    //     subForm();
+    //     alert("初始化数据2");
+    // });
+
 </script>
 </html>

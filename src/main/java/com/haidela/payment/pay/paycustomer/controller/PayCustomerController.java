@@ -55,8 +55,8 @@ public class PayCustomerController {
      * @param status   交易状态
      * @return
      */
-    @RequestMapping(value = "update-status",method = RequestMethod.POST)
-    public String updateStatus(String tranFlow,String status, Model model) {
+    @RequestMapping(value = "update-status", method = RequestMethod.POST)
+    public String updateStatus(String tranFlow, String status, Model model) {
         service.updateStatus(tranFlow, status);
         //获取到当天的日期
         String todayDate = DateUtils.timeToDate(new Date());
@@ -70,7 +70,7 @@ public class PayCustomerController {
         }
         //单位为分,将分单位转换为元
         String rmb = amount / 100 + "." + amount % 100 / 10 + amount % 100 % 10;
-        model.addAttribute("amount",rmb);
+        model.addAttribute("amount", rmb);
         return "/query";
     }
 
@@ -197,8 +197,18 @@ public class PayCustomerController {
 
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String index() {
+    public String login() {
         return "/login";
+    }
+
+    /**
+     * 跳转到查询页面
+     *
+     * @return
+     */
+    @RequestMapping("/jump")
+    public String findByJump() {
+        return "/query";
     }
 
 }
