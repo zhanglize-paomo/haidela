@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -181,5 +182,26 @@ public class PayCustomerService {
      */
     public List<PayCustomer> findByTodayDate(String todayDate) {
         return mapper.findByTodayDate(todayDate);
+    }
+
+    /**
+     * 获取当天交易流水交易完成的信息
+     *
+     * @return
+     */
+    public String getAmount() {
+        //获取到当天的日期
+        String todayDate = DateUtils.timeToDate(new Date());
+        //根据日期查询当天成功的入账信息并计算总额
+        List<PayCustomer> customerList = findByTodayDate(todayDate);
+        Integer amount = 0;
+        for (int i = 0; i < customerList.size(); i++) {
+            if (customerList.get(i).getStatus().equals("交易完成")) {
+                amount += Integer.parseInt(customerList.get(i).getAmount());
+            }
+        }
+        //单位为分,将分单位转换为元
+        String rmb = amount / 100 + "." + amount % 100 / 10 + amount % 100 % 10;
+        return rmb;
     }
 }

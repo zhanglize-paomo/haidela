@@ -2,7 +2,6 @@ package com.haidela.payment.pay.repaycustomer.controller;
 
 import com.haidela.payment.pay.repaycustomer.domain.RepayCustomer;
 import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
-import com.hfb.merchant.pay.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -53,22 +51,9 @@ public class RepayCustomerController {
     @RequestMapping(value = "repay-add",method = RequestMethod.POST)
     public String repayAddPost(RepayCustomer repayCustomer, Model model) {
         service.add(repayCustomer);
-        //根据日期查询当天成功的入账信息并计算总额
-        List<RepayCustomer> repayCustomerList = service.findByTodayDate(DateUtil.getDate());
-        Integer sucessAmount = 0;
-        Integer failAmount = 0;
-        for (int i = 0; i < repayCustomerList.size(); i++) {
-            if (repayCustomerList.get(i).getStatus().equals("0000")) {
-                sucessAmount += Integer.parseInt(repayCustomerList.get(i).getAmount());
-            }else{
-                failAmount += Integer.parseInt(repayCustomerList.get(i).getAmount());
-            }
-        }
-        //单位为分,将分单位转换为元
-        String sucessRmb = sucessAmount / 100 + "." + sucessAmount % 100 / 10 + sucessAmount % 100 % 10;
-        String failRmb = failAmount / 100 + "." + failAmount % 100 / 10 + failAmount % 100 % 10;
-        model.addAttribute("sucessAmount",sucessRmb);
-        model.addAttribute("failRmb",failRmb);
+        Map<String,String> map = service.getRepayAmount();
+        model.addAttribute("sucessAmount",map.get("sucessRmb"));
+        model.addAttribute("failRmb",map.get("failRmb"));
         return "/query";
     }
 

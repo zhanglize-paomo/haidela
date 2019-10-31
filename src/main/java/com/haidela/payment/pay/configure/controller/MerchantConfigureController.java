@@ -168,9 +168,4 @@ public class MerchantConfigureController {
     public String insert() {
         return "/configureAdd";
     }
-
-    @RequestMapping("/jump")
-    public String findByJump() {
-        return "/configure";
-    }
 }

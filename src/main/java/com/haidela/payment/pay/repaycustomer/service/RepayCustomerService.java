@@ -174,4 +174,30 @@ public class RepayCustomerService {
     public List<RepayCustomer> findByTodayDate(String date) {
         return mapper.findByTodayDate(date);
     }
+
+    /**
+     * 获取当天的代付情况以及这段时间失败的代付金额信息
+     *
+     * @return
+     */
+    public Map<String, String> getRepayAmount() {
+        Map<String,String> map = new HashMap<>();
+        //根据日期查询当天成功的入账信息并计算总额
+        List<RepayCustomer> repayCustomerList = findByTodayDate(DateUtil.getDate());
+        Integer sucessAmount = 0;
+        Integer failAmount = 0;
+        for (int i = 0; i < repayCustomerList.size(); i++) {
+            if (repayCustomerList.get(i).getStatus().equals("0000")) {
+                sucessAmount += Integer.parseInt(repayCustomerList.get(i).getAmount());
+            }else{
+                failAmount += Integer.parseInt(repayCustomerList.get(i).getAmount());
+            }
+        }
+        //单位为分,将分单位转换为元
+        String sucessRmb = sucessAmount / 100 + "." + sucessAmount % 100 / 10 + sucessAmount % 100 % 10;
+        String failRmb = failAmount / 100 + "." + failAmount % 100 / 10 + failAmount % 100 % 10;
+        map.put("sucessRmb",sucessRmb);
+        map.put("failRmb",failRmb);
+        return map;
+    }
 }

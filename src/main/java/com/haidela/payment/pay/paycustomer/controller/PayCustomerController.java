@@ -9,15 +9,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.service.PayCustomerService;
-import com.haidela.payment.util.DateUtils;
+import com.haidela.payment.pay.repaycustomer.service.RepayCustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 客户交易流水信息
@@ -30,6 +30,12 @@ import java.util.List;
 public class PayCustomerController {
 
     private PayCustomerService service;
+    private RepayCustomerService repayCustomerService;
+
+    @Autowired
+    public void setRepayCustomerService(RepayCustomerService repayCustomerService) {
+        this.repayCustomerService = repayCustomerService;
+    }
 
     @Autowired
     public void setService(PayCustomerService service) {
@@ -58,19 +64,7 @@ public class PayCustomerController {
     @RequestMapping(value = "update-status", method = RequestMethod.POST)
     public String updateStatus(String tranFlow, String status, Model model) {
         service.updateStatus(tranFlow, status);
-        //获取到当天的日期
-        String todayDate = DateUtils.timeToDate(new Date());
-        //根据日期查询当天成功的入账信息并计算总额
-        List<PayCustomer> customerList = service.findByTodayDate(todayDate);
-        Integer amount = 0;
-        for (int i = 0; i < customerList.size(); i++) {
-            if (customerList.get(i).getStatus().equals("交易完成")) {
-                amount += Integer.parseInt(customerList.get(i).getAmount());
-            }
-        }
-        //单位为分,将分单位转换为元
-        String rmb = amount / 100 + "." + amount % 100 / 10 + amount % 100 % 10;
-        model.addAttribute("amount", rmb);
+        model.addAttribute("amount", service.getAmount());
         return "/query";
     }
 
@@ -170,6 +164,12 @@ public class PayCustomerController {
         //尾页
         model.addAttribute("endPage", pageInfo.getPages());
         model.addAttribute("detailList", pageInfo.getList());
+        //获取到当日的交易金额信息
+        model.addAttribute("amount", service.getAmount());
+        //获取到当日的代付的信息
+        Map<String,String> map = repayCustomerService.getRepayAmount();
+        model.addAttribute("sucessAmount",map.get("sucessRmb"));
+        model.addAttribute("failRmb",map.get("failRmb"));
         return "/query";
     }
 
@@ -201,14 +201,5 @@ public class PayCustomerController {
         return "/login";
     }
 
-    /**
-     * 跳转到查询页面
-     *
-     * @return
-     */
-    @RequestMapping("/jump")
-    public String findByJump() {
-        return "/query";
-    }
 
 }
