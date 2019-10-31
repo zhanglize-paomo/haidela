@@ -182,7 +182,7 @@ public class RepayCustomerService {
      */
     public Map<String, String> getRepayAmount() {
         Map<String,String> map = new HashMap<>();
-        //根据日期查询当天成功的入账信息并计算总额
+        //根据日期查询当天的入账信息并计算总额
         List<RepayCustomer> repayCustomerList = findByTodayDate(DateUtil.getDate());
         Integer sucessAmount = 0;
         Integer failAmount = 0;
