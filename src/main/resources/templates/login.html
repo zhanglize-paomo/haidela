@@ -105,14 +105,31 @@
 <div class="content">
     <div class="contentSpan">欢迎你</div>
     <form class="myform" method="post" action="/user">
-        <p class="user myInput"><input id="uname" name="compId" class="text" style="color: #FFFFFF !important" type="text"
-                                       placeholder="请输入账号"></p>
-        <p class="pass myInput"><input id="pass" name="password" class="text" style="color: #FFFFFF !important" type="password"
+        <p class="user myInput"><input id="uname" name="compId" class="text" style="color: #FFFFFF !important"
+                                       type="text" placeholder="请输入账号"></p>
+        <p class="pass myInput"><input id="pass" name="password" class="text" style="color: #FFFFFF !important"
+                                       type="password"
                                        placeholder="请输入密码"></p>
-        <p class="submit myInput"><input type="submit" value="登陆"></p>
+        <p class="submit myInput"><input type="submit" onclick="checkForm()" value="登陆"></p>
     </form>
 
 </div>
 </body>
+<script type="text/javascript">
+    function checkForm() {
+        /**校验用户名*/
+        var uValue = document.getElementById("uname").value;
+        if (uValue == "") {
+            alert("用户名不能为空!");
+            return false;
+        }
 
+        /*校验密码*/
+        var pValue = document.getElementById("pass").value;
+        if (pValue == "") {
+            alert("密码不能为空!");
+            return false;
+        }
+    }
+</script>
 </html>

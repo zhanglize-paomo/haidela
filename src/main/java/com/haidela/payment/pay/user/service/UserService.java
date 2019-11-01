@@ -70,10 +70,10 @@ public class UserService {
          */
         User user = findByCompId(compId);
         if(user == null){
-            return "用户不存在";
+            return "/login";
         }
         if(!user.getPassword().equals(password)){
-            return "登陆密码不正确";
+            return "/login";
         }
         //重定向到指定的数据信息中
         return "redirect:/pay-customer/payCustomerDetail";
