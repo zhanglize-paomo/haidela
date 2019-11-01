@@ -72,6 +72,23 @@ public class DateUtils {
     }
 
     /**
+     * 判断是否对应的日期格式
+     *
+     * @param time
+     * @return
+     */
+    public static boolean judgeFormat(String time) {
+        boolean flag = true;
+        try {
+            DATE_AND_TIME_FORMAT.parse(time);
+        } catch (ParseException e) {
+            flag = false;
+        }
+        return flag;
+    }
+
+
+    /**
      * 获取某个日期对应的 日期 的周日
      *
      * @param theDate 某个日期 null的话，表示当前日期

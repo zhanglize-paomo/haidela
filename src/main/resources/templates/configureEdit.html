@@ -48,12 +48,8 @@
         <div class="form-group">
             <label for="payType" class="col-sm-2 control-label">支付类型</label>
             <div class="col-sm-10">
-                <select id="payType" name="payType" style="width: 183px;padding-right: 100px;height:30px;"
-                        disabled="disabled" th:value="${configure.getPayType()}">
-                    <option value="1">微信</option>
-                    <option value="2">支付宝</option>
-                    <option value="15">银联扫码</option>
-                </select>
+                <input id="payType" name="companyName" type="text" style="width: 183px;padding-right: 100px;height:30px;min-width: 25%;" class="form-control"
+                       readonly="true"  th:value="${configure.getPayType()}"/>
             </div>
         </div>
         <!-- 开始时间 -->
@@ -81,11 +77,10 @@
         <div class="form-group">
             <label for="status" class="col-sm-2 control-label">状态</label>
             <div class="col-sm-10">
-                <select id="status" name="status" style="width: 183px;padding-right: 100px;height:30px;min-width: 25%;"
-                        disabled="disabled" th:value="${configure.getStatus()}">
-                    <option valaue="0">可用</option>
-                    <option value="1">当日已完额度</option>
-                    <option value="2">禁用</option>
+                <select id="status" name="status" style="width: 183px;padding-right: 100px;height:30px;min-width: 25%;">
+                    <option typeof="0" valaue="0">0</option>
+                    <option typeof="1" value="1">1</option>
+                    <option typeof="2" value="2">2</option>
                 </select>
             </div>
         </div>

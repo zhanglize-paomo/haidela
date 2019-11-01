@@ -26,6 +26,7 @@ public class MerchantConfigureController {
 
 
     private MerchantConfigureService service;
+
     @Autowired
     public void setService(MerchantConfigureService service) {
         this.service = service;
@@ -38,8 +39,8 @@ public class MerchantConfigureController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "{status}",method = RequestMethod.GET)
-    public List<MerchantConfigure> findByStstus(@PathVariable String status){
+    @RequestMapping(value = "{status}", method = RequestMethod.GET)
+    public List<MerchantConfigure> findByStstus(@PathVariable String status) {
         return service.findByStstus(status);
     }
 
@@ -51,8 +52,8 @@ public class MerchantConfigureController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "merchantId/{merchantId}",method = RequestMethod.PUT)
-    public int updateMerchantId(@PathVariable String merchantId){
+    @RequestMapping(value = "merchantId/{merchantId}", method = RequestMethod.PUT)
+    public int updateMerchantId(@PathVariable String merchantId) {
         return service.updateMerchantId(merchantId);
     }
 
@@ -63,9 +64,9 @@ public class MerchantConfigureController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "merchantId/{merchantId}/{payType}",method = RequestMethod.GET)
-    public MerchantConfigure findByMerchantNo(@PathVariable String merchantId,@PathVariable String payType){
-        return service.findByMerchantNo(merchantId,payType);
+    @RequestMapping(value = "merchantId/{merchantId}/{payType}", method = RequestMethod.GET)
+    public MerchantConfigure findByMerchantNo(@PathVariable String merchantId, @PathVariable String payType) {
+        return service.findByMerchantNo(merchantId, payType);
     }
 
     /**
@@ -75,7 +76,7 @@ public class MerchantConfigureController {
      */
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
-    public Map<String,String> findByCustomer(){
+    public Map<String, String> findByCustomer() {
         return service.findByCustomer();
     }
 
@@ -87,9 +88,16 @@ public class MerchantConfigureController {
      * @return
      */
     @RequestMapping("/toEdit")
-    public String toEdit(Long id,MerchantConfigure configure) {
-        service.toEdit(id,configure);
-        return "/configure";
+    public String toEdit(Long id, MerchantConfigure configure) {
+        //判断时间格式
+        if (DateUtils.judgeFormat(configure.getStartTime()) == true && DateUtils.judgeFormat(configure.getEndTime()) == true) {
+            //将开始时间以及结束时间进行截取
+            configure.setStartTime(DateUtils.dateToOnlyTime(DateUtils.stringToDate(configure.getStartTime())));
+            configure.setEndTime(DateUtils.dateToOnlyTime(DateUtils.stringToDate(configure.getEndTime())));
+        }
+        service.toEdit(id, configure);
+        //重定向到指定的数据信息中
+        return "redirect:/merchant-configure/all";
     }
 
     @RequestMapping("/edit")
@@ -103,23 +111,24 @@ public class MerchantConfigureController {
     @RequestMapping(value = "/toDelete")
     public String toDelete(Long id) {
         service.toDelete(id);
-        return "/configure";
+        //重定向到指定的数据信息中
+        return "redirect:/merchant-configure/all";
     }
 
 
     /**
      * 根据条件查询对应的商户配置信息
      *
-     * @param merchantId  商户ID
-     * @param compID      公司ID
-     * @param payType     交易类型
+     * @param merchantId 商户ID
+     * @param compID     公司ID
+     * @param payType    交易类型
      * @param status     交易状态
      * @param pageNum
      * @param pageSize
      * @param model
      * @return
      */
-    @RequestMapping(value = "/all",method = RequestMethod.GET)
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
     public String findByAll(@RequestParam(required = false) String merchantId,
                             @RequestParam(required = false) String compID,
                             @RequestParam(required = false) String payType,
@@ -130,7 +139,7 @@ public class MerchantConfigureController {
         //使用pageHelper设置分页
         PageHelper.startPage(pageNum, pageSize);
         //startPage后紧跟的这个查询就是分页查询
-        List<MerchantConfigure> configureList = service.findByAll(merchantId,compID,payType,status);
+        List<MerchantConfigure> configureList = service.findByAll(merchantId, compID, payType, status);
         //使用PageInfo包装查询结果，只需要将pageInfo交给页面就可以
         PageInfo pageInfo = new PageInfo<>(configureList);
         Integer startPage = 1;
@@ -146,22 +155,23 @@ public class MerchantConfigureController {
         //首页
         model.addAttribute("startPage", startPage);
         //尾页
-        model.addAttribute("endPage",pageInfo.getPages());
+        model.addAttribute("endPage", pageInfo.getPages());
         model.addAttribute("configureList", pageInfo.getList());
         return "/configure";
     }
 
-    @RequestMapping(value = "/insert",method = RequestMethod.POST)
+    @RequestMapping(value = "/insert", method = RequestMethod.POST)
     public String insert(MerchantConfigure configure) {
         //根据商户ID以及支付类型判断是否存在
-        if(service.findByMerchantNo(configure.getMerchantId(),configure.getPayType()) != null){
+        if (service.findByMerchantNo(configure.getMerchantId(), configure.getPayType()) != null) {
             return "商户的支付类型已经存在";
         }
         //将开始时间以及结束时间进行截取
         configure.setStartTime(DateUtils.dateToOnlyTime(DateUtils.stringToDate(configure.getStartTime())));
         configure.setEndTime(DateUtils.dateToOnlyTime(DateUtils.stringToDate(configure.getEndTime())));
         service.insert(configure);
-        return "/configure";
+        //重定向到指定的数据信息中
+        return "redirect:/merchant-configure/all";
     }
 
     @RequestMapping(value = "/configure/insert")
