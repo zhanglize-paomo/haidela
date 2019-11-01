@@ -3,13 +3,15 @@ package com.haidela.payment.pay.paycustomer.domain;
 import com.alibaba.excel.annotation.ExcelProperty;
 import com.alibaba.excel.metadata.BaseRowModel;
 
+import java.io.Serializable;
+
 /**
  * 客户交易流水信息
  *
  * @author zhanglize
  * @create 2019/10/10
  */
-public class PayCustomer extends BaseRowModel {
+public class PayCustomer extends BaseRowModel implements Serializable {
 
     /**
      * 主键

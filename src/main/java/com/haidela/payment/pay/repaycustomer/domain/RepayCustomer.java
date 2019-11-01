@@ -1,5 +1,7 @@
 package com.haidela.payment.pay.repaycustomer.domain;
 
+import java.io.Serializable;
+
 /**
  * 代付消息接收情况
  *
@@ -7,7 +9,7 @@ package com.haidela.payment.pay.repaycustomer.domain;
  * @author zhanglize
  * @create 2019/10/15
  */
-public class RepayCustomer {
+public class RepayCustomer  implements Serializable {
 
     /**
      * 主键

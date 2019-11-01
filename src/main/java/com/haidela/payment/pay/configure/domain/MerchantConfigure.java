@@ -1,13 +1,15 @@
 package com.haidela.payment.pay.configure.domain;
 
 
+import java.io.Serializable;
+
 /**
  * 个体商户配置对象
  *
  * @author zhanglize
  * @create 2019/10/10
  */
-public class MerchantConfigure {
+public class MerchantConfigure implements Serializable {
     /**
      * 主键
      */

@@ -1,12 +1,14 @@
 package com.haidela.payment.pay.payment;
 
+import java.io.Serializable;
+
 /**
  * 统一支付
  *
  * @author zhanglize
  * @create 2019/9/29
  */
-public class Payment {
+public class Payment implements Serializable {
 
     /**
      * 商户编号  char(16)

@@ -1,12 +1,14 @@
 package com.haidela.payment.pay.user.domain;
 
+import java.io.Serializable;
+
 /**
  * 用户
  *
  * @author zhanglize
  * @create 2019/10/22
  */
-public class User {
+public class User  implements Serializable {
 
     private Long id;
     /**
