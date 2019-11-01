@@ -8,6 +8,7 @@ import com.haidela.payment.pay.repaycustomer.domain.RepayCustomer;
 import com.haidela.payment.pay.repaycustomer.mapper.RepayCustomerMapper;
 import com.haidela.payment.util.DateUtils;
 import com.haidela.payment.util.HttpUtil2;
+import com.haidela.payment.util.MoneyUtils;
 import com.haidela.payment.util.SnowflakeIdUtils;
 import com.hfb.merchant.pay.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class RepayCustomerService {
     }
 
     public void localRepayPost(RepayCustomer repayCustomer) {
-        String url = "http://localhost:8080/repay-customer/repay-add";
+        String url = "http://182.92.192.208:8080/repay-customer/repay-add";
         Map<String,String> stringMap = new HashMap<>();
         stringMap.put("customer",repayCustomer.toString());
         HttpUtil2.doPost(url,stringMap,"utf-8");
@@ -189,15 +190,11 @@ public class RepayCustomerService {
         for (int i = 0; i < repayCustomerList.size(); i++) {
             if (repayCustomerList.get(i).getStatus().equals("0000")) {
                 sucessAmount += Integer.parseInt(repayCustomerList.get(i).getAmount());
-            }else{
-                failAmount += Integer.parseInt(repayCustomerList.get(i).getAmount());
             }
         }
-        //单位为分,将分单位转换为元
-        String sucessRmb = sucessAmount / 100 + "." + sucessAmount % 100 / 10 + sucessAmount % 100 % 10;
-        String failRmb = failAmount / 100 + "." + failAmount % 100 / 10 + failAmount % 100 % 10;
-        map.put("sucessRmb",sucessRmb);
-        map.put("failRmb",failRmb);
+        map.put("sucessRmb",MoneyUtils.convertPart(sucessAmount));
+        map.put("failRmb",MoneyUtils.convertPart(failAmount));
         return map;
     }
+
 }

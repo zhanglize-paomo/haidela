@@ -70,7 +70,7 @@ public class MerchantConfigureController {
     }
 
     /**
-     * 查询所有的商户交易成功
+     * 查询所有的商户交易成功的交易信息
      *
      * @return
      */

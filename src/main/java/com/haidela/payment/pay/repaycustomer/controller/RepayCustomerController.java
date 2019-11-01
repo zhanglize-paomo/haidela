@@ -52,7 +52,7 @@ public class RepayCustomerController {
     public String repayAddPost(RepayCustomer repayCustomer, Model model) {
         service.add(repayCustomer);
         Map<String,String> map = service.getRepayAmount();
-        model.addAttribute("sucessAmount",map.get("sucessRmb"));
+        model.addAttribute("sucessRmb",map.get("sucessRmb"));
         model.addAttribute("failRmb",map.get("failRmb"));
         return "/query";
     }

@@ -2,10 +2,7 @@ package com.haidela.payment.pay.paycustomer.service;
 
 import com.haidela.payment.pay.paycustomer.domain.PayCustomer;
 import com.haidela.payment.pay.paycustomer.mapper.PayCustomerMapper;
-import com.haidela.payment.util.DateUtils;
-import com.haidela.payment.util.ExcelUtil;
-import com.haidela.payment.util.HttpUtil2;
-import com.haidela.payment.util.SnowflakeIdUtils;
+import com.haidela.payment.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +21,7 @@ import java.util.Map;
 @Service
 public class PayCustomerService {
 
-    PayCustomerMapper mapper;
+    private PayCustomerMapper mapper;
 
     @Autowired
     public void setMapper(PayCustomerMapper mapper) {
@@ -61,11 +58,11 @@ public class PayCustomerService {
      * @param status
      */
     public void LocalDoPost(String tranFlow, String status) {
-        String url = "http://localhost:8080/pay-customer/update-status";
-        Map<String,String> stringMap = new HashMap<>();
-        stringMap.put("tranFlow",tranFlow);
-        stringMap.put("status",status);
-        HttpUtil2.doPost(url,stringMap,"utf-8");
+        String url = "http://182.92.192.208:8080/pay-customer/update-status";
+        Map<String, String> stringMap = new HashMap<>();
+        stringMap.put("tranFlow", tranFlow);
+        stringMap.put("status", status);
+        HttpUtil2.doPost(url, stringMap, "utf-8");
     }
 
     /**
@@ -138,7 +135,7 @@ public class PayCustomerService {
         if (("").equals(endTime)) {
             endTime = null;
         }
-        if (("").equals(compID) ) {
+        if (("").equals(compID)) {
             compID = null;
         }
         if (("").equals(customerId)) {
@@ -155,7 +152,8 @@ public class PayCustomerService {
 
     /**
      * 导出Excel表格
-     *  @param startTime  开始时间
+     *
+     * @param startTime  开始时间
      * @param endTime    结束时间
      * @param compID     公司ID
      * @param customerId
@@ -165,13 +163,12 @@ public class PayCustomerService {
      */
     public void exportPayCustomerDetail(String startTime, String endTime, String compID, String customerId, String typeStr, String tranFlow, HttpServletResponse response) {
         //获取到所有导出的数据信息
-        List<PayCustomer> customerList = pagePayCustomerDetail(startTime,endTime,compID,customerId,typeStr,tranFlow);
-        if(customerList.size() != 0){
+        List<PayCustomer> customerList = pagePayCustomerDetail(startTime, endTime, compID, customerId, typeStr, tranFlow);
+        if (customerList.size() != 0) {
             String fileName = "客户交易流水-" + DateUtils.stringToDate();
             String sheetName = "客户交易流水";
-            ExcelUtil.writeExcel(response,customerList,fileName,sheetName,new PayCustomer());
+            ExcelUtil.writeExcel(response, customerList, fileName, sheetName, new PayCustomer());
         }
-
     }
 
     /**
@@ -201,7 +198,7 @@ public class PayCustomerService {
             }
         }
         //单位为分,将分单位转换为元
-        String rmb = amount / 100 + "." + amount % 100 / 10 + amount % 100 % 10;
-        return rmb;
+        return MoneyUtils.convertPart(amount);
     }
+
 }

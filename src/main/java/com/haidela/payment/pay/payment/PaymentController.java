@@ -143,15 +143,6 @@ public class PaymentController {
     public Map<String, String> payment(HttpServletRequest request, HttpServletResponse response) {
         Map<String, String> result = new HashMap<String, String>();
         result.put("code", "0");//成功
-        /**
-         * 1获取客户端的请求参数，校验不可为空
-         *
-         *
-         * 2、调用 获取二维码请求地址
-         *
-         * 3、返回图片
-         *
-         */
         String tranFlow = request.getParameter("tranFlow");//流水号
         if (null == tranFlow || tranFlow.equals("")) {
             result.put("code", "2001");

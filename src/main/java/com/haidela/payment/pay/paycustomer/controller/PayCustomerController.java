@@ -168,7 +168,7 @@ public class PayCustomerController {
         model.addAttribute("amount", service.getAmount());
         //获取到当日的代付的信息
         Map<String,String> map = repayCustomerService.getRepayAmount();
-        model.addAttribute("sucessAmount",map.get("sucessRmb"));
+        model.addAttribute("sucessRmb",map.get("sucessRmb"));
         model.addAttribute("failRmb",map.get("failRmb"));
         return "/query";
     }

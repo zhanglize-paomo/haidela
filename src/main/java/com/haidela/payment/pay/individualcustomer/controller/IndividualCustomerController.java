@@ -45,18 +45,6 @@ public class IndividualCustomerController {
     }
 
     /**
-     * 新增商户进件个体商户信息
-     *
-     * @param customer
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping(value = "add",method = RequestMethod.POST)
-    public int add(IndividualCustomer customer){
-        return service.add(customer);
-    }
-
-    /**
      * 根据请求参数获取到签名信息并获取到商户的进件信息
      *
      * @param request
@@ -69,6 +57,17 @@ public class IndividualCustomerController {
         return service.otherGetSign(request,response);
     }
 
+    /**
+     * 新增商户进件个体商户信息
+     *
+     * @param customer
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "add",method = RequestMethod.POST)
+    public int add(IndividualCustomer customer){
+        return service.add(customer);
+    }
 
 
     /**

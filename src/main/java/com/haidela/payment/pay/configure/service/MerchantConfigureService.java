@@ -33,7 +33,6 @@ public class MerchantConfigureService {
     public void setPayCustomerService(PayCustomerService payCustomerService) {
         this.payCustomerService = payCustomerService;
     }
-
     @Autowired
     public void setIndividualCustomerService(IndividualCustomerService individualCustomerService) {
         this.individualCustomerService = individualCustomerService;
@@ -76,7 +75,7 @@ public class MerchantConfigureService {
     /**
      * 根据商户id修改该条商户的调用时间
      *
-     * @param merchantId
+     * @param merchantId  商户ID
      * @return
      */
     public int updateMerchantId(String merchantId) {
@@ -98,8 +97,8 @@ public class MerchantConfigureService {
     /**
      * 根据商户编号以及支付类型获取到对应的配置对象信息
      *
-     * @param merchantNo
-     * @param payType
+     * @param merchantNo  商户ID
+     * @param payType     交易类型
      * @return
      */
     public MerchantConfigure findByMerchantNo(String merchantNo, String payType) {
@@ -109,9 +108,9 @@ public class MerchantConfigureService {
     /**
      * 根据该商户的id修改该商户的支付类型的状态
      *
-     * @param merchantNo
-     * @param payType
-     * @param status
+     * @param merchantNo  商户ID
+     * @param payType     交易类型
+     * @param status      状态
      * @return
      */
     public int updateMerchantIdPayType(String merchantNo, String payType, String status) {
@@ -139,9 +138,18 @@ public class MerchantConfigureService {
             IndividualCustomer customer = individualCustomerService.findMerchantNo(configure.getMerchantId());
             map.put(configure.getMerchantId() + ":" + customer.getAccountName(), amount.toString());
         });
+        return getStringStringMap(map);
+    }
+
+    /**
+     * 获取对应的商户交易完成的交易信息总额
+     *
+     * @param map
+     * @return
+     */
+    public static Map<String, String> getStringStringMap(Map<String, String> map) {
         Integer total = 0;
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            System.out.println("key = " + entry.getKey() + ", value = " + entry.getValue());
             total += Integer.parseInt(entry.getValue());
         }
         map.put("total", total.toString());
