@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.haidela.payment.pay.paycustomer.mapper.PayCustomerMapper">
+
+    <resultMap id="resultMap" type="com.haidela.payment.pay.paycustomer.domain.PayCustomer">
+        <result column="id" jdbcType="INTEGER" property="id"/>
+        <result column="tran_flow" jdbcType="VARCHAR" property="tranFlow"/>
+        <result column="amount" jdbcType="VARCHAR" property="amount"/>
+        <result column="pay_type" jdbcType="VARCHAR" property="payType"/>
+        <result column="merchant_id" jdbcType="VARCHAR" property="merchantId"/>
+        <result column="merchant_no" jdbcType="VARCHAR" property="merchantNo"/>
+        <result column="buyer_id" jdbcType="VARCHAR" property="buyerId"/>
+        <result column="modify_time" jdbcType="VARCHAR" property="modifyTime"/>
+        <result column="create_time" jdbcType="VARCHAR" property="createTime"/>
+        <result column="status" jdbcType="VARCHAR" property="status"/>
+        <result column="create_date" jdbcType="VARCHAR" property="createDate"/>
+        <result column="comp_iD" jdbcType="VARCHAR" property="compID"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="receive_messages" jdbcType="VARCHAR" property="receiveMessages"/>
+        <result column="pay_serial_no" jdbcType="VARCHAR" property="paySerialNo"/>
+    </resultMap>
+
+    <insert id="add" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" useGeneratedKeys="true" keyProperty="id">
+        insert into
+        lyx_pay_customer (id,tran_flow,amount,pay_type,merchant_id,merchant_no,buyer_id,modify_time,create_time,comp_iD,company_name,status,create_date,receive_messages)
+        values ( #{id,jdbcType=BIGINT},
+        #{tranFlow,jdbcType=CHAR}, #{amount,jdbcType=CHAR}, #{payType,jdbcType=CHAR}, #{merchantId,jdbcType=CHAR},#{merchantNo,jdbcType=CHAR},
+        #{buyerId,jdbcType=CHAR},#{modifyTime,jdbcType=CHAR}, #{createTime,jdbcType=CHAR},#{compID,jdbcType=CHAR},
+        #{companyName,jdbcType=CHAR}, #{status,jdbcType=CHAR}, #{createDate,jdbcType=CHAR},#{receiveMessages,jdbcType=CHAR})
+    </insert>
+
+    <update id="updateStatus" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" >
+        update lyx_pay_customer set status = #{status,jdbcType=CHAR} where tran_flow = #{tranFlow}
+    </update>
+
+    <update id="updateReceiveMessages" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" >
+        update lyx_pay_customer set receive_messages = #{receiveMessages,jdbcType=CHAR} where tran_flow = #{tranFlow}
+    </update>
+
+    <update id="updateByPaySerialNo" parameterType="com.haidela.payment.pay.paycustomer.domain.PayCustomer" >
+        update lyx_pay_customer set pay_serial_no = #{paySerialNo,jdbcType=CHAR} where  id = #{id}
+    </update>
+
+    <select id="findByTranFlow" resultMap="resultMap">
+        select * from lyx_pay_customer where tran_flow = #{tranFlow}
+    </select>
+
+    <select id="findByMerchantNo" resultMap="resultMap">
+       select * from lyx_pay_customer where merchant_no = #{merchantNo}
+    </select>
+
+    <select id="findByThree" resultMap="resultMap">
+        select * from lyx_pay_customer where merchant_no = #{merchantNo} ORDER BY modify_time DESC LIMIT 3
+    </select>
+
+    <select id="findByStatus" resultMap="resultMap">
+        select * from lyx_pay_customer where status = #{status}
+    </select>
+
+</mapper>

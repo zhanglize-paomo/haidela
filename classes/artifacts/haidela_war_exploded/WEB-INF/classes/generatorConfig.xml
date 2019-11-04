@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+    <classPathEntry location="C:/Users/ZLZ/.m2/repository/mysql/mysql-connector-java/5.1.29/mysql-connector-java-5.1.29.jar" />
+
+    <context id="DB2Tables" targetRuntime="MyBatis3">
+        <!-- 数据库链接地址，账号，密码 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://182.92.192.208:3306/lyx?useUnicode=true"
+                        userId="root"
+                        password="Fenmiao2017">
+        </jdbcConnection>
+
+        <!-- DataObject存放位置-->
+        <javaModelGenerator targetPackage="com.haidela.payment.pay.merchantfail.domain" targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- 生成映射文件存放位置-->
+        <sqlMapGenerator targetPackage="com.haidela.payment.pay.merchantfail.mapper"  targetProject="src/main/resources/mapping">
+            <property name="enableSubPackages" value="true" />
+        </sqlMapGenerator>
+
+        <!-- 生成dao存放位置-->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.haidela.payment.pay.merchantfail.mapper"  targetProject="src/main/java">
+            <property name="enableSubPackages" value="true" />
+        </javaClientGenerator>
+
+        <table  tableName="lyx_merchant_fail" domainObjectName="MerchantFail" selectByExampleQueryId="false" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"> </table>
+
+    </context>
+</generatorConfiguration>

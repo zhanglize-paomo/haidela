@@ -79,6 +79,7 @@ public class PayService {
 //        // 公钥文件路径
 //        //windows系统的文件信息
 //        String publicKey = PayService.class.getResource("/").getPath() + "cert/SS20190927084578_20190927201246553.cer";
+
         // 私钥文件路径
         //Linux系统的文件信息
         //TODO 通过读取配置文件获取到相应的文件信息
@@ -172,15 +173,11 @@ public class PayService {
                 repayCustomer.setCompanyName(payCustomer.getCompanyName());
                 repayCustomer.setAmount(amount);
                 repayCustomer.setCreateTime(DateUtils.stringToDate());
-                //代付成功或者失败后清算代付金额
-                customerService.localRepayPost(repayCustomer);
-//                customerService.add(repayCustomer);
+                customerService.add(repayCustomer);
             }
         }
         boolean flag = false;
-        //代付成功
         if (map.get("rtnCode").equals("0000")) {
-            //如果代付成功
             flag = true;
         }
         return flag;
@@ -250,87 +247,5 @@ public class PayService {
         return list;
 
 
-    }
-
-    /**
-     * 客户人工代付交易请求报文
-     *
-     * @return
-     * @param merchantId
-     * @param tranFlow
-     * @param amount
-     */
-    public boolean otherDfPay(String merchantId, String tranFlow, String amount) throws Exception {
-        String merchantNo = "S20190927084578";
-        //根据个人商户编号查看代付个人信息
-        IndividualCustomer customer = service.findMerchantNo(merchantId);
-        // 私钥文件路径  Linux系统的文件信息
-        //TODO 通过读取配置文件获取到相应的文件信息
-        String privateKey = "/home/CS20190927084578_20190927201246553.pfx";
-        // 公钥文件路径  Linux系统的文件信息
-        //TODO 通过读取配置文件获取到相应的文件信息
-        String publicKey = "/home/SS20190927084578_20190927201246553.cer";
-        // 密钥密码
-        String KeyPass = "666666";
-        String version = "v1";
-        String channelNo = "04";
-        //收款账号(银行账号)
-        String accNo = customer.getAccountCode();
-        //收款账户名
-        String accName = customer.getAccountName();
-        String tranCode = "1001";
-        String currency = "RMB";
-        //交易日期
-        String tranDate = DateUtil.getDate();
-        //交易时间
-        String tranTime = DateUtil.getTime();
-        //账户联行号
-        String bankAgentId = customer.getContactLine();
-        //收款行名称
-        String bankName = customer.getBankName();
-        //摘要
-        String remark = "代付";
-        //扩展字段
-        String ext1 = "1";
-        //扩展字段
-        String ext2 = "2";
-        //预留字段
-        String yUL1 = "1";
-        //预留字段
-        String yUL2 = "2";
-        String YUL3 = merchantId;
-        //后台通知地址
-        String NOTICEURL = "http://182.92.192.208:8080/order-repay";
-        // 加密工具类的创建
-        CertUtil certUtil = new CertUtil(publicKey, privateKey, KeyPass, true);
-        //对数据进行封装
-        DfPay dfPay = new DfPay(merchantNo, tranFlow, tranDate, tranTime, accNo, accName, bankAgentId, bankName, amount, remark, "ext1", "ext2", "yUL1", "yUL2", YUL3, NOTICEURL);
-        // 对发送的信息，进行加密，加签，发送至合付宝平台，并对返回的信息内容进行解析，验签操作
-        Map<String, String> map = ModelPayUtil.sendModelPay(certUtil, dfPay, "https://cashier.hefupal.com/paygate/v1/dfpay");
-        if (map.get("rtnCode") != null || map.get("rtnCode") != "") {
-            //根据交易流水号判断是否存在
-            if (customerService.findByTranFlow(tranFlow) != null) {
-                logger.info(TAG + "定时任务实时代付返回数据：" + "订单已存在，请核对，切勿重复出款");
-            } else {
-                //代付成功后将该笔订单的信息存入到代付消息接收情况中
-                RepayCustomer repayCustomer = new RepayCustomer();
-                repayCustomer.setTranFlow(tranFlow);
-                repayCustomer.setStatus(map.get("rtnCode"));
-                repayCustomer.setPayType("1");
-//                repayCustomer.setPaySerialNo(request.getParameter("paySerialNo"));
-                repayCustomer.setMerchantNo(merchantId);
-                repayCustomer.setCompID("0000");
-                repayCustomer.setCompanyName("定时任务");
-                repayCustomer.setAmount(amount);
-                repayCustomer.setCreateTime(DateUtils.stringToDate());
-                customerService.add(repayCustomer);
-                logger.info(TAG + "定时任务实时代付返回数据：" + repayCustomer.toString());
-            }
-        }
-        boolean flag = false;
-        if (map.get("rtnCode").equals("0000")) {
-            flag = true;
-        }
-        return flag;
     }
 }
