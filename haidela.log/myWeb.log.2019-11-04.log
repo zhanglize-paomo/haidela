@@ -194,3 +194,231 @@
 2019-11-04 13:05:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
 2019-11-04 13:05:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
 2019-11-04 13:05:00.023 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 13:55:15.942 [main] INFO  com.haidela.HaidelaApplication - Starting HaidelaApplication on ZLZ with PID 4536 (D:\haidela\target\classes started by ZLZ in D:\haidela)
+2019-11-04 13:55:15.946 [main] INFO  com.haidela.HaidelaApplication - No active profile set, falling back to default profiles: default
+2019-11-04 13:55:17.642 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2019-11-04 13:55:17.661 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2019-11-04 13:55:17.673 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2019-11-04 13:55:17.673 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.24]
+2019-11-04 13:55:17.812 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2019-11-04 13:55:17.812 [main] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1796 ms
+2019-11-04 13:55:19.841 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2019-11-04 13:55:20.323 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+2019-11-04 13:55:20.423 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2019-11-04 13:55:20.487 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path ''
+2019-11-04 13:55:20.503 [main] INFO  com.haidela.HaidelaApplication - Started HaidelaApplication in 5.319 seconds (JVM running for 8.995)
+2019-11-04 14:00:00.004 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:00:00
+2019-11-04 14:00:00.048 [scheduling-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2019-11-04 14:00:00.287 [scheduling-1] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2019-11-04 14:00:00.295 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:00:00.326 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:00:00.358 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 14:05:00.351 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:05:00
+2019-11-04 14:05:00.366 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:05:00.367 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:05:00.384 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 14:10:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:10:00
+2019-11-04 14:10:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:10:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:10:00.023 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 14:15:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:15:00
+2019-11-04 14:15:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:15:00.013 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:15:00.023 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 14:20:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:20:00
+2019-11-04 14:20:00.013 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:20:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:20:00.029 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 14:25:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:25:00
+2019-11-04 14:25:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:25:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:25:00.024 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 14:30:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:30:00
+2019-11-04 14:30:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:30:00.015 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:30:00.027 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 14:35:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:35:00
+2019-11-04 14:35:00.013 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:35:00.013 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:35:00.025 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 14:40:00.003 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:40:00
+2019-11-04 14:40:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:40:00.015 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:40:00.026 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 14:44:24.263 [main] INFO  com.haidela.HaidelaApplication - Starting HaidelaApplication on ZLZ with PID 15144 (D:\haidela\target\classes started by ZLZ in D:\haidela)
+2019-11-04 14:44:24.278 [main] INFO  com.haidela.HaidelaApplication - No active profile set, falling back to default profiles: default
+2019-11-04 14:44:26.269 [main] INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2019-11-04 14:44:26.286 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2019-11-04 14:44:26.298 [main] INFO  org.apache.catalina.core.StandardService - Starting service [Tomcat]
+2019-11-04 14:44:26.298 [main] INFO  org.apache.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/9.0.24]
+2019-11-04 14:44:26.423 [main] INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2019-11-04 14:44:26.423 [main] INFO  org.springframework.web.context.ContextLoader - Root WebApplicationContext: initialization completed in 1944 ms
+2019-11-04 14:44:28.229 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Initializing ExecutorService 'applicationTaskExecutor'
+2019-11-04 14:44:28.655 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler - Initializing ExecutorService 'taskScheduler'
+2019-11-04 14:44:28.738 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2019-11-04 14:44:28.780 [main] ERROR org.apache.catalina.util.LifecycleBase - Failed to start component [Connector[HTTP/1.1-8080]]
+org.apache.catalina.LifecycleException: Protocol handler start failed
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1008)
+	at org.apache.catalina.util.LifecycleBase.start(LifecycleBase.java:183)
+	at org.apache.catalina.core.StandardService.addConnector(StandardService.java:227)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.addPreviouslyRemovedConnectors(TomcatWebServer.java:263)
+	at org.springframework.boot.web.embedded.tomcat.TomcatWebServer.start(TomcatWebServer.java:195)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.startWebServer(ServletWebServerApplicationContext.java:297)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.finishRefresh(ServletWebServerApplicationContext.java:163)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:552)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:744)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:391)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:312)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1204)
+	at com.haidela.HaidelaApplication.main(HaidelaApplication.java:16)
+Caused by: java.net.BindException: Address already in use: bind
+	at sun.nio.ch.Net.bind0(Native Method)
+	at sun.nio.ch.Net.bind(Net.java:433)
+	at sun.nio.ch.Net.bind(Net.java:425)
+	at sun.nio.ch.ServerSocketChannelImpl.bind(ServerSocketChannelImpl.java:223)
+	at sun.nio.ch.ServerSocketAdaptor.bind(ServerSocketAdaptor.java:74)
+	at org.apache.tomcat.util.net.NioEndpoint.initServerSocket(NioEndpoint.java:230)
+	at org.apache.tomcat.util.net.NioEndpoint.bind(NioEndpoint.java:213)
+	at org.apache.tomcat.util.net.AbstractEndpoint.bindWithCleanup(AbstractEndpoint.java:1124)
+	at org.apache.tomcat.util.net.AbstractEndpoint.start(AbstractEndpoint.java:1210)
+	at org.apache.coyote.AbstractProtocol.start(AbstractProtocol.java:585)
+	at org.apache.catalina.connector.Connector.startInternal(Connector.java:1005)
+	... 14 common frames omitted
+2019-11-04 14:44:28.791 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Pausing ProtocolHandler ["http-nio-8080"]
+2019-11-04 14:44:28.791 [main] INFO  org.apache.catalina.core.StandardService - Stopping service [Tomcat]
+2019-11-04 14:44:28.803 [main] INFO  org.apache.catalina.util.LifecycleBase - The stop() method was called on component [StandardServer[-1]] after stop() had already been called. The second call will be ignored.
+2019-11-04 14:44:28.804 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Stopping ProtocolHandler ["http-nio-8080"]
+2019-11-04 14:44:28.804 [main] INFO  org.apache.coyote.http11.Http11NioProtocol - Destroying ProtocolHandler ["http-nio-8080"]
+2019-11-04 14:44:28.808 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener - 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2019-11-04 14:44:28.814 [main] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+The Tomcat connector configured to listen on port 8080 failed to start. The port may already be in use or the connector may be misconfigured.
+
+Action:
+
+Verify the connector's configuration, identify and stop any process that's listening on port 8080, or configure this application to listen on another port.
+
+2019-11-04 14:44:28.818 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler - Shutting down ExecutorService 'taskScheduler'
+2019-11-04 14:44:28.818 [main] INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor - Shutting down ExecutorService 'applicationTaskExecutor'
+2019-11-04 14:45:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:45:00
+2019-11-04 14:45:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:45:00.023 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:45:00.034 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 14:50:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:50:00
+2019-11-04 14:50:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:50:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:50:00.024 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 14:55:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 14:55:00
+2019-11-04 14:55:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 14:55:00.013 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 14:55:00.025 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:00:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:00:00
+2019-11-04 15:00:00.010 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:00:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:00:00.021 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:05:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:05:00
+2019-11-04 15:05:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:05:00.013 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:05:00.024 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:10:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:10:00
+2019-11-04 15:10:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:10:00.015 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:10:00.025 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:15:00.003 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:15:00
+2019-11-04 15:15:00.015 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:15:00.017 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:15:00.029 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:20:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:20:00
+2019-11-04 15:20:00.010 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:20:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:20:00.021 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:25:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:25:00
+2019-11-04 15:25:00.010 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:25:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:25:00.022 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:30:00.000 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:30:00
+2019-11-04 15:30:00.010 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:30:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:30:00.022 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:35:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:35:00
+2019-11-04 15:35:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:35:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:35:00.023 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:40:00.003 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:40:00
+2019-11-04 15:40:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:40:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:40:00.025 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:45:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:45:00
+2019-11-04 15:45:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:45:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:45:00.023 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:50:00.018 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:50:00
+2019-11-04 15:50:00.029 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:50:00.030 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:50:00.042 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 15:55:00.000 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 15:55:00
+2019-11-04 15:55:00.010 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 15:55:00.010 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 15:55:00.022 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:00:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:00:00
+2019-11-04 16:00:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:00:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:00:00.026 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:05:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:05:00
+2019-11-04 16:05:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:05:00.015 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:05:00.026 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:10:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:10:00
+2019-11-04 16:10:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:10:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:10:00.022 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:15:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:15:00
+2019-11-04 16:15:00.062 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:15:00.063 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:15:00.074 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:20:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:20:00
+2019-11-04 16:20:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:20:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:20:00.022 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:25:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:25:00
+2019-11-04 16:25:00.013 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:25:00.013 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:25:00.024 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:30:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:30:00
+2019-11-04 16:30:00.019 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:30:00.019 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:30:00.030 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:35:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:35:00
+2019-11-04 16:35:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:35:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:35:00.022 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:40:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:40:00
+2019-11-04 16:40:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:40:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:40:00.023 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:45:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:45:00
+2019-11-04 16:45:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:45:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:45:00.022 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:50:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:50:00
+2019-11-04 16:50:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:50:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:50:00.023 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 16:55:00.002 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 16:55:00
+2019-11-04 16:55:00.011 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 16:55:00.012 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 16:55:00.022 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
+2019-11-04 17:00:00.001 [scheduling-1] INFO  com.haidela.payment.util.ScheduledTasks - 客户交易定时任务 :2019-11-04 17:00:00
+2019-11-04 17:00:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==>  Preparing: select * from lyx_pay_customer where status = ? 
+2019-11-04 17:00:00.014 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - ==> Parameters: 交易中(String)
+2019-11-04 17:00:00.028 [scheduling-1] DEBUG c.h.p.p.p.mapper.PayCustomerMapper.findByStatus - <==      Total: 0
